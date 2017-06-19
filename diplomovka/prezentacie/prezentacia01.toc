@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{\IeC {\'U}vod}{3}{0}{1}
+\beamer@sectionintoc {2}{Detektory a datasety}{5}{0}{2}
+\beamer@sectionintoc {3}{Anal\IeC {\'y}za}{7}{0}{3}
+\beamer@sectionintoc {4}{Chyby merania}{10}{0}{4}
+\beamer@sectionintoc {5}{V\IeC {\'y}sledky}{11}{0}{5}
+\beamer@sectionintoc {6}{Z\IeC {\'a}ver}{15}{0}{6}

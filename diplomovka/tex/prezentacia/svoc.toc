@@ -1,0 +1,9 @@
+\select@language {slovak}
+\beamer@sectionintoc {1}{\IeC {\'U}vod do problematiky}{3}{0}{1}
+\beamer@sectionintoc {2}{Ciele pr\IeC {\'a}ce}{6}{0}{2}
+\beamer@sectionintoc {3}{Met\IeC {\'o}da merania}{7}{0}{3}
+\beamer@subsectionintoc {3}{1}{Spracovan\IeC {\'e} d\IeC {\'a}ta a selek\IeC {\v c}n\IeC {\'e} krit\IeC {\'e}ria}{7}{0}{3}
+\beamer@subsectionintoc {3}{2}{Korekcie}{11}{0}{3}
+\beamer@subsectionintoc {3}{3}{V\IeC {\'y}\IeC {\v t}a\IeC {\v z}ky}{13}{0}{3}
+\beamer@sectionintoc {4}{V\IeC {\'y}sledky}{14}{0}{4}
+\beamer@sectionintoc {5}{Zhrnutie}{19}{0}{5}
