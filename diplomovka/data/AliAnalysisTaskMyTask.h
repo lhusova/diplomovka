@@ -54,6 +54,7 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         TH1D*                   fHistMCPtAs;            //!
         TH1D*                   fHistRCPtAs;            //!
         THnSparse*              fHistNumberOfTriggers;  //!
+        THnSparse*              fHistMCKorelacie;       //!
 
         Bool_t          			  fFillMixed;  // enable event mixing (default: ON)
         Int_t           			  fMixingTracks;      // size of track buffer for event mixing

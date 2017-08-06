@@ -177,6 +177,9 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
 	fOutputList->Add(fHistKorelacie); 
 	fOutputList->Add(fHistdPhidEtaMix); 
 
+    fHistMCKorelacie = new THnSparseF ("fHistMCKorelacie","fHistMCKorelacie", 6, bins, min, max);
+    fOutputList->Add(fHistMCKorelacie);
+
 	fHistV0Multiplicity = new TH1D ("fHistV0Multiplicity", "fHistV0Multiplicity", 60, 0, 60);
 	fOutputList->Add(fHistV0Multiplicity); 
 
@@ -227,7 +230,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
     // once you return from the UserExec function, the manager will retrieve the next event from the chain
     AliAnalysisManager *mgr = AliAnalysisManager::GetAnalysisManager();
     AliAODInputHandler *inEvMain = (AliAODInputHandler *) mgr->GetInputEventHandler();
-    AliAODEvent *fAOD = (AliAODEvent *) inEvMain -> GetEvent();    // get an event (called fAOD) from the input file
+    //AliAODEvent * - nema to tam byt, lebo uz je to definovane v haderi
+    fAOD = (AliAODEvent *) inEvMain -> GetEvent();    // get an event (called fAOD) from the input file
     fPIDResponse = (AliPIDResponse *) inEvMain-> GetPIDResponse();                                                   
 														// there's another event format (ESD) which works in a similar wya
                                                         // but is more cpu/memory unfriendly. for now, we'll stick with aod's
@@ -301,6 +305,9 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 		Int_t nMCTracks = mcTracks->GetEntriesFast(); 
 		fHistMCPtAs->Sumw2();
+
+        TObjArray *mcTracksSel = new TObjArray;
+        TObjArray *mcTracksV0Sel = new TObjArray;
 		
 		for (Int_t iMC = 0; iMC<nMCTracks; iMC++){
 			AliAODMCParticle *mcTrack = (AliAODMCParticle*)mcTracks->At(iMC);
@@ -308,17 +315,61 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 				Error("ReadEventAODMC", "Could not receive particle %d", iMC);
 				continue;
 			}
- 			// track part
+ 			// track cuts for generated particles
 			Double_t mcTrackEta = mcTrack->Eta();
 			Double_t mcTrackPt = mcTrack->Pt();
 			Bool_t TrIsPrim = mcTrack->IsPhysicalPrimary();
 			Bool_t TrEtaMax = TMath::Abs(mcTrackEta)<0.8;
 			Bool_t TrPtMin = mcTrackPt>PtAssocMin; 
 			Bool_t TrCharge = (mcTrack->Charge())!=0;
-			if (TrIsPrim && TrEtaMax && TrPtMin && TrCharge) fHistMCPtAs->Fill(mcTrackPt);
+            
+			if (TrIsPrim && TrEtaMax && TrPtMin && TrCharge) {
+                fHistMCPtAs->Fill(mcTrackPt);
+                mcTracksSel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),4));
+            }
+
+            //--- MC closure test - selection of V0 ----
+
+            Int_t mcMotherPdg = 0;
+            Int_t mcPartPdg = mcTrack->GetPdgCode();
+
+            if ((mcPartPdg != 310) && (mcPartPdg != 3122) && (mcPartPdg != (-3122))) continue; // keep only Lambdas and K0S
+
+            Bool_t IsK0 = mcPartPdg==310;
+            Bool_t IsLambda = mcPartPdg==3122;
+            Bool_t IsAntiLambda = mcPartPdg==-3122;
+            Bool_t IsSigma = kFALSE;
+
+            //removing lamndas from sigmas decay
+
+            Int_t mcMotherLabel = mcTrack->GetMother();
+            AliAODMCParticle *mcMother = (AliAODMCParticle*)mcArray->At(mcMotherLabel);
+            if (mcMotherLabel < 0) {
+                mcMotherPdg = 0; //mcTrack is primary
+            } else {
+                mcMotherPdg = mcMother->GetPdgCode();
+            }
+
+            Bool_t IsFromSigma = ((mcMotherPdg==3212)||(mcMotherPdg==-3212));
+            IsFromSigma = IsFromSigma || ((mcMotherPdg==3224)||(mcMotherPdg==-3224));
+            IsFromSigma = IsFromSigma || ((mcMotherPdg==3214)||(mcMotherPdg==-3214));
+            IsFromSigma = IsFromSigma || ((mcMotherPdg==3114)||(mcMotherPdg==-3114));
+            if ((IsFromSigma) && (mcMother->IsPhysicalPrimary()) && (IsLambda || IsAntiLambda)) IsSigma = kTRUE;
+
+            IsK0 = IsK0 && (mcTrack->IsPhysicalPrimary());
+            IsLambda = IsLambda && (mcTrack->IsPhysicalPrimary()) && !IsSigma;
+            IsAntiLambda = IsAntiLambda && (mcTrack->IsPhysicalPrimary()) !IsSigma;
+
+            //MC V0 cuts   //TODO: musim na tomto mieste robit PID cut?? ved presne viem, ci je to K0, Lambda alebo antilam. resp akekolvek cuty okrem pt a rapididy cutu??
+            if (TMath::Abs(mcTrack->Y())<0.5 && mcTrack->Pt()>PtTrigMin){
+                if(IsK0) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),1));
+                if(IsLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),2));
+                if(IsAntiLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),3));
+            } 
 
 		}
 
+        //reconstructed part.
 		Int_t nTracks = fAOD->GetNumberOfTracks();
 		TObjArray *selectedMCTracks = new TObjArray;
 
@@ -344,6 +395,37 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         	if (isPhyPrim) fHistRCPtAs->Fill(mcPt);
       }
 
+      // MC closure test corellations
+      Int_t nTrig = mcTracksV0Sel->GetEntriesFast();
+      Int_t nAssoc = mcTracksSel->GetEntriesFast();
+
+
+      for (Int_t iTrig = 0; i < nTrig; iTrig++ ){
+        AliV0ChBasicParticle *mcTrackTrig = (AliV0ChBasicParticle*)mcTracksV0Sel->At(iTrig);
+
+        Double_t ptTrig = mcTrackTrig->Pt();
+        Double_t etaTrig = mcTrackTrig->Eta();
+        Double_t phiTrig = mcTrackTrig->Phi();
+        Int_t mcCandidate = mcTrackTrig->WhichCandidate();
+
+        for (Int_t iAssoc =0; iAssoc<nAssoc; iAssoc++){
+            AliV0ChBasicParticle *mcTrackAssoc = (AliV0ChBasicParticle*)mcTracksSel->At(iAssoc);
+
+            Double_t ptAssoc = mcTrackAssoc->Pt();
+            Double_t etaAssoc = mcTrackAssoc->Eta();
+            Double_t phiAssoc = mcTrackAssoc->Phi();
+
+            Double_t deltaMcPhi = phiTrig-phiAssoc;
+            Double_t deltaMcEta = etaTrig-etaAssoc;
+
+            if(deltaMcPhi>(1.5*kPi)) deltaMcPhi-= 2*kPi;   //trik aby som videla dobre dva piky na delta phi histograme
+            if(deltaMcPhi<(-0.5*kPi)) deltaMcPhi+= 2*kPi;
+
+            Double_t korelacieMC[6] = {ptTrig, ptAssoc, deltaMcPhi, deltaMcEta, lPVz, mcCandidate-0.5};
+            fHistMCKorelacie->Fill(korelacieMC); 
+        }
+
+      }
 
 	}
 
@@ -506,7 +588,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 		if (Lambda&&cutLambdaPid) fHistLambdaMassPtCut->Fill(massLambda,ptTrig,0.5);
 		if (Antilambda&&cutAntiLambdaPid) fHistAntiLambdaMassPtCut->Fill(massAntilambda,ptTrig,0.5);
 
-		if(!IsMyGoodPID(myTrackPos,myTrackNeg)) continue; //TPC dE/dx selection (Real Data Only)
+		if(!IsMyGoodPID(myTrackPos,myTrackNeg)) continue; //TPC dE/dx selection (Real Data Only)  // nerobim tento cut zbytocne dvakrat?????
 		
 		if (k0&&cutK0Pid) fHistK0MassPtCut->Fill(massK0,ptTrig,1.5);
 		if (Lambda&&cutLambdaPid) fHistLambdaMassPtCut->Fill(massLambda,ptTrig,1.5);
