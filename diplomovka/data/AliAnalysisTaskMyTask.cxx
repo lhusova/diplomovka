@@ -53,7 +53,7 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask() : AliAnalysisTaskSE(),
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
 	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
 	fFillMixed(kTRUE), 	fMixingTracks(5000), fCentrOrMult(-1), 
-	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1)
+	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kFALSE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0)
 {
     // default constructor, don't allocate memory here!
     // this is used by root for IO purposes, it needs to remain empty
@@ -64,7 +64,7 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask(const char* name) : AliAnalysisTask
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
 	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
 	fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
-	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1) 
+	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kFALSE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0) 
 {
     // constructor
     DefineInput(0, TChain::Class());    // define the input of the analysis: in this case we take a 'chain' of events
@@ -273,8 +273,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	//if(lCent<0 || lCent>99) return;
 	//Printf("PVz = %g", lPVz);
 
-	Double_t PtAssocMin = 2.;
-	Double_t PtTrigMin = 4.;
+	//Double_t PtAssocMin = 2.;
+	//Double_t PtTrigMin = 4.;
 
 
 	//=========== MC loop ===============================
@@ -320,7 +320,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			Double_t mcTrackPt = mcTrack->Pt();
 			Bool_t TrIsPrim = mcTrack->IsPhysicalPrimary();
 			Bool_t TrEtaMax = TMath::Abs(mcTrackEta)<0.8;
-			Bool_t TrPtMin = mcTrackPt>PtAssocMin; 
+			Bool_t TrPtMin = mcTrackPt>fPtAssocMin; 
 			Bool_t TrCharge = (mcTrack->Charge())!=0;
             
 			if (TrIsPrim && TrEtaMax && TrPtMin && TrCharge) {
@@ -361,7 +361,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
             IsAntiLambda = IsAntiLambda && (mcTrack->IsPhysicalPrimary()) !IsSigma;
 
             //MC V0 cuts   //TODO: musim na tomto mieste robit PID cut?? ved presne viem, ci je to K0, Lambda alebo antilam. resp akekolvek cuty okrem pt a rapididy cutu??
-            if (TMath::Abs(mcTrack->Y())<0.5 && mcTrack->Pt()>PtTrigMin){
+            if (TMath::Abs(mcTrack->Y())<0.5 && mcTrack->Pt()>fPtTrigMin){
                 if(IsK0) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),1));
                 if(IsLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),2));
                 if(IsAntiLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),3));
@@ -386,7 +386,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 		for (Int_t i = 0; i < nRecTracks; i++){
        		AliAODTrack* tras = (AliAODTrack*)selectedMCTracks->At(i);
-       		if ((tras->Pt())<PtAssocMin) continue; 
+       		if ((tras->Pt())<fPtAssocMin) continue; 
         	if (!(IsMyGoodPrimaryTrack(tras))) continue;
         	Int_t AssocLabel = tras->GetLabel();
         	if (AssocLabel<=0) continue;
@@ -448,8 +448,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         if(!IsMyGoodPrimaryTrack(track)) continue;           // aplikujem cut na preudorapiditu tracku 
 	   
 		selectedTracks->Add(track);
-		if(track->Pt()>PtAssocMin) selectedAssociatedTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));
-		if(track->Pt()>PtTrigMin) selectedTriggerTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));	
+		if(track->Pt()>fPtAssocMin) selectedAssociatedTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));
+		if(track->Pt()>fPtTrigMin) selectedTriggerTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));	
 	}
 	//Printf("mam selected tracks");
 	TObjArray * selectedV0 = new TObjArray;
@@ -607,8 +607,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if(!IsMyGoodLifeTimeK0(lPVx,lPVy,lPVz,V0)) continue;  //Proper Lifetime (mL/p)
 			fHistK0MassPtCut->Fill(massK0,ptTrig,5.5);
 
-			if(V0->Pt()>PtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));
-			if(V0->Pt()>PtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));	
+			if(V0->Pt()>fPtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));
+			if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));	
 		}
 
 		if (Lambda&&cutLambdaPid){
@@ -624,8 +624,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if(!IsMyGoodLifeTimeLambda(lPVx,lPVy,lPVz,V0)) continue;
 			fHistLambdaMassPtCut->Fill(massLambda,ptTrig,5.5);
 
-			if(V0->Pt()>PtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
-			if(V0->Pt()>PtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
+			if(V0->Pt()>fPtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
+			if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
 		}
 			
 		if (Antilambda&&cutAntiLambdaPid){
@@ -641,8 +641,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if(!IsMyGoodLifeTimeLambda(lPVx,lPVy,lPVz,V0)) continue;
 			fHistAntiLambdaMassPtCut->Fill(massAntilambda,ptTrig,5.5);
 
-			if(V0->Pt()>PtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
-			if(V0->Pt()>PtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
+			if(V0->Pt()>fPtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
+			if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
 		}
 
 	}
@@ -838,7 +838,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
  				{ // mixing tracks loop 
  					AliAODTrack* assoc = (AliAODTrack*) bgTracks->At(j);
  					// be careful tracks may have bigger pt than v0s.
- 					if ( ( (assoc->Pt())>=trigPtV0 )||( (assoc->Pt())<PtAssocMin )) continue;
+ 					if ( ( (assoc->Pt())>=trigPtV0 )||( (assoc->Pt())<fPtAssocMin )) continue;
 
 					if(!IsMyGoodPrimaryTrack(assoc)) continue;           // aplikujem cut na preudorapiditu tracku
 
@@ -866,7 +866,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 				 	for (Int_t j=0; j<bgTracks->GetEntriesFast(); j++){
 						 AliAODTrack* assoc = (AliAODTrack*) bgTracks->At(j);
 
-						if (( (assoc->Pt())>=trigPth ) || ( (assoc->Pt())<PtAssocMin )) continue;
+						if (( (assoc->Pt())>=trigPth ) || ( (assoc->Pt())<fPtAssocMin )) continue;
 
 						if(!IsMyGoodPrimaryTrack(assoc)) continue;           // aplikujem cut na preudorapiditu tracku
 

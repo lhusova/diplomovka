@@ -24,17 +24,21 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         virtual void            Terminate(Option_t* option);
         
         Bool_t 					IsMyGoodPrimaryTrack(const AliAODTrack* aodtrack);
-		    Bool_t 					IsMyGoodV0AngleLambda(const AliAODv0 *t, AliAODVertex *pv); 
-		    Bool_t 					IsMyGoodV0AngleK0(const AliAODv0 *t, AliAODVertex *pv); 
-		    Bool_t					IsMyGoodV0RapidityK0(const AliAODv0 *t); 
-		    Bool_t					IsMyGoodV0RapidityLambda(const AliAODv0 *t); 
-		    Bool_t 					IsMyGoodLifeTimeK0(Double_t x,Double_t y, Double_t z, const AliAODv0 *V0); 
-		    Bool_t 					IsMyGoodLifeTimeLambda(Double_t x,Double_t y, Double_t z, const AliAODv0 *V0);  
-        Bool_t          IsMyGoodPID(const AliAODTrack *TrackPos, const AliAODTrack *TrackNeg);
-        Bool_t          IsMyGoodDaughterTrack(const AliAODTrack *t)  ;
-	    	Bool_t          IsMyGoodV0(const AliAODv0 *v0,const AliAODTrack* myTrackPos, const AliAODTrack* myTrackNeg, Int_t oSta);
+		Bool_t 					IsMyGoodV0AngleLambda(const AliAODv0 *t, AliAODVertex *pv); 
+	    Bool_t 					IsMyGoodV0AngleK0(const AliAODv0 *t, AliAODVertex *pv); 
+		Bool_t					IsMyGoodV0RapidityK0(const AliAODv0 *t); 
+		Bool_t					IsMyGoodV0RapidityLambda(const AliAODv0 *t); 
+		Bool_t 					IsMyGoodLifeTimeK0(Double_t x,Double_t y, Double_t z, const AliAODv0 *V0); 
+		Bool_t 					IsMyGoodLifeTimeLambda(Double_t x,Double_t y, Double_t z, const AliAODv0 *V0);  
+        Bool_t                  IsMyGoodPID(const AliAODTrack *TrackPos, const AliAODTrack *TrackNeg);
+        Bool_t                  IsMyGoodDaughterTrack(const AliAODTrack *t)  ;
+	    Bool_t                  IsMyGoodV0(const AliAODv0 *v0,const AliAODTrack* myTrackPos, const AliAODTrack* myTrackNeg, Int_t oSta);
 
-        Int_t           GetOStatus() { return fOStatus; }
+        Int_t                   GetOStatus() { return fOStatus; }
+
+        void                    SetMCAnalysis(Bool_t var) {fAnalysisMC=var};
+        void                    SetPtTrigMin(Double_t var) {fPtTrigMin=var};
+        void                    SetPtAsocMin(Double_t var) {fPtAsocMin=var};
 
     private:
         AliAODEvent*            fAOD;           		//! input event
@@ -58,11 +62,13 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
 
         Bool_t          			  fFillMixed;  // enable event mixing (default: ON)
         Int_t           			  fMixingTracks;      // size of track buffer for event mixing
-        Int_t                      fCentrOrMult; // Multiplicity of Event for D eff
+        Int_t                         fCentrOrMult; // Multiplicity of Event for D eff
         AliEventPoolManager*          fPoolMgr;         //! event pool manager
-        AliEventPool*                  fPool; //!
-        Bool_t                       fAnalysisMC; //! enable MC study
-        Int_t                   fOStatus; //!
+        AliEventPool*                 fPool; //!
+        Bool_t                        fAnalysisMC; //! enable MC study
+        Int_t                         fOStatus; //
+        Double_t                      fPtTrigMin;
+        Double_t                      fPtAsocMin;  
 
         
 
