@@ -36,9 +36,9 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
 
         Int_t                   GetOStatus() { return fOStatus; }
 
-        void                    SetMCAnalysis(Bool_t var) {fAnalysisMC=var};
-        void                    SetPtTrigMin(Double_t var) {fPtTrigMin=var};
-        void                    SetPtAsocMin(Double_t var) {fPtAsocMin=var};
+        void                    SetMCAnalysis(Bool_t var) {fAnalysisMC=var;}
+        void                    SetPtTrigMin(Double_t var) {fPtTrigMin=var;}
+        void                    SetPtAsocMin(Double_t var) {fPtAsocMin=var;}
 
     private:
         AliAODEvent*            fAOD;           		//! input event

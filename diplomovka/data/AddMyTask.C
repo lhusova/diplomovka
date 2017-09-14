@@ -27,8 +27,8 @@ AliAnalysisTaskMyTask* AddMyTask(TString name = "name")
     AliAnalysisTaskMyTask* task = new AliAnalysisTaskMyTask(name.Data());   
     if(!task) return 0x0;
     task->SetPtTrigMin(4);
-    task->fPtAsocMin(2);
-    task->SetMCAnalysis(kFALSE);
+    task->SetPtAsocMin(2);
+    task->SetMCAnalysis(kTRUE);
     // add your task to the manager
     mgr->AddTask(task);
     // your task needs input: here we connect the manager to your task

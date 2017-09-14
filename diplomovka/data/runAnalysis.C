@@ -56,7 +56,7 @@ void runAnalysis()
         alienHandler->SetAnalysisSource("AliAnalysisTaskMyTask.cxx");
         // select the aliphysics version. all other packages
         // are LOADED AUTOMATICALLY!
-        alienHandler->SetAliPhysicsVersion("vAN-20161023-1");
+        alienHandler->SetAliPhysicsVersion("vAN-20170806-1");
         // select the input data
        //alienHandler->SetGridDataDir("/alice/data/2015/LHC15f"); //pp
         //alienHandler->SetGridDataDir("/alice/data/2011/LHC11h_2");//PbPb
@@ -132,7 +132,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(226452);
         alienHandler->AddRunNumber(226445);
         alienHandler->AddRunNumber(226444);
-        alienHandler->AddRunNumber(226225);
+        /*alienHandler->AddRunNumber(226225);
         alienHandler->AddRunNumber(226220);
         alienHandler->AddRunNumber(226170);
         alienHandler->AddRunNumber(226062);
@@ -171,7 +171,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(225037);
         alienHandler->AddRunNumber(225035);
         alienHandler->AddRunNumber(225031);
-        alienHandler->AddRunNumber(225026);
+        alienHandler->AddRunNumber(225026);*/
    
         // number of files per subjob
         alienHandler->SetSplitMaxInputFileNumber(40);
@@ -190,8 +190,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_05");
-        alienHandler->SetGridOutputDir("myOutputDirTestMC_05");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_09");
+        alienHandler->SetGridOutputDir("myOutputDirTestMC_09");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);
@@ -203,7 +203,7 @@ void runAnalysis()
             mgr->StartAnalysis("grid");
         } else {
             // else launch the full grid analysis
-           // alienHandler->SetRunMode("full"); //pocitanie
+            //alienHandler->SetRunMode("full"); //pocitanie
             alienHandler->SetRunMode("terminate"); //po vypocitani, iba na spojenie vysledkov
             mgr->StartAnalysis("grid");
         }

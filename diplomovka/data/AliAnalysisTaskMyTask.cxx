@@ -53,7 +53,7 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask() : AliAnalysisTaskSE(),
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
 	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
 	fFillMixed(kTRUE), 	fMixingTracks(5000), fCentrOrMult(-1), 
-	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kFALSE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0)
+	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0)
 {
     // default constructor, don't allocate memory here!
     // this is used by root for IO purposes, it needs to remain empty
@@ -64,7 +64,7 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask(const char* name) : AliAnalysisTask
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
 	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
 	fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
-	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kFALSE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0) 
+	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0) 
 {
     // constructor
     DefineInput(0, TChain::Class());    // define the input of the analysis: in this case we take a 'chain' of events
@@ -320,7 +320,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			Double_t mcTrackPt = mcTrack->Pt();
 			Bool_t TrIsPrim = mcTrack->IsPhysicalPrimary();
 			Bool_t TrEtaMax = TMath::Abs(mcTrackEta)<0.8;
-			Bool_t TrPtMin = mcTrackPt>fPtAssocMin; 
+			Bool_t TrPtMin = mcTrackPt>fPtAsocMin; 
 			Bool_t TrCharge = (mcTrack->Charge())!=0;
             
 			if (TrIsPrim && TrEtaMax && TrPtMin && TrCharge) {
@@ -330,41 +330,59 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
             //--- MC closure test - selection of V0 ----
 
-            Int_t mcMotherPdg = 0;
+           /* Int_t mcMotherPdg = 0;
             Int_t mcPartPdg = mcTrack->GetPdgCode();
+
+            AliAODMCParticle *mcMotherCandidate = 0x0;
+            AliAODMCParticle *mcMother = 0x0;
+            Int_t mcMotherLabel = mcTrack->GetMother();
+
+            if(TMath::Abs(mcPartPdg)==2212||TMath::Abs(mcPartPdg)==211){
+                if (mcMotherLabel>0) mcMotherCandidate = (AliAODMCParticle*)mcArray->At(mcMotherLabel);
+                if (!mcMotherCandidate) continue;
+                mcMotherPdg = mcMotherCandidate->GetPdgCode();
+                if ((mcMotherPdg != 310) && (mcMotherPdg != 3122) && (mcMotherPdg != (-3122))) continue; // keep only Lambdas and K0S
+                for (Int_t jMC = 0; jMC<nMCTracks; jMC++){
+                    AliAODMCParticle *mcPart = (AliAODMCParticle*)mcTracks->At(jMC);
+                    if (mcPart->GetMother()==mcMotherLabel){
+                        mcMother=mcMotherCandidate;
+                        break;
+                    }
+                }
+            }
+                
+            if (mcMother){
+                 Bool_t IsK0 = mcMotherPdg==310;
+                 Bool_t IsLambda = mcMotherPdg==3122;
+                 Bool_t IsAntiLambda = mcMotherPdg==-3122;
+
+                IsK0 = IsK0 && (mcMother->IsPhysicalPrimary());
+                IsLambda = IsLambda && (mcMother->IsPhysicalPrimary());
+                IsAntiLambda = IsAntiLambda && (mcMother->IsPhysicalPrimary());
+
+                if (TMath::Abs(mcMother->Y())<0.5 && mcMother->Pt()>fPtTrigMin){
+                    if(IsK0) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcMother->Eta(),mcMother->Phi(),mcMother->Pt(),1));
+                    if(IsLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcMother->Eta(),mcMother->Phi(),mcMother->Pt(),2));
+                    if(IsAntiLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcMother->Eta(),mcMother->Phi(),mcMother->Pt(),3));
+                }
+
+            }*/  
 
             if ((mcPartPdg != 310) && (mcPartPdg != 3122) && (mcPartPdg != (-3122))) continue; // keep only Lambdas and K0S
 
             Bool_t IsK0 = mcPartPdg==310;
             Bool_t IsLambda = mcPartPdg==3122;
             Bool_t IsAntiLambda = mcPartPdg==-3122;
-            Bool_t IsSigma = kFALSE;
-
-            //removing lamndas from sigmas decay
-
-            Int_t mcMotherLabel = mcTrack->GetMother();
-            AliAODMCParticle *mcMother = (AliAODMCParticle*)mcArray->At(mcMotherLabel);
-            if (mcMotherLabel < 0) {
-                mcMotherPdg = 0; //mcTrack is primary
-            } else {
-                mcMotherPdg = mcMother->GetPdgCode();
-            }
-
-            Bool_t IsFromSigma = ((mcMotherPdg==3212)||(mcMotherPdg==-3212));
-            IsFromSigma = IsFromSigma || ((mcMotherPdg==3224)||(mcMotherPdg==-3224));
-            IsFromSigma = IsFromSigma || ((mcMotherPdg==3214)||(mcMotherPdg==-3214));
-            IsFromSigma = IsFromSigma || ((mcMotherPdg==3114)||(mcMotherPdg==-3114));
-            if ((IsFromSigma) && (mcMother->IsPhysicalPrimary()) && (IsLambda || IsAntiLambda)) IsSigma = kTRUE;
 
             IsK0 = IsK0 && (mcTrack->IsPhysicalPrimary());
-            IsLambda = IsLambda && (mcTrack->IsPhysicalPrimary()) && !IsSigma;
-            IsAntiLambda = IsAntiLambda && (mcTrack->IsPhysicalPrimary()) !IsSigma;
+            IsLambda = IsLambda && (mcTrack->IsPhysicalPrimary());
+            IsAntiLambda = IsAntiLambda && (mcTrack->IsPhysicalPrimary());
 
             //MC V0 cuts   //TODO: musim na tomto mieste robit PID cut?? ved presne viem, ci je to K0, Lambda alebo antilam. resp akekolvek cuty okrem pt a rapididy cutu??
             if (TMath::Abs(mcTrack->Y())<0.5 && mcTrack->Pt()>fPtTrigMin){
-                if(IsK0) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),1));
-                if(IsLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),2));
-                if(IsAntiLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi();mcTrack->Pt(),3));
+                if(IsK0) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),1));
+                if(IsLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),2));
+                if(IsAntiLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),3));
             } 
 
 		}
@@ -386,7 +404,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 		for (Int_t i = 0; i < nRecTracks; i++){
        		AliAODTrack* tras = (AliAODTrack*)selectedMCTracks->At(i);
-       		if ((tras->Pt())<fPtAssocMin) continue; 
+       		if ((tras->Pt())<fPtAsocMin) continue; 
         	if (!(IsMyGoodPrimaryTrack(tras))) continue;
         	Int_t AssocLabel = tras->GetLabel();
         	if (AssocLabel<=0) continue;
@@ -399,8 +417,10 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
       Int_t nTrig = mcTracksV0Sel->GetEntriesFast();
       Int_t nAssoc = mcTracksSel->GetEntriesFast();
 
+      if (nTrig>0) Printf("n trig %d, nAsoc %d\n",nTrig,nAssoc);
+      //if (nAssoc>0) Printf("n trig %d, nAsoc %d\n",nTrig,nAssoc);
 
-      for (Int_t iTrig = 0; i < nTrig; iTrig++ ){
+      for (Int_t iTrig = 0; iTrig < nTrig; iTrig++ ){
         AliV0ChBasicParticle *mcTrackTrig = (AliV0ChBasicParticle*)mcTracksV0Sel->At(iTrig);
 
         Double_t ptTrig = mcTrackTrig->Pt();
@@ -448,7 +468,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         if(!IsMyGoodPrimaryTrack(track)) continue;           // aplikujem cut na preudorapiditu tracku 
 	   
 		selectedTracks->Add(track);
-		if(track->Pt()>fPtAssocMin) selectedAssociatedTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));
+		if(track->Pt()>fPtAsocMin) selectedAssociatedTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));
 		if(track->Pt()>fPtTrigMin) selectedTriggerTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));	
 	}
 	//Printf("mam selected tracks");
@@ -530,8 +550,20 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 		const AliAODTrack *myTrackPos;
 		const AliAODTrack *myTrackNeg;
-        AliAODTrack *myTrackNegTest=dynamic_cast<AliAODTrack *>(V0->GetDaughter(1));
-        AliAODTrack *myTrackPosTest=dynamic_cast<AliAODTrack *>(V0->GetDaughter(0));
+        AliVTrack *trackNegTest=dynamic_cast<AliVTrack *>(V0->GetDaughter(1));
+        AliVTrack *trackPosTest=dynamic_cast<AliVTrack *>(V0->GetDaughter(0));
+
+        if(fAnalysisMC){
+            AliMCParticle* neg = (AliMCParticle*) trackNegTest;
+            AliMCParticle* pos = (AliMCParticle*) trackPosTest;
+
+            //if (neg->GetMother()!=-1) 
+            Printf("pos %d neg %d \n", pos->GetMother(), neg->GetMother());
+            if (neg->GetMother() != pos->GetMother() && neg->GetMother()==-1) continue;
+
+        } 
+        AliAODTrack * myTrackNegTest = (AliAODTrack*) trackNegTest;
+        AliAODTrack * myTrackPosTest = (AliAODTrack*) trackPosTest;
   
         if (!myTrackPosTest || !myTrackNegTest) {
 			Printf("strange analysis::UserExec:: Error:Could not retreive one of the daughter track\n");
@@ -607,7 +639,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if(!IsMyGoodLifeTimeK0(lPVx,lPVy,lPVz,V0)) continue;  //Proper Lifetime (mL/p)
 			fHistK0MassPtCut->Fill(massK0,ptTrig,5.5);
 
-			if(V0->Pt()>fPtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));
+			if(V0->Pt()>fPtAsocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));
 			if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));	
 		}
 
@@ -624,7 +656,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if(!IsMyGoodLifeTimeLambda(lPVx,lPVy,lPVz,V0)) continue;
 			fHistLambdaMassPtCut->Fill(massLambda,ptTrig,5.5);
 
-			if(V0->Pt()>fPtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
+			if(V0->Pt()>fPtAsocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
 			if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2));
 		}
 			
@@ -641,7 +673,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if(!IsMyGoodLifeTimeLambda(lPVx,lPVy,lPVz,V0)) continue;
 			fHistAntiLambdaMassPtCut->Fill(massAntilambda,ptTrig,5.5);
 
-			if(V0->Pt()>fPtAssocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
+			if(V0->Pt()>fPtAsocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
 			if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3));
 		}
 
@@ -653,7 +685,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	// Corelation V0-h ==========================================
 
 	fHistKorelacie->Sumw2();
-
+    if (iV0Trigger>0) Printf("normal trig %d aosc %d\n",iV0Trigger,iTrackAssoc );
 	for(Int_t i=0; i<iV0Trigger; i++){
 		AliV0ChBasicParticle* V0Trig = (AliV0ChBasicParticle*) selectedV0Triggers->At(i);
 		
@@ -665,6 +697,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 		Double_t tiggers[2] = {ptTrig,candidate-0.5};
 		fHistNumberOfTriggers->Fill(tiggers);
 
+        
 		for (Int_t j=0; j<iTrackAssoc; j++){
 			AliV0ChBasicParticle* trackAssoc = (AliV0ChBasicParticle*) selectedAssociatedTracks->At(j);
 			
@@ -711,7 +744,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	Int_t iV0Assoc = selectedV0Assoc->GetEntries();
 	Int_t iTrackTrig = selectedTriggerTracks->GetEntries();                                                  
     
-	for(Int_t i=0; i<iTrackTrig; i++){
+	/*for(Int_t i=0; i<iTrackTrig; i++){
 		AliV0ChBasicParticle* trackTrig = (AliV0ChBasicParticle*) selectedTriggerTracks->At(i);
 		
 		Float_t phiTrig = trackTrig->Phi();
@@ -756,11 +789,11 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 		}
 
-	}
+	}*/
 
 	// Corelation h-h ==========================================
 
-	for(Int_t i=0;i<iTrackTrig;i++){
+	/*for(Int_t i=0;i<iTrackTrig;i++){
 
 		AliV0ChBasicParticle* trackTrig = (AliV0ChBasicParticle*) selectedTriggerTracks->At(i);
 		
@@ -791,7 +824,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 		}
 
 
-	}
+	}*/
 
 
  	// Mixing ==============================================
@@ -813,7 +846,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 	
 	fPool = fPoolMgr->GetEventPool(fCentrOrMult, lPVz);
-    if (!fPool) AliFatal(Form("No pool found for centrality = %f, zVtx = %f", fCentrOrMult, lPVz));
+    if (!fPool) AliFatal(Form("No pool found for centrality = %d, zVtx = %f", fCentrOrMult, lPVz));
  	//pool->SetDebug(1);
 	 //pool->PrintInfo();
  	Int_t nMix = fPool->GetCurrentNEvents();
@@ -838,7 +871,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
  				{ // mixing tracks loop 
  					AliAODTrack* assoc = (AliAODTrack*) bgTracks->At(j);
  					// be careful tracks may have bigger pt than v0s.
- 					if ( ( (assoc->Pt())>=trigPtV0 )||( (assoc->Pt())<fPtAssocMin )) continue;
+ 					if ( ( (assoc->Pt())>=trigPtV0 )||( (assoc->Pt())<fPtAsocMin )) continue;
 
 					if(!IsMyGoodPrimaryTrack(assoc)) continue;           // aplikujem cut na preudorapiditu tracku
 
@@ -866,7 +899,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 				 	for (Int_t j=0; j<bgTracks->GetEntriesFast(); j++){
 						 AliAODTrack* assoc = (AliAODTrack*) bgTracks->At(j);
 
-						if (( (assoc->Pt())>=trigPth ) || ( (assoc->Pt())<fPtAssocMin )) continue;
+						if (( (assoc->Pt())>=trigPth ) || ( (assoc->Pt())<fPtAsocMin )) continue;
 
 						if(!IsMyGoodPrimaryTrack(assoc)) continue;           // aplikujem cut na preudorapiditu tracku
 
