@@ -68,7 +68,9 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         Bool_t                        fAnalysisMC; //! enable MC study
         Int_t                         fOStatus; //
         Double_t                      fPtTrigMin;
-        Double_t                      fPtAsocMin;  
+        Double_t                      fPtAsocMin;
+
+        THnSparse*    fHistKorelacieMCrec; //!  
 
         
 
