@@ -114,17 +114,17 @@ class AliV0ChBasicParticle : public AliVParticle
       virtual Double_t Y()          const { AliFatal("Not implemented"); return 0; }
   
       virtual Short_t Charge()      const { AliFatal("Not implemented"); return 0; }
-      virtual Int_t   GetLabel()    const { AliFatal("Not implemented"); return 0; }
+      virtual Int_t   GetLabel()    const { AliFatal("Not implemented"); return 0;}
       // PID
       virtual Int_t   PdgCode()     const { AliFatal("Not implemented"); return 0; }
       virtual const Double_t *PID() const { AliFatal("Not implemented"); return 0; }
   
-      virtual Short_t WhichCandidate()      const { return fCandidate; }
+      virtual Short_t WhichCandidate()      const { return fCandidate; } 
   
       private:
-      Float_t fEta;      // eta
-      Float_t fPhi;      // phi
-      Float_t fpT;       // pT
+      Double_t fEta;      // eta
+      Double_t fPhi;      // phi
+      Double_t fpT;       // pT
       Short_t fCandidate;   // V0 candidate: 1 - K0, 2 - Lambda, 3 - Antilambda, 4 - ChTrack
   
       ClassDef( AliV0ChBasicParticle, 1); // class required for event mixing

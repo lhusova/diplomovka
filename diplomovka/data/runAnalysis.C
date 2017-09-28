@@ -190,8 +190,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_10");
-        alienHandler->SetGridOutputDir("myOutputDirTestMC_10");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_11");
+        alienHandler->SetGridOutputDir("myOutputDirTestMC_11");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);
