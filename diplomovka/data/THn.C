@@ -8,7 +8,7 @@
 void THn(){
 	gStyle->SetOptStat(0000000000);
 
-	TFile *g = new TFile("/home/lhusova/diplomovka/data/vysledky/AnalysisResultsMC_05.root");
+	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC_05.root");
 	TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 	
 	THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacie");

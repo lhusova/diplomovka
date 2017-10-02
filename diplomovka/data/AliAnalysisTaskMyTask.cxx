@@ -53,7 +53,8 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask() : AliAnalysisTaskSE(),
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
 	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
 	fFillMixed(kTRUE), 	fMixingTracks(5000), fCentrOrMult(-1), 
-	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0)
+	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
+    fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0)
 {
     // default constructor, don't allocate memory here!
     // this is used by root for IO purposes, it needs to remain empty
@@ -64,7 +65,8 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask(const char* name) : AliAnalysisTask
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
 	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
 	fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
-	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0) 
+	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
+    fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0) 
 {
     // constructor
     DefineInput(0, TChain::Class());    // define the input of the analysis: in this case we take a 'chain' of events
@@ -205,6 +207,11 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
 	fHistNumberOfTriggers = new THnSparseF("fHistNumberOfTriggers","fHistNumberOfTriggers",2,bins2d,mis2d, maxs2d);
 	fOutputList->Add(fHistNumberOfTriggers);
 
+    fHistNumberOfTriggersGen = new THnSparseF("fHistNumberOfTriggersGen","fHistNumberOfTriggersGen",2,bins2d,mis2d, maxs2d);
+    fOutputList->Add(fHistNumberOfTriggersGen);
+    fHistNumberOfTriggersRec = new THnSparseF("fHistNumberOfTriggersRec","fHistNumberOfTriggersRec",2,bins2d,mis2d, maxs2d);
+    fOutputList->Add(fHistNumberOfTriggersRec);
+
 	//fHistRCPtMultiTrig = new THnSparse("fHistRCPtMultiTrig","fHistRCPtMultiTrig",3,mcbins,mcmin, mcmin);
 	//fOutputList->Add(fHistRCPtMultiTrig); 
     
@@ -304,6 +311,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 		fHistMCPtAs->Sumw2();
 
         TObjArray *mcTracksSel = new TObjArray;
+        TObjArray *mcTracksTrigSel = new TObjArray;
         TObjArray *mcTracksV0Sel = new TObjArray;
         Int_t labelV0genTrig;
 		
@@ -324,6 +332,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 			if (TrIsPrim && TrEtaMax && TrPtMin && TrCharge) {
                 fHistMCPtAs->Fill(mcTrackPt);
                 mcTracksSel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),4));
+                if (mcTrackPt>fPtTrigMin) mcTracksTrigSel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),4));
             }
 
             //--- MC closure test - selection of V0 ----
@@ -353,7 +362,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         // MC closure test corellations
       Int_t nTrig = mcTracksV0Sel->GetEntriesFast();
       Int_t nAssoc = mcTracksSel->GetEntriesFast();
-
+      Int_t nTrigTracks = mcTracksTrigSel->GetEntriesFast();
+      //V0-h
       for (Int_t iTrig = 0; iTrig < nTrig; iTrig++ ){
         AliV0ChBasicParticle *mcTrackTrig = (AliV0ChBasicParticle*)mcTracksV0Sel->At(iTrig);
 
@@ -361,6 +371,39 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         Double_t etaTrig = mcTrackTrig->Eta();
         Double_t phiTrig = mcTrackTrig->Phi();
         Int_t mcCandidate = mcTrackTrig->WhichCandidate();
+
+        Double_t tiggers[2] = {ptTrig,mcCandidate-0.5};
+        fHistNumberOfTriggersGen->Fill(tiggers);
+
+        for (Int_t iAssoc =0; iAssoc<nAssoc; iAssoc++){
+            AliV0ChBasicParticle *mcTrackAssoc = (AliV0ChBasicParticle*)mcTracksSel->At(iAssoc);
+
+            Double_t ptAssoc = mcTrackAssoc->Pt();
+            Double_t etaAssoc = mcTrackAssoc->Eta();
+            Double_t phiAssoc = mcTrackAssoc->Phi();
+
+            Double_t deltaMcPhi = phiTrig-phiAssoc;
+            Double_t deltaMcEta = etaTrig-etaAssoc;
+
+            if(deltaMcPhi>(1.5*kPi)) deltaMcPhi-= 2*kPi;   //trik aby som videla dobre dva piky na delta phi histograme
+            if(deltaMcPhi<(-0.5*kPi)) deltaMcPhi+= 2*kPi;
+
+            Double_t korelacieMC[6] = {ptTrig, ptAssoc, deltaMcPhi, deltaMcEta, lPVz, mcCandidate-0.5};
+            fHistMCKorelacie->Fill(korelacieMC); 
+        }
+
+      }
+      //h-h
+      for(Int_t iTrackTrig=0; iTrackTrig<nTrigTracks; iTrackTrig++){
+        AliV0ChBasicParticle * trig = (AliV0ChBasicParticle*) mcTracksTrigSel->At(iTrackTrig);
+
+        Double_t ptTrig = trig->Pt();
+        Double_t etaTrig = trig->Eta();
+        Double_t phiTrig = trig->Phi();
+        Int_t mcCandidate = trig->WhichCandidate();
+
+        Double_t tiggers[2] = {ptTrig,mcCandidate-0.5};
+        fHistNumberOfTriggersGen->Fill(tiggers);
 
         for (Int_t iAssoc =0; iAssoc<nAssoc; iAssoc++){
             AliV0ChBasicParticle *mcTrackAssoc = (AliV0ChBasicParticle*)mcTracksSel->At(iAssoc);
@@ -385,6 +428,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 		Int_t nTracks = fAOD->GetNumberOfTracks();
 		TObjArray *selectedMCTracks = new TObjArray;
         TObjArray *selectedMCassoc = new TObjArray;
+        TObjArray *selectedMCtrig= new TObjArray;
 
 		for (Int_t i = 0; i < nTracks; i++)
  	    {
@@ -408,6 +452,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         	if (isPhyPrim) {
                 fHistRCPtAs->Fill(mcPt);
                 selectedMCassoc->Add(new AliV0ChBasicParticle(tras->Eta(),tras->Phi(),tras->Pt(),4)); 
+                if ((tras->Pt())>fPtTrigMin) selectedMCtrig->Add(new AliV0ChBasicParticle(tras->Eta(),tras->Phi(),tras->Pt(),4)); 
             }
 
       }
@@ -453,9 +498,14 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	}
     Int_t nMCV0Trigrec = selectedMCV0Triggersrec->GetEntries();
     Int_t nMCtrackassoc = selectedMCassoc->GetEntries();
+    Int_t nMCtracktrig = selectedMCtrig->GetEntries();
 
+    //V0-h
     for(Int_t iV0=0; iV0<nMCV0Trigrec; iV0++){
         AliV0ChBasicParticle *trigV0 = (AliV0ChBasicParticle*)selectedMCV0Triggersrec->At(iV0);
+
+        Double_t tiggers[2] = {trigV0->Pt(),trigV0->WhichCandidate()-0.5};
+        fHistNumberOfTriggersRec->Fill(tiggers);
 
         for(Int_t iMCtrackassoc=0; iMCtrackassoc<nMCtrackassoc;iMCtrackassoc++ ) {
             AliV0ChBasicParticle *assocTrack = (AliV0ChBasicParticle*)selectedMCassoc->At(iMCtrackassoc);
@@ -472,6 +522,30 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         }
 
     }
+
+    //h-h
+    for(Int_t itrig=0; itrig<nMCtracktrig; itrig++){
+        AliV0ChBasicParticle *trigtrack = (AliV0ChBasicParticle*)selectedMCtrig->At(itrig);
+
+        Double_t tiggers[2] = {trigtrack->Pt(),trigtrack->WhichCandidate()-0.5};
+        fHistNumberOfTriggersRec->Fill(tiggers);
+
+        for(Int_t iMCtrackassoc=0; iMCtrackassoc<nMCtrackassoc;iMCtrackassoc++ ) {
+            AliV0ChBasicParticle *assocTrack = (AliV0ChBasicParticle*)selectedMCassoc->At(iMCtrackassoc);
+
+            Double_t deltaPhi = trigtrack->Phi() - assocTrack->Phi();
+            Double_t deltaEta = trigtrack->Eta() - assocTrack->Eta();
+            if(deltaPhi>(1.5*kPi)) deltaPhi-= 2*kPi;   
+            if(deltaPhi<(-0.5*kPi)) deltaPhi+= 2*kPi;
+
+            Double_t korelacieMCrec[6] = {trigtrack->Pt(), assocTrack->Pt(), deltaPhi, deltaEta, lPVz, trigtrack->WhichCandidate()-0.5};
+            fHistKorelacieMCrec->Fill(korelacieMCrec);
+
+
+        }
+
+    }
+
     }
 
 
@@ -808,7 +882,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 	// Corelation h-h ==========================================
 
-	/*for(Int_t i=0;i<iTrackTrig;i++){
+	for(Int_t i=0;i<iTrackTrig;i++){
 
 		AliV0ChBasicParticle* trackTrig = (AliV0ChBasicParticle*) selectedTriggerTracks->At(i);
 		
@@ -839,7 +913,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 		}
 
 
-	}*/
+	}
 
 
  	// Mixing ==============================================

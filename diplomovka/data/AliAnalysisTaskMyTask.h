@@ -70,7 +70,9 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         Double_t                      fPtTrigMin;
         Double_t                      fPtAsocMin;
 
-        THnSparse*    fHistKorelacieMCrec; //!  
+        THnSparse*              fHistKorelacieMCrec; //!  
+        THnSparse*              fHistNumberOfTriggersGen;  //!
+        THnSparse*              fHistNumberOfTriggersRec;  //!
 
         
 

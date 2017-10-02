@@ -1,7 +1,7 @@
 void runAnalysis()
 {
     // set if you want to run the analysis locally (kTRUE), or on grid (kFALSE)
-    Bool_t local = kTRUE;
+    Bool_t local = kFALSE;
     // if you run on grid, specify test mode (kTRUE) or full grid model (kFALSE)
     Bool_t gridTest = kFALSE;
     
@@ -190,8 +190,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_11");
-        alienHandler->SetGridOutputDir("myOutputDirTestMC_11");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_13");
+        alienHandler->SetGridOutputDir("myOutputDirTestMC_13");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);
@@ -203,7 +203,7 @@ void runAnalysis()
             mgr->StartAnalysis("grid");
         } else {
             // else launch the full grid analysis
-            //alienHandler->SetRunMode("full"); //pocitanie
+           // alienHandler->SetRunMode("full"); //pocitanie
             alienHandler->SetRunMode("terminate"); //po vypocitani, iba na spojenie vysledkov
             mgr->StartAnalysis("grid");
         }
