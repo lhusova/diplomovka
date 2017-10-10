@@ -39,7 +39,8 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         void                    SetMCAnalysis(Bool_t var) {fAnalysisMC=var;}
         void                    SetPtTrigMin(Double_t var) {fPtTrigMin=var;}
         void                    SetPtAsocMin(Double_t var) {fPtAsocMin=var;}
-
+        void                    Corelations(TObjArray *triggers, TObjArray *associated, THnSparse * fHistKor, Double_t lPVz,THnSparse* fHistNumOfTrig,Bool_t hh);
+        void                    CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz,Bool_t mcAnalysis);
     private:
         AliAODEvent*            fAOD;           		//! input event
         AliPIDResponse*         fPIDResponse;           //!
@@ -74,8 +75,6 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         THnSparse*              fHistNumberOfTriggersGen;  //!
         THnSparse*              fHistNumberOfTriggersRec;  //!
 
-        
-
         AliAnalysisTaskMyTask(const AliAnalysisTaskMyTask&); // not implemented
         AliAnalysisTaskMyTask& operator=(const AliAnalysisTaskMyTask&); // not implemented
 
@@ -87,6 +86,10 @@ class AliV0ChBasicParticle : public AliVParticle
     public:
       AliV0ChBasicParticle(Float_t eta, Float_t phi, Float_t pt, Short_t candidate)
         : fEta(eta), fPhi(phi), fpT(pt), fCandidate(candidate)
+      {
+      }
+      AliV0ChBasicParticle(Float_t eta, Float_t phi, Float_t pt, Short_t candidate, Int_t label)
+        : fEta(eta), fPhi(phi), fpT(pt), fCandidate(candidate), fLabel(label)
       {
       }
      virtual ~AliV0ChBasicParticle() {}
@@ -116,7 +119,7 @@ class AliV0ChBasicParticle : public AliVParticle
       virtual Double_t Y()          const { AliFatal("Not implemented"); return 0; }
   
       virtual Short_t Charge()      const { AliFatal("Not implemented"); return 0; }
-      virtual Int_t   GetLabel()    const { AliFatal("Not implemented"); return 0;}
+      virtual Int_t   GetLabel()    const { return fLabel;}
       // PID
       virtual Int_t   PdgCode()     const { AliFatal("Not implemented"); return 0; }
       virtual const Double_t *PID() const { AliFatal("Not implemented"); return 0; }
@@ -128,6 +131,7 @@ class AliV0ChBasicParticle : public AliVParticle
       Double_t fPhi;      // phi
       Double_t fpT;       // pT
       Short_t fCandidate;   // V0 candidate: 1 - K0, 2 - Lambda, 3 - Antilambda, 4 - ChTrack
+      Int_t fLabel;
   
       ClassDef( AliV0ChBasicParticle, 1); // class required for event mixing
  };

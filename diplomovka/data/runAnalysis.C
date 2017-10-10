@@ -1,7 +1,7 @@
 void runAnalysis()
 {
     // set if you want to run the analysis locally (kTRUE), or on grid (kFALSE)
-    Bool_t local = kFALSE;
+    Bool_t local = kTRUE;
     // if you run on grid, specify test mode (kTRUE) or full grid model (kFALSE)
     Bool_t gridTest = kFALSE;
     
@@ -34,7 +34,7 @@ void runAnalysis()
         // if you want to run locally, we need to define some input
         TChain* chain = new TChain("aodTree");
         // add a few files to the chain (change this so that your local files are added)
-       // chain->Add("AliAODpp.root"); //pp
+        //chain->Add("AliAODpp.root"); //pp
        // chain->Add("AliAODPbPb1.root");
        // chain->Add("AliAODPbPb2.root");
        // chain->Add("AliAODPbPb3.root");
@@ -44,6 +44,15 @@ void runAnalysis()
         chain->Add("AliAODMC03.root"); //MC
         chain->Add("AliAODMC04.root"); //MC
         chain->Add("AliAODMC05.root"); //MC   
+        chain->Add("AliAODMC06.root"); //MC   
+        chain->Add("AliAODMC07.root"); //MC   
+        chain->Add("AliAODMC08.root"); //MC   
+        chain->Add("AliAODMC09.root"); //MC   
+        chain->Add("AliAODMC10.root"); //MC 
+        chain->Add("AliAODMC11.root"); //MC 
+        chain->Add("AliAODMC12.root"); //MC 
+        chain->Add("AliAODMC13.root"); //MC 
+        chain->Add("AliAODMC14.root"); //MC   
         // start the analysis locally, reading the events from the tchain
         mgr->StartAnalysis("local", chain);
     } else {
@@ -132,7 +141,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(226452);
         alienHandler->AddRunNumber(226445);
         alienHandler->AddRunNumber(226444);
-        /*alienHandler->AddRunNumber(226225);
+        alienHandler->AddRunNumber(226225);
         alienHandler->AddRunNumber(226220);
         alienHandler->AddRunNumber(226170);
         alienHandler->AddRunNumber(226062);
@@ -171,7 +180,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(225037);
         alienHandler->AddRunNumber(225035);
         alienHandler->AddRunNumber(225031);
-        alienHandler->AddRunNumber(225026);*/
+        alienHandler->AddRunNumber(225026);
    
         // number of files per subjob
         alienHandler->SetSplitMaxInputFileNumber(40);
@@ -190,8 +199,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_13");
-        alienHandler->SetGridOutputDir("myOutputDirTestMC_13");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_15");
+        alienHandler->SetGridOutputDir("myOutputDirTestMC_15");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);

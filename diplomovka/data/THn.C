@@ -182,15 +182,15 @@ void THn(){
 			fHistRangePtProjPhiEta[i*nPtBins+j]->Divide(fHistRangePtProjPhiEtaMix[i*nPtBins+j]);
 			fHistRangePtProjPhiEta[i*nPtBins+j]->SetAxisRange(-1,1,"x"); 
 
-			//can1->cd(i*3+j);
-			//fHistRangePtProjPhiEta[i*3+j]->DrawCopy("lego2z");
+			//d->cd(i*nPtBins+j+1);
+			//fHistRangePtProjPhiEta[i*nPtBins+j]->DrawCopy("lego2z");
 
 			fHistProjPhi[i*nPtBins+j]=(TH1D *)fHistRangePtProjPhiEta[i*nPtBins+j]->ProjectionY();
 
 			if (i==0) fHistProjPhi[i*nPtBins+j]->Scale(1./fHistPart[j]->GetBinContent(1));
 			if (i==1) fHistProjPhi[i*nPtBins+j]->Scale(1./(fHistPart[j]->GetBinContent(2)+fHistPart[j]->GetBinContent(3)));
 			if (i==2) fHistProjPhi[i*nPtBins+j]->Scale(1./fHistPart[j]->GetBinContent(4));
-
+            
 			fHistProjPhi[i*nPtBins+j]->SetXTitle("#Delta #Phi");
 			fHistProjPhi[i*nPtBins+j]->SetYTitle("# parov / # trigger castic");
 			sprintf(nameprojphi,"Rozdelenie #Delta #Phi pre trigger %d pre pt bin %d", i+1,j+1);
@@ -199,7 +199,10 @@ void THn(){
 			fHistProjPhi[i*nPtBins+j]->DrawCopy();
 
 			fHistProjEta[i*nPtBins+j]=fHistRangePtProjPhiEta[i*nPtBins+j]->ProjectionX();
-			fHistProjEta[i*nPtBins+j]->Scale(1./fHistPart[j]->GetBinContent(i+1));
+
+            if (i==0) fHistProjEta[i*nPtBins+j]->Scale(1./fHistPart[j]->GetBinContent(1));
+            if (i==1) fHistProjEta[i*nPtBins+j]->Scale(1./(fHistPart[j]->GetBinContent(2)+fHistPart[j]->GetBinContent(3)));
+            if (i==2) fHistProjEta[i*nPtBins+j]->Scale(1./fHistPart[j]->GetBinContent(4));
 			fHistProjEta[i*nPtBins+j]->SetXTitle("#Delta #eta");
 			fHistProjEta[i*nPtBins+j]->SetYTitle("# parov / # trigger castic");
 			sprintf(nameprojeta,"Rozdelenie #Delta #eta pre trigger %d pre pt bin %d", i+1, j+1);
