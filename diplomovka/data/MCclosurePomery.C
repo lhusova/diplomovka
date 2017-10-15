@@ -8,8 +8,8 @@
 void MCclosurePomery(){
 	//gStyle->SetOptStat(0000000000);
 
-   // TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMCnew04.root");
-   TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMCnew05.root");
+   //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
     TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
     
     THnSparse *fHistKorelacieRec = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
@@ -131,8 +131,8 @@ void MCclosurePomery(){
             fHistRangePtProjPhiEtaMC[i*nPtBins+j]->SetName(hname);
             sprintf(htitle,"Gen #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,j);
             fHistRangePtProjPhiEtaMC[i*nPtBins+j]->SetTitle(htitle);
-            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinX(5);
-            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinY(5);
+            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinX(4);
+            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinY(4);
             if(i==0) fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Scale(1./(fHistPartGen[j]->GetBinContent(1)));
             if(i==1) fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Scale(1./(fHistPartGen[j]->GetBinContent(2)+fHistPartGen[j]->GetBinContent(3)));
             if(i==2) fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Scale(1./(fHistPartGen[j]->GetBinContent(4)));
@@ -153,8 +153,8 @@ void MCclosurePomery(){
             fHistRangePtProjPhiEtarec[i*nPtBins+j]->SetName(hname);
             sprintf(htitle,"Rec #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,j);
             fHistRangePtProjPhiEtarec[i*nPtBins+j]->SetTitle(htitle);
-            fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinX(5);
-            fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinY(5);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinX(4);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinY(4);
             if(i==0) fHistRangePtProjPhiEtarec[i*nPtBins+j]->Scale(1./(fHistPartRec[j]->GetBinContent(1)));
             if(i==1) fHistRangePtProjPhiEtarec[i*nPtBins+j]->Scale(1./(fHistPartRec[j]->GetBinContent(2)+fHistPartRec[j]->GetBinContent(3)));
             if(i==2) fHistRangePtProjPhiEtarec[i*nPtBins+j]->Scale(1./(fHistPartRec[j]->GetBinContent(4)));

@@ -1,7 +1,7 @@
 void runAnalysis()
 {
     // set if you want to run the analysis locally (kTRUE), or on grid (kFALSE)
-    Bool_t local = kTRUE;
+    Bool_t local = kFALSE;//kTRUE;
     // if you run on grid, specify test mode (kTRUE) or full grid model (kFALSE)
     Bool_t gridTest = kFALSE;
     
@@ -39,7 +39,7 @@ void runAnalysis()
        // chain->Add("AliAODPbPb2.root");
        // chain->Add("AliAODPbPb3.root");
        // chain->Add("AliAODPbPb4.root");
-        chain->Add("AliAODMC01.root"); //MC
+        /*chain->Add("AliAODMC01.root"); //MC
         chain->Add("AliAODMC02.root"); //MC
         chain->Add("AliAODMC03.root"); //MC
         chain->Add("AliAODMC04.root"); //MC
@@ -51,7 +51,7 @@ void runAnalysis()
         chain->Add("AliAODMC10.root"); //MC 
         chain->Add("AliAODMC11.root"); //MC 
         chain->Add("AliAODMC12.root"); //MC 
-        chain->Add("AliAODMC13.root"); //MC 
+        chain->Add("AliAODMC13.root"); //MC */
         chain->Add("AliAODMC14.root"); //MC   
         // start the analysis locally, reading the events from the tchain
         mgr->StartAnalysis("local", chain);
@@ -129,13 +129,13 @@ void runAnalysis()
         alienHandler->AddRunNumber(225035);
         alienHandler->AddRunNumber(225031);
         alienHandler->AddRunNumber(225026);*/
-        alienHandler->AddRunNumber(225768); //MC
+       /* alienHandler->AddRunNumber(225768); //MC
         alienHandler->AddRunNumber(225587);
         alienHandler->AddRunNumber(226500);
         alienHandler->AddRunNumber(226495);
-        alienHandler->AddRunNumber(226483);
+        alienHandler->AddRunNumber(226483);*/
         alienHandler->AddRunNumber(226476);
-        alienHandler->AddRunNumber(226472);
+        /*alienHandler->AddRunNumber(226472);
         alienHandler->AddRunNumber(226468);
         alienHandler->AddRunNumber(226466);
         alienHandler->AddRunNumber(226452);
@@ -180,7 +180,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(225037);
         alienHandler->AddRunNumber(225035);
         alienHandler->AddRunNumber(225031);
-        alienHandler->AddRunNumber(225026);
+        alienHandler->AddRunNumber(225026);*/
    
         // number of files per subjob
         alienHandler->SetSplitMaxInputFileNumber(40);
@@ -199,8 +199,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_15");
-        alienHandler->SetGridOutputDir("myOutputDirTestMC_15");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_27");
+        alienHandler->SetGridOutputDir("myOutputDirTestMC_27");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);
@@ -212,8 +212,8 @@ void runAnalysis()
             mgr->StartAnalysis("grid");
         } else {
             // else launch the full grid analysis
-           // alienHandler->SetRunMode("full"); //pocitanie
-            alienHandler->SetRunMode("terminate"); //po vypocitani, iba na spojenie vysledkov
+            alienHandler->SetRunMode("full"); //pocitanie
+            //alienHandler->SetRunMode("terminate"); //po vypocitani, iba na spojenie vysledkov
             mgr->StartAnalysis("grid");
         }
     }

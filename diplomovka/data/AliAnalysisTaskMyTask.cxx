@@ -318,6 +318,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 		Int_t nMCTracks = mcTracks->GetEntriesFast(); 
 		fHistMCPtAs->Sumw2();
+        Int_t iV0 =0;
 		
 		for (Int_t iMC = 0; iMC<nMCTracks; iMC++){
 			AliAODMCParticle *mcTrack = (AliAODMCParticle*)mcTracks->At(iMC);
@@ -360,6 +361,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
                 if(IsK0) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),1,mcTrack->GetLabel()));
                 if(IsLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),2,mcTrack->GetLabel()));
                 if(IsAntiLambda) mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),3,mcTrack->GetLabel()));
+                Printf("mc track lab %d \n",((AliV0ChBasicParticle*)mcTracksV0Sel->At(iV0))->Label());
+                iV0++;
             } 
 
 		}
@@ -424,7 +427,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	   
 		selectedTracks->Add(track);
 		if(track->Pt()>fPtAsocMin) selectedAssociatedTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));
-		if(track->Pt()>fPtTrigMin) selectedTriggerTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));	
+		if(track->Pt()>fPtTrigMin) selectedTriggerTracks-> Add(new AliV0ChBasicParticle(track->Eta(), track->Phi(), track->Pt(), 4));
 	}
 
 	TObjArray * selectedV0 = new TObjArray;
@@ -481,7 +484,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	}
 	
 	Int_t iSelV0 = selectedV0->GetEntries();	
-
+    Int_t motherLabelPrevious[iSelV0];
+    
 	for (Int_t i=0; i<iSelV0; i++){
         AliAODv0* V0 = (AliAODv0*) selectedV0->At(i);
 
@@ -584,7 +588,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
             fHistK0MassPtCut->Fill(massK0,ptTrig,5.5);
 
             if(V0->Pt()>fPtAsocMin) selectedV0Assoc-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));
-            if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));  
+            if(V0->Pt()>fPtTrigMin) selectedV0Triggers-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 1));
             if(fAnalysisMC){
                 AliAODTrack *daughter1= static_cast<AliAODTrack*> (V0->GetDaughter(1));
                 AliAODTrack *daughter0= static_cast<AliAODTrack*> (V0->GetDaughter(0));
@@ -593,29 +597,48 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
                 Int_t mcmother0 = static_cast<AliAODMCParticle*>(mcArray->At(daughter0->GetLabel()))->GetMother();
 
                 if(mcmother1!=mcmother0) continue;
+                
+                //if(mcmother1==motherLabelPreviousK0) continue;
 
                 Bool_t isGen = kFALSE;
-               for(Int_t iV0Gen=0; iV0Gen <mcTracksV0Sel->GetEntries();iV0Gen++){
-                    AliV0ChBasicParticle *gen = (AliV0ChBasicParticle*) mcTracksV0Sel->At(iV0Gen);
-                    Int_t genLabel = gen->GetLabel();
-                    if(mcmother1==genLabel){
-                        isGen=kTRUE; // je to dobry check; mam menej rec ako gen; TODO: je mozne urobit to efektivnejsie?? 
-                        //V datach sa tento check neda spravit, teda mame aj zle rekonstruovane V0 ja to ok??? 
-                        return;
+                Int_t genLabel;
+                Int_t imctrack =-1;
+                for(Int_t iV0Gen=0; iV0Gen <mcTracksV0Sel->GetEntries();iV0Gen++){
+                   AliV0ChBasicParticle *gen = (AliV0ChBasicParticle*) mcTracksV0Sel->At(iV0Gen);
+                   genLabel= gen->Label();
+                    Printf("mcmother1 %d genLabel %d \n",mcmother1,genLabel);
+                   if(mcmother1==genLabel){
+                       motherLabelPrevious[i]=mcmother1;
+                       isGen = kTRUE; // je to dobry check; mam menej rec ako gen; TODO: je mozne urobit to efektivnejsie??
+                        //V datach sa tento check neda spravit, teda mame aj zle rekonstruovane V0 ja to ok???
+                       break;
                     }
-
-               }
-               //if(isGen){
-                Bool_t isPhyPrim = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->IsPhysicalPrimary();
-                if(isPhyPrim){
-                    Double_t V0mcPt = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Pt();
-                    Double_t V0mcEta = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Eta();
-                    Double_t V0mcPhi = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Phi();
-                    if(V0mcPt>fPtTrigMin) selectedMCV0Triggersrec-> Add(new AliV0ChBasicParticle(V0mcEta, V0mcPhi, V0mcPt, 1));
+                   
 
                 }
-               // }
-            } 
+                
+                for(Int_t iLab=0;iLab<i;iLab++){
+                    
+                    if(motherLabelPrevious[iLab]==mcmother1){
+                        
+                        isGen=kFALSE;
+                        break;
+                    }
+                    
+                }
+                
+               if(isGen){
+                   
+                   Bool_t isPhyPrim = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->IsPhysicalPrimary();
+                   if(isPhyPrim){
+                       Double_t V0mcPt = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Pt();
+                       Double_t V0mcEta = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Eta();
+                       Double_t V0mcPhi = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Phi();
+                       if(V0mcPt>fPtTrigMin) selectedMCV0Triggersrec-> Add(new AliV0ChBasicParticle(V0mcEta, V0mcPhi, V0mcPt, 1));
+
+                   }
+               }
+            }
 
         }
 
@@ -642,16 +665,29 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
                 Int_t mcmother0 = static_cast<AliAODMCParticle*>(mcArray->At(daughter0->GetLabel()))->GetMother();
 
                 if(mcmother1!=mcmother0) continue;
+                
                 Bool_t isGen = kFALSE;
                for(Int_t iV0Gen=0; iV0Gen <mcTracksV0Sel->GetEntries();iV0Gen++){
                     AliV0ChBasicParticle *gen = (AliV0ChBasicParticle*) mcTracksV0Sel->At(iV0Gen);
-                    Int_t genLabel = gen->GetLabel();
+                    Int_t genLabel = gen->Label();
                     if(mcmother1==genLabel){
+                         motherLabelPrevious[i]=mcmother1;
+                        
                         isGen=kTRUE; 
                         return;
                     }
 
                }
+                for(Int_t iLab=0;iLab<i;iLab++){
+                    
+                    if(motherLabelPrevious[iLab]==mcmother1){
+                        
+                        isGen=kFALSE;
+                        break;
+                    }
+                    
+                }
+
                if(isGen){
                 Bool_t isPhyPrim = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->IsPhysicalPrimary();
                 if(isPhyPrim){
@@ -689,26 +725,39 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
                 Int_t mcmother0 = static_cast<AliAODMCParticle*>(mcArray->At(daughter0->GetLabel()))->GetMother();
 
                 if(mcmother1!=mcmother0) continue;
-               Bool_t isGen = kFALSE;
-               for(Int_t iV0Gen=0; iV0Gen <mcTracksV0Sel->GetEntries();iV0Gen++){
+               
+                Bool_t isGen = kFALSE;
+                for(Int_t iV0Gen=0; iV0Gen <mcTracksV0Sel->GetEntries();iV0Gen++){
                     AliV0ChBasicParticle *gen = (AliV0ChBasicParticle*) mcTracksV0Sel->At(iV0Gen);
-                    Int_t genLabel = gen->GetLabel();
+                    Int_t genLabel = gen->Label();
+                   
                     if(mcmother1==genLabel){
+                        motherLabelPrevious[i]=mcmother1;
                         isGen=kTRUE; 
                         return;
                     }
 
-               }
+                }
+                
+                for(Int_t iLab=0;iLab<i;iLab++){
+                    
+                    if(motherLabelPrevious[iLab]==mcmother1){
+                        
+                        isGen=kFALSE;
+                        break;
+                    }
+                    
+                }
                if(isGen){
-                Bool_t isPhyPrim = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->IsPhysicalPrimary();
-                if(isPhyPrim){
-                    Double_t V0mcPt = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Pt();
-                    Double_t V0mcEta = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Eta();
-                    Double_t V0mcPhi = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Phi();
-                    if(V0mcPt>fPtTrigMin) selectedMCV0Triggersrec-> Add(new AliV0ChBasicParticle(V0mcEta, V0mcPhi, V0mcPt, 3));
+                   Bool_t isPhyPrim = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->IsPhysicalPrimary();
+                   if(isPhyPrim){
+                       Double_t V0mcPt = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Pt();
+                       Double_t V0mcEta = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Eta();
+                       Double_t V0mcPhi = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Phi();
+                       if(V0mcPt>fPtTrigMin) selectedMCV0Triggersrec-> Add(new AliV0ChBasicParticle(V0mcEta, V0mcPhi, V0mcPt, 3));
 
-                }
-                }
+                   }
+               }
             }
         }
 
@@ -724,6 +773,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
     if(fAnalysisMC){
         //V0-h MC rec
         fHistKorelacieMCrec->Sumw2();
+        //Printf("trig rec %d, track %d, assoc rec %d\n",selectedMCV0Triggersrec->GetEntriesFast(),selectedMCtrig->GetEntriesFast(),selectedMCassoc->GetEntriesFast());
         Corelations(selectedMCV0Triggersrec,selectedMCassoc,fHistKorelacieMCrec, lPVz, fHistNumberOfTriggersRec,kFALSE);
 
         //h-h MC rec
@@ -1065,7 +1115,7 @@ void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associat
 
     for (Int_t i=0; i<nTrig; i++){
         AliV0ChBasicParticle* trig = (AliV0ChBasicParticle*)  triggers->At(i);
-
+        
         Double_t triggers[2]={trig->Pt(),trig->WhichCandidate()-0.5};
         fHistNumOfTrig->Fill(triggers);
         for (Int_t j=0; j<nAssoc; j++){
@@ -1078,15 +1128,17 @@ void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associat
 
             if(trig->Pt()<=assoc->Pt()) continue;
 
-            Int_t labelTrig = -1;
+         /*   Int_t labelTrig = -2;
             Int_t labelAssoc =0;
             if(hh){
-                labelTrig=trig->GetLabel();
-                labelAssoc=assoc->GetLabel();
+                labelTrig=trig->Label();
+                labelAssoc=assoc->Label();
+                Printf("labelTrig %d labelAssoc %d \n",labelTrig,labelAssoc);
             }
-            if(labelTrig==labelAssoc) continue; // robi to velky rozdiel v pocte triggrov generovanych; pri rec menej.
+            
+            if(labelTrig==labelAssoc) continue; // robi to velky rozdiel v pocte trackov triggrov generovanych; pri rec menej.*/
 
-            Double_t korel[6] = {trig->Pt(),assoc->Pt(),deltaPhi,deltaEta, lPVz,trig->WhichCandidate()-0.5 }; 
+            Double_t korel[6] = {trig->Pt(),assoc->Pt(),deltaPhi,deltaEta, lPVz,trig->WhichCandidate()-0.5 };
             fHistKor->Fill(korel);
             }
     }
@@ -1100,7 +1152,7 @@ void AliAnalysisTaskMyTask::CorelationsMixing(TObjArray *triggers, TObjArray *bg
     const Double_t kPi = TMath::Pi();
     Int_t nAssoc = bgTracks->GetEntriesFast();
     Int_t nTrig = triggers->GetEntriesFast();
-   if (nTrig>0) Printf("nAssoc %d, nTrig %d \n",nAssoc ,nTrig);
+
     for (Int_t i=0; i<nTrig; i++){
         AliV0ChBasicParticle* trig = (AliV0ChBasicParticle*)  triggers->At(i);
         for (Int_t j=0; j<nAssoc; j++){
