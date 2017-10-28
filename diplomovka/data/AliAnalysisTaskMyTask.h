@@ -56,8 +56,8 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         TH1D*                   fHistEtaTrigg;              //!
         TH1D*                   fHistPhiAssoc;              //!
         TH1D*                   fHistPhiTrigg;              //!
-        TH1D*                   fHistMCPtAs;            //!
-        TH1D*                   fHistRCPtAs;            //!
+        TH3D*                   fHistMCPtAs;            //!
+        TH3D*                   fHistRCPtAs;            //!
         THnSparse*              fHistNumberOfTriggers;  //!
         THnSparse*              fHistMCKorelacie;       //!
 
@@ -74,6 +74,9 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         THnSparse*              fHistKorelacieMCrec; //!  
         THnSparse*              fHistNumberOfTriggersGen;  //!
         THnSparse*              fHistNumberOfTriggersRec;  //!
+    
+        THnSparse* fHistRecV0; //!
+        THnSparse* fHistGenV0; //!
 
         AliAnalysisTaskMyTask(const AliAnalysisTaskMyTask&); // not implemented
         AliAnalysisTaskMyTask& operator=(const AliAnalysisTaskMyTask&); // not implemented
@@ -125,7 +128,8 @@ class AliV0ChBasicParticle : public AliVParticle
       virtual const Double_t *PID() const { AliFatal("Not implemented"); return 0; }
   
       virtual Short_t WhichCandidate()      const { return fCandidate; }
-      virtual Int_t   Label()               const { return fLabel; }
+    Int_t   MyLabel()             const { return fLabel; }
+    
   
       private:
       Double_t fEta;      // eta
@@ -134,7 +138,7 @@ class AliV0ChBasicParticle : public AliVParticle
       Short_t fCandidate;   // V0 candidate: 1 - K0, 2 - Lambda, 3 - Antilambda, 4 - ChTrack
       Int_t fLabel;   // Label
   
-      ClassDef( AliV0ChBasicParticle, 3); // class required for event mixing
+      ClassDef( AliV0ChBasicParticle, 1) // class required for event mixing
  };
 
 #endif
