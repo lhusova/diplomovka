@@ -5,15 +5,20 @@
 #include <TFile.h>
 #include "TMath.h"
 
-void THn(){
+void THn(Bool_t isMC=kFALSE){
 	gStyle->SetOptStat(0000000000);
 
-	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC_05.root");
+	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_01.root");
 	TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
+    
+    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/Efiiciency.root");
+    TH3D *fHistRCPtAs = (TH3D*) gg->Get("fHistRCPtAs");
 	
-	THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacie");
+    if(isMC) THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
+	else THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistMCKorelacie");
 	THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistdPhidEtaMix");
-	THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggers");
+    if(isMC) THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersRec");
+    else THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersGen");
 
 	const Double_t kPi = TMath::Pi();
 
@@ -22,12 +27,38 @@ void THn(){
 	const Int_t nPtBins = 6;
 	const Int_t nTig =3;
 
+    const Int_t nEtaBins = fHistKorelacie->GetAxis(7)->GetNbins();
+    const Int_t nVzBins = fHistKorelacie->GetAxis(4)->GetNbins();
+    const Int_t nPtAssocBins = fHistKorelacie->GetAxis(1)->GetNbins();
 
 	TH1D **fHistPart = new TH1D*[nPtBins];
 	THnSparse **fHistPartClone = new THnSparse*[nPtBins];
 	char hnameent[50];
 	TCanvas *a = new TCanvas;
 	a->Divide(1,nPtBins);
+    
+  //  const Int_t eta =(nEtaBins/4);
+  //  const Int_t vz =(nVzBins/2);
+    
+    Double_t sclale[10][10][13];
+    Int_t k3D =0;
+     for(Int_t k=0;k<nEtaBins; k++){
+         Int_t l3D =0;
+         for (Int_t l=0; l<nVzBins; l++) {
+             for (Int_t m=0; m<nPtAssocBins; m++){
+                // Printf("%g %d %d %d \n",fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1),k,l,m);
+                 sclale[k3D][l3D][m]=fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1);
+             }
+             
+             
+             l3D+=1;
+             l+=1;
+         }
+         
+         
+         k+=3;
+         k3D+=1;
+     }
 
 	for(Int_t i=0;i<nPtBins;i++){
 		fHistPartClone[i]=fHistNumberOfTriggers->Clone();
@@ -74,7 +105,8 @@ void THn(){
 	THnSparse **fHistRangePt=new THnSparse*[nTig*nPtBins];
 	TH2D **fHistRangePtProjPhiEta = new TH2D*[nTig*nPtBins];
 	char htitle[50];
-	char hname[50]; 
+	char hname[50];
+    char hname2dvela[50];
 	TCanvas *c = new TCanvas;
 	c->Divide(nPtBins,nTig);
 	
@@ -93,8 +125,66 @@ void THn(){
 			if (j==3) fHistRangePt[i*nPtBins+j]->GetAxis(0)->SetRange(4,5);
 			if (j==4) fHistRangePt[i*nPtBins+j]->GetAxis(0)->SetRange(6,7);
 			if (j==5) fHistRangePt[i*nPtBins+j]->GetAxis(0)->SetRange(8,11);
-			
-			fHistRangePtProjPhiEta[i*nPtBins+j] = fHistRangePt[i*nPtBins+j]->Projection(2,3);
+            
+            Int_t k3D =0;
+            Int_t nHist =0;
+            for(Int_t k=0;k<nEtaBins; k++){ //loop cez eta assoc
+                Printf("     k %d\n",k);
+                THnSparse * tmpHist1 = (THnSparse*)fHistRangePt[i*nPtBins+j]->Clone();
+                tmpHist1->GetAxis(7)->SetRange(k+1,k+4);
+                
+                Int_t l3D =0;
+                for (Int_t l=0; l<nVzBins; l++) {// loop cez vertex biny
+                    
+                    THnSparse *tmpHist2 = (THnSparse*)tmpHist1->Clone();
+                    tmpHist2->GetAxis(4)->SetRange(l+1,l+2);
+                    
+                    for (Int_t m=0; m<nPtAssocBins; m++){ // loop cez pt assoc
+                        
+                        THnSparse *tmpHist3 = (THnSparse*)tmpHist2->Clone();
+                        tmpHist3->GetAxis(1)->SetRange(m+1,m+1);
+                        TH2D * proj2DRac = tmpHist3->Projection(2,3);
+                        sprintf(hname2dvela,"%d_%d_%d",m,k3D,l3D);
+                        proj2DRac->SetName(hname2dvela);
+                        
+                       /* if(proj2DRac->GetEntries()<1) {
+                            delete proj2DRac;
+                            continue;
+                        }*/
+                        
+                        //if(sclale[k3D][l3D][m]!=0) continue;
+                        
+                        //Double_t sclale = fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1);
+                        if (k3D==0&&sclale[0][l3D][m]!=0) proj2DRac->Scale(1./sclale[0][l3D][m]);
+                        if (k3D==1&&sclale[1][l3D][m]!=0) proj2DRac->Scale(1./sclale[1][l3D][m]);
+                        if (k3D==2&&sclale[2][l3D][m]!=0) proj2DRac->Scale(1./sclale[2][l3D][m]);
+                        if (k3D==3&&sclale[3][l3D][m]!=0) proj2DRac->Scale(1./sclale[3][l3D][m]);
+                        if (k3D==4&&sclale[4][l3D][m]!=0) proj2DRac->Scale(1./sclale[4][l3D][m]);
+                        if (k3D==5&&sclale[5][l3D][m]!=0) proj2DRac->Scale(1./sclale[5][l3D][m]);
+                        if (k3D==6&&sclale[6][l3D][m]!=0) proj2DRac->Scale(1./sclale[6][l3D][m]);
+                        if (k3D==7&&sclale[7][l3D][m]!=0) proj2DRac->Scale(1./sclale[7][l3D][m]);
+                        if (k3D==8&&sclale[8][l3D][m]!=0) proj2DRac->Scale(1./sclale[8][l3D][m]);
+                        if (k3D==9&&sclale[9][l3D][m]!=0) proj2DRac->Scale(1./sclale[9][l3D][m]);
+                         //Printf("%g %d %d %d \n",sclale[k3D][l3D][m],k,l,m);
+                        
+                        if (nHist==0) fHistRangePtProjPhiEta[i*nPtBins+j] =proj2DRac->Clone();
+                        else fHistRangePtProjPhiEta[i*nPtBins+j]->Add(proj2DRac);
+                        nHist+=1;
+                        
+                        delete proj2DRac;
+                        delete tmpHist3;
+                    }
+                    delete tmpHist2;
+                    
+                    l3D+=1;
+                    l+=1;
+                }
+                delete tmpHist1;
+                
+                k+=3;
+                k3D+=1;
+            }
+			//fHistRangePtProjPhiEta[i*nPtBins+j]=fHistRangePt[i*nPtBins+j]->Projection(2,3);
 			sprintf(hname,"2dproj_%d_pt_%d",i,j);
 			fHistRangePtProjPhiEta[i*nPtBins+j]->SetName(hname);
 			sprintf(htitle,"#Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,j);
@@ -174,7 +264,7 @@ void THn(){
 	Double_t poz=0;
 
 	TH1D **fHistBack = new TH1D*[nTig];
-	
+	TFile *fFile = TFile::Open("GraphMCGen01.root","RECREATE");
 	
 
 	for(Int_t i=0; i<nTig;i++){ //i - type of Trigger particle
@@ -229,7 +319,6 @@ void THn(){
 			fHistProjPhi[i*nPtBins+j]->SetAxisRange(0.,max*1.1,"y");
 			fHistProjPhi[i*nPtBins+j]->SetXTitle("#Delta #phi");
 			fHistProjPhi[i*nPtBins+j]->SetYTitle("pocet parov / pocet trigrovacich castic");
-			fHistProjPhi[i*nPtBins+j]->Scale(1/0.803);
 			fHistProjPhi[i*nPtBins+j]->GetXaxis()->SetTitleOffset(0.4);
 			fHistProjPhi[i*nPtBins+j]->GetXaxis()->SetTitleSize(0.08);
 			fHistProjPhi[i*nPtBins+j]->GetXaxis()->SetLabelSize(0.055);
@@ -248,6 +337,7 @@ void THn(){
 				fHistProjPhi[i*nPtBins+j]->SetTitle(bezpoz);
 				canK->cd(j+1);
 				fHistProjPhi[i*nPtBins+j]->DrawCopy();
+                fHistProjPhi[i*nPtBins+j]->Write();
 			}
 
 			if (i==1) {
@@ -260,6 +350,7 @@ void THn(){
 				fHistProjPhi[i*nPtBins+j]->SetTitle(bezpoz);
 				canLam->cd(j+1);
 				fHistProjPhi[i*nPtBins+j]->DrawCopy();
+                fHistProjPhi[i*nPtBins+j]->Write();
 			}
 
 
@@ -273,6 +364,7 @@ void THn(){
 				fHistProjPhi[i*nPtBins+j]->SetTitle(bezpoz);
 				canH->cd(j+1);
 				fHistProjPhi[i*nPtBins+j]->DrawCopy();
+                fHistProjPhi[i*nPtBins+j]->Write();
 
 			}
 
@@ -284,7 +376,7 @@ void THn(){
 
 			for(Int_t k=minnear; k<maxnear; k++){
 				integralnear+= fHistProjPhi[i*nPtBins+j]->GetBinContent(k);
-				errornear+= fHistProjPhi[i*nPtBins+j]->GetBinError(k);
+                errornear+= TMath::Power(fHistProjPhi[i*nPtBins+j]->GetBinError(k),2);
 			} 
 			
 			yieldnearerror[i][j] = TMath::Sqrt(errornear);
@@ -300,7 +392,7 @@ void THn(){
 
 			for(Int_t k=minaway; k<maxaway; k++){
 				integralaway+= fHistProjPhi[i*nPtBins+j]->GetBinContent(k);
-				erroralaway+= fHistProjPhi[i*nPtBins+j]->GetBinError(k);
+                erroralaway+= TMath::Power(fHistProjPhi[i*nPtBins+j]->GetBinError(k),2);
 			} 
 			
 			yieldawayerror[i][j] = TMath::Sqrt(erroralaway);
@@ -320,7 +412,7 @@ void THn(){
 	Double_t PtHist[nPtBins+1] = {4, 5, 6, 7, 9, 11, 15};
 	Double_t PtError[nPtBins] = {0.5, 0.5, 0.5, 1, 1, 2};
 
-	TFile *fFile = TFile::Open("GraphMC.root","RECREATE");
+	
 
 	TH1D *fHistK0Near = new TH1D("fHistK0Near","fHistK0Near",nPtBins,PtHist);
 	TH1D *fHistLambdaNear = new TH1D("fHistLambdaNear","fHistLambdaNear",nPtBins,PtHist);
@@ -359,7 +451,7 @@ void THn(){
 	fGraphK0Near->SetMarkerColor(kBlue);
 	fGraphK0Near->SetMarkerSize(1.8);
 	fGraphK0Near->SetLineColor(kBlue);
-	fGraphK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik");
+	fGraphK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik (MC generovane)");
 	fGraphK0Near->GetXaxis()->SetTitle("p_{T} (GeV/c)");
 	fGraphK0Near->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
 	fGraphK0Near->GetYaxis()->SetRangeUser(-0.1,1);
@@ -376,7 +468,7 @@ void THn(){
 
 	TLegend *fLegendNear = new TLegend(0.2,0.9,0.75,0.8);
 	fLegendNear->AddEntry(fGraphK0Near,"Triger K^{0}_{S}","pl");	
-	fLegendNear->AddEntry(fGraphLambdaNear,"Triger #Lambda a #bar{#Lambda}","pl");	
+	fLegendNear->AddEntry(fGraphLambdaNear,"Triger #Lambda a #bar{#Lambda}","pl");
 	fLegendNear->AddEntry(fGraphTrackNear,"Triger nabity hadron","pl");	
 
 	fGraphK0Near->Write();
@@ -396,7 +488,7 @@ void THn(){
 	fGraphK0Away->SetMarkerStyle(23);
 	fGraphK0Away->SetMarkerColor(kBlue);
 	fGraphK0Away->SetMarkerSize(1.8);
-	fGraphK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik");
+	fGraphK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik (MC generovane)");
 	fGraphK0Away->GetXaxis()->SetTitle("p_{T} (GeV/c)");
 	fGraphK0Away->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
 	fGraphK0Away->SetLineColor(kBlue);

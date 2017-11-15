@@ -3,23 +3,23 @@ Jobtag = {
 };
 # Input xml collections
 InputDataCollection = {
-   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/$1,nodownload"
+   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/$1,nodownload"
 };
 # Output directory
-OutputDir = "/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/myOutputDirTestMC_32/$2/#alien_counter_03i#";
+OutputDir = "/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/myOutputDirTestData_02/$2/#alien_counter_03i#";
 # List of requested packages
 Packages = {
    "VO_ALICE@AliPhysics::vAN-20170806-1"
 };
 # List of input files to be uploaded to workers
 InputFile = {
-   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/myAnalysis.C",
-   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/myTask.root",
-   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/AliAnalysisTaskMyTask.cxx",
-   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/AliAnalysisTaskMyTask.h"
+   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/myAnalysis.C",
+   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/myTask.root",
+   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/AliAnalysisTaskMyTask.cxx",
+   "LF:/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/AliAnalysisTaskMyTask.h"
 };
 # This is the startup script
-Executable = "/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/myTask.sh";
+Executable = "/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/myTask.sh";
 # We split per SE or file
 Split = "se";
 # Time after which the job is killed (166 min.)
@@ -38,7 +38,7 @@ Output = {
 # AliEn price for this job
 Price = "1";
 # Validation script to be run for each subjob
-Validationcommand = "/alice/cern.ch/user/l/lhusova/myWorkingDirTestMC_32/myTask_validation.sh";
+Validationcommand = "/alice/cern.ch/user/l/lhusova/myWorkingDirTestData_02/myTask_validation.sh";
 User = "lhusova";
 
 # JDL variables

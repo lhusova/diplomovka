@@ -3,8 +3,8 @@
 void Graph(){
 
     gStyle->SetOptStat(0000000000);
-    TFile *g =  TFile::Open("/home/lhusova/diplomovka/data/GraphMC.root");
-    TFile *f =  TFile::Open("/home/lhusova/diplomovka/data/GraphPt24.root");
+    TFile *g =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMCGen01.root");
+    TFile *f =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphData02.root");
 
     TGraphErrors *fGraphMCK0 = (TGraphErrors*) g->Get("fGraphK0Near");
     TGraphErrors *fGraphDataK0 = (TGraphErrors*) f->Get("fGraphK0Near");
@@ -34,8 +34,8 @@ void Graph(){
     fGraphMCK0->SetLineColor(kMagenta);
 
     TLegend *lg = new TLegend(0.2,0.9,0.75,0.8);
-	lg->AddEntry(fGraphDataK0," realne rekonstruovane data","pl");	
-	lg->AddEntry(fGraphMCK0,"MC rekonstruovane data","pl");	
+	lg->AddEntry(fGraphDataK0," realne rekonstruovane data","pl");
+	lg->AddEntry(fGraphMCK0,"MC gen","pl");//MC rekonstruovane data","pl");
 
      TCanvas *c1 = new TCanvas("c1","",600,800);
 	pad1 = new TPad("pad1","This is pad1",0.001,0.3,0.999,0.999);
@@ -103,8 +103,8 @@ void Graph(){
     fGraphDataLambda->SetLineColor(kBlue);
 
     TLegend *lg1 = new TLegend(0.2,0.9,0.75,0.8);
-	lg1->AddEntry(fGraphDataLambda,"realne rekonstruovane data","pl");	
-	lg1->AddEntry(fGraphMCLambda,"MC rekonstruovane data","pl");	
+	lg1->AddEntry(fGraphDataLambda,"realne rekonstruovane data","pl");
+	lg1->AddEntry(fGraphMCLambda,"MC gen","pl");//MC rekonstruovane data","pl");
 
     TCanvas *c2 = new TCanvas("c2","",600,800);
 	pad21 = new TPad("pad21","This is pad21",0.001,0.3,0.999,0.999);
@@ -236,8 +236,8 @@ void Graph(){
     fGraphDataH->SetLineColor(kBlue);
 
     TLegend *lg3 = new TLegend(0.2,0.9,0.75,0.8);
-	lg3->AddEntry(fGraphDataH,"realne rekonstruovane data","pl");	
-	lg3->AddEntry(fGraphMCH,"MC rekonstruovane data","pl");	
+	lg3->AddEntry(fGraphDataH,"realne rekonstruovane data","pl");
+	lg3->AddEntry(fGraphMCH,"MC gen","pl");//MC rekonstruovane data","pl");	
 
     TCanvas *c4 = new TCanvas("c4","",600,800);
 	pad31 = new TPad("pad31","This is pad31",0.001,0.3,0.999,0.999);
@@ -293,7 +293,21 @@ void Graph(){
     fHistPodielh->GetXaxis()->SetLabelSize(0.075);
     fHistPodielh->GetYaxis()->SetLabelSize(0.055);
     fHistPodielh->DrawCopy();
-
     
+   /* TCanvas *ccc = new TCanvas;
+    fGraphDataLambda->SetTitle("Vytazky pre prilahly pik");
+    fGraphDataLambda->GetXaxis()->SetTitle("p_{T} trigg");
+    fGraphDataLambda->SetMarkerColor(kGreen);
+    fGraphDataLambda->SetLineColor(kGreen);
+    fGraphDataLambda->Draw("ap");
+    fGraphDataH->SetMarkerColor(kRed);
+    fGraphDataH->SetLineColor(kRed);
+    fGraphDataH->Draw("psame");
+    fGraphDataK0->Draw("psame");
+    TLegend *lg4 = new TLegend(0.2,0.9,0.75,0.8);
+    lg4->AddEntry(fGraphDataLambda,"trigger - #Lambda + #bar{#Lambda}","pl");
+    lg4->AddEntry(fGraphDataH,"trigger - nabity hadron","pl");
+    lg4->AddEntry(fGraphDataK0,"trigger - K_{0}^{S}","pl");
+    lg4->Draw();*/
     
 }
