@@ -8,11 +8,11 @@
 void MCclosurePomery(){
 	//gStyle->SetOptStat(0000000000);
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_01.root");
-   //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
-    TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
+   // TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_01.root");
+   TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
+    TList *list =(TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
     
-    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/Efiiciency1.root");
+    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/EfiiciencyLoc.root");
     
     THnSparse *fHistKorelacieRec = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
     THnSparse *fHistMCKorelacie = (THnSparse*)list->FindObject("fHistMCKorelacie");
@@ -43,8 +43,7 @@ void MCclosurePomery(){
     THnSparse **fHistCorTyperec=new THnSparse*[nTig];
     THnSparse **fHistRangePtrec=new THnSparse*[nTig*nPtBins];
     TH2D **fHistRangePtProjPhiEtarec = new TH2D*[nTig*nPtBins];
-    char htitle[50];
-    char hname[50]; 
+    
     TCanvas *cMCrec = new TCanvas;
     cMCrec->Divide(nPtBins,nTig);
 
@@ -115,7 +114,7 @@ void MCclosurePomery(){
     Double_t ptBinsChyby[nPtBins]={0.5,0.5,0.5,1,1,2.5};
 
     for(Int_t i=0;i<nPtBins;i++){
-        fHistPartCloneGen[i]=fHistNumberOfTriggersGen->Clone();
+        fHistPartCloneGen[i]=(THnSparse *)fHistNumberOfTriggersGen->Clone();
         if (i==0) fHistPartCloneGen[i]->GetAxis(0)->SetRange(1,1);
         if (i==1) fHistPartCloneGen[i]->GetAxis(0)->SetRange(2,2);
         if (i==2) fHistPartCloneGen[i]->GetAxis(0)->SetRange(3,3);
@@ -126,7 +125,7 @@ void MCclosurePomery(){
         sprintf(hnameentgen,"proj_%dgen",i);
         fHistPartGen[i]->SetName(hnameentgen);
 
-        fHistPartCloneRec[i]=fHistNumberOfTriggersRec->Clone();
+        fHistPartCloneRec[i]=(THnSparse *)fHistNumberOfTriggersRec->Clone();
         if (i==0) fHistPartCloneRec[i]->GetAxis(0)->SetRange(1,1);
         if (i==1) fHistPartCloneRec[i]->GetAxis(0)->SetRange(2,2);
         if (i==2) fHistPartCloneRec[i]->GetAxis(0)->SetRange(3,3);
@@ -145,18 +144,18 @@ void MCclosurePomery(){
     }
     TFile *fNewFile = TFile::Open("McClosureLocal12.root","RECREATE");
     for(Int_t i=0;i<nTig;i++){   // looop cez druhy triggra
-        fHistCorTypeMC[i]=fHistMCKorelacie->Clone();
+        fHistCorTypeMC[i]=(THnSparse *)fHistMCKorelacie->Clone();
         if(i==0) fHistCorTypeMC[i]->GetAxis(5)->SetRange(i+1,i+1);
         if(i==1) fHistCorTypeMC[i]->GetAxis(5)->SetRange(i+1,i+2);
         if(i==2) fHistCorTypeMC[i]->GetAxis(5)->SetRange(i+2,i+2);
 
-        fHistCorTyperec[i]=fHistKorelacieRec->Clone();
+        fHistCorTyperec[i]=(THnSparse *)fHistKorelacieRec->Clone();
         if(i==0) fHistCorTyperec[i]->GetAxis(5)->SetRange(i+1,i+1);
         if(i==1) fHistCorTyperec[i]->GetAxis(5)->SetRange(i+1,i+2);
         if(i==2) fHistCorTyperec[i]->GetAxis(5)->SetRange(i+2,i+2);
         
         for(Int_t j=0;j<nPtBins-4;j++){ // loop cez pt triggra
-            fHistRangePtMC[i*nPtBins+j]=fHistCorTypeMC[i]->Clone();
+            fHistRangePtMC[i*nPtBins+j]=(THnSparse *)fHistCorTypeMC[i]->Clone();
 
             if (j==0) fHistRangePtMC[i*nPtBins+j]->GetAxis(0)->SetRange(1,1);
             if (j==1) fHistRangePtMC[i*nPtBins+j]->GetAxis(0)->SetRange(2,2);
@@ -178,7 +177,7 @@ void MCclosurePomery(){
             cMC->cd(i*nPtBins+j+1);
             fHistRangePtProjPhiEtaMC[i*nPtBins+j]->DrawCopy("lego2z");
 
-            fHistRangePtrec[i*nPtBins+j]=fHistCorTyperec[i]->Clone();
+            fHistRangePtrec[i*nPtBins+j]=(THnSparse *)fHistCorTyperec[i]->Clone();
             
            
             if (j==0) fHistRangePtrec[i*nPtBins+j]->GetAxis(0)->SetRange(1,1);
@@ -237,7 +236,7 @@ void MCclosurePomery(){
                         
                         //proj2DRac->Scale(1./fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1));
                        
-                        if (nHist==0) fHistRangePtProjPhiEtarec[i*nPtBins+j] =proj2DRac->Clone();
+                        if (nHist==0) fHistRangePtProjPhiEtarec[i*nPtBins+j] =(TH2D *)proj2DRac->Clone();
                         else fHistRangePtProjPhiEtarec[i*nPtBins+j]->Add(proj2DRac);
                         nHist+=1;
 
