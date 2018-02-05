@@ -7,8 +7,8 @@
 
 void Hist(){
 	
-	TFile *g = new TFile("/home/lhusova/diplomovka/data/AnalysisResults.root");
-	TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
+	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid01.root");
+	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 	
 	/*TH1D *hlh;
 	hlh = (TH1D*)list->FindObject("fHistLambdaHadron");
@@ -55,16 +55,16 @@ void Hist(){
 	TH3F *fHistLambdaMassPtCut = (TH3F*)list->FindObject("fHistLambdaMassPtCut");
 	TH3F *fHistAntiLambdaMassPtCut = (TH3F*)list->FindObject("fHistAntiLambdaMassPtCut");
 	
-	Int_t lPocetCutov = 6;
-	Int_t lPocetPtBinov = 4;
+	Int_t lPocetCutov = 7;
+	Int_t lPocetPtBinov = 10;
 
 	//=====inv. hmotnost K0 ==========
 		
 	TCanvas *a = new TCanvas;
-	a->Divide(2,2);
+	a->Divide(2,3);
 	
 	TCanvas *afin = new TCanvas;
-	afin->Divide(2,2);
+	afin->Divide(2,3);
 	TCanvas *canvas = new TCanvas;
 	canvas->Divide(3,1);
 	
@@ -76,37 +76,37 @@ void Hist(){
 	
 	TH3F **hkmpc = new TH3F*[lPocetCutov];
 	TH2D **hkmpc_2D = new TH2D*[lPocetCutov];
-	for (Int_t i = 0; i<lPocetCutov; i++)
+	for (Int_t i = 6; i<lPocetCutov; i++)
 	{	
-		hkmpc[i] = fHistK0MassPtCut->Clone();
+		hkmpc[i] = (TH3F*)fHistK0MassPtCut->Clone();
 		//~ hkmpc[i]->Sumw2();
 		hkmpc[i]->GetZaxis()->SetRange(i+1,i+1);
 		
 		//projekcie podla jednotlivych cutov do xy roviny - mass-pt
-		hkmpc_2D[i] = hkmpc[i]->Project3D("xy");
+		hkmpc_2D[i] = (TH2D*)hkmpc[i]->Project3D("xy");
 		
 		//priprava na projekcie podla pt binov
 		TH2D **hkmpc_2D_pt = new TH2D*[lPocetPtBinov];
 		TH1D **hkmpc_pt_1D = new TH1D*[lPocetPtBinov];
 		TH1D **tmp = new TH1D*[lPocetPtBinov];
 		
-		sprintf(legendaK,"invariantna hmotnost po aplikovani %d.cutu",i+1);
+		sprintf(legendaK,"invariantna hmotnost K^{0}_{S} po aplikovani %d.cutu",i+1);
 
 		if (i==lPocetCutov-1){
 			canvas->cd(1);
 			hkmpc_2D[i]->DrawCopy();
 		}
 
-		for (Int_t j = 0; j<lPocetPtBinov; j++)
+		for (Int_t j = 4; j<lPocetPtBinov; j++)
 		{
-			hkmpc_2D_pt[j] = hkmpc_2D[i]->Clone();
+			hkmpc_2D_pt[j] = (TH2D*)hkmpc_2D[i]->Clone();
 			hkmpc_2D_pt[j] -> GetXaxis()->SetRange(j+1,j+1);
-			hkmpc_pt_1D[j] = hkmpc_2D_pt[j]->ProjectionY();
-			hkmpc_pt_1D[j] -> SetFillColor(i+1);
+			hkmpc_pt_1D[j] = (TH1D*) hkmpc_2D_pt[j]->ProjectionY();
+			/*hkmpc_pt_1D[j] -> SetFillColor(i+1);
 			hkmpc_pt_1D[j] -> SetLineColor(i+1);
-			hkmpc_pt_1D[j] -> SetFillStyle(3001);
+			hkmpc_pt_1D[j] -> SetFillStyle(3001);*/
 			
-			tmp[j] = hkmpc_pt_1D[j]->Clone();
+			tmp[j] = (TH1D* )hkmpc_pt_1D[j]->Clone();
 			lgK[j].AddEntry(tmp[j],legendaK,"f");	
 			
 			
@@ -114,7 +114,7 @@ void Hist(){
 			
 			//pad->SetLogy();
 			
-			if (i==0)
+			/*if (i==0)
 			{
 				sprintf(nazovK,"Invaraintna hmotnost K^{0}_{S}, %d. p_{T} bin", j+1); 
 				hkmpc_pt_1D[j]->SetTitle(nazovK);
@@ -133,13 +133,13 @@ void Hist(){
 			else
 			{
 				hkmpc_pt_1D[j]->DrawCopy("SAME");
-			}
+			}*/
 			
 			if (i==lPocetCutov-1) {
 				lgK[j].Draw();
-				/*TPad *ppaf =*/ afin->cd(j+1);
+				/*TPad *ppaf =*/ afin->cd(j-3);
 				//ppaf->SetLogy();
-				sprintf(titleK,"Invariantna hmotnost K^{0} po vsetkych cutoch, i=%d",i+1);
+				sprintf(titleK,"Invariantna hmotnost K^{0} po vsetkych cutoch, i=%d, pt bin %d",i+1, j);
 				hkmpc_pt_1D[j]->SetTitle(titleK);
 				hkmpc_pt_1D[j]->DrawCopy();
 			}
@@ -160,10 +160,10 @@ void Hist(){
 	//=====inv. hmotnost Lambda ==========
 	
 	TCanvas *b = new TCanvas;
-	b->Divide(2,2);
+	b->Divide(2,3);
 			
 	TCanvas *bfin = new TCanvas;
-	bfin->Divide(2,2);
+	bfin->Divide(2,3);
 	
 	TLegend *lgL = new TLegend[lPocetPtBinov];
 	
@@ -173,14 +173,14 @@ void Hist(){
 	
 	TH3F **hlmpc = new TH3F*[lPocetCutov];
 	TH2D **hlmpc_2D = new TH2D*[lPocetCutov];
-	for (Int_t i = 0; i<lPocetCutov; i++)
+	for (Int_t i = 6; i<lPocetCutov; i++)
 	{	
-		hlmpc[i] = fHistLambdaMassPtCut->Clone();
+		hlmpc[i] = (TH3F*)fHistLambdaMassPtCut->Clone();
 		//~ hlmpc[i]->Sumw2();
 		hlmpc[i]->GetZaxis()->SetRange(i+1,i+1);
 		
 		//projekcie podla jednotlivych cutov do xy roviny - mass-pt
-		hlmpc_2D[i] = hlmpc[i]->Project3D("xy");
+		hlmpc_2D[i] = (TH2D*)hlmpc[i]->Project3D("xy");
 		
 		//priprava na projekcie podla pt binov
 		TH2D **hlmpc_2D_pt = new TH2D*[lPocetPtBinov];
@@ -194,24 +194,24 @@ void Hist(){
 			hlmpc_2D[i]->DrawCopy();
 		}
 		
-		for (Int_t j = 0; j<lPocetPtBinov; j++)
+		for (Int_t j = 4; j<lPocetPtBinov; j++)
 		{
 			
-			hlmpc_2D_pt[j] = hlmpc_2D[i]->Clone();
+			hlmpc_2D_pt[j] = (TH2D*)hlmpc_2D[i]->Clone();
 			hlmpc_2D_pt[j] -> GetXaxis()->SetRange(j+1,j+1);
-			hlmpc_pt_1D[j] = hlmpc_2D_pt[j]->ProjectionY();
-			hlmpc_pt_1D[j] -> SetFillColor(i+1);
+			hlmpc_pt_1D[j] = (TH1D*) hlmpc_2D_pt[j]->ProjectionY();
+			/*hlmpc_pt_1D[j] -> SetFillColor(i+1);
 			hlmpc_pt_1D[j] -> SetLineColor(i+1);
-			hlmpc_pt_1D[j] -> SetFillStyle(3001);
+			hlmpc_pt_1D[j] -> SetFillStyle(3001);*/
 			
-			tmp[j] = hlmpc_pt_1D[j]->Clone();
+			tmp[j] = (TH1D*) hlmpc_pt_1D[j]->Clone();
 			lgL[j].AddEntry(tmp[j],legendaL,"f");
 			
 			
 			
 			/*TPad *ppb =*/ b->cd(j+1);
 			//ppb->SetLogy();
-			if (i==0)
+			/*if (i==0)
 			{
 				sprintf(nazovL,"Invaraintna hmotnost #Lambda, %d. p_{T} bin", j+1); 
 				hlmpc_pt_1D[j]->SetTitle(nazovL);
@@ -228,12 +228,12 @@ void Hist(){
 			else
 			{
 				hlmpc_pt_1D[j]->DrawCopy("SAME");								
-			}
+			}*/
 			
 			if(i==lPocetCutov-1) {
 				//printf("pocet cutov =%d, j=%d\n", lPocetCutov,j);
 				lgL[j].Draw();
-				/*TPad *pp =*/ bfin->cd(j+1);
+				/*TPad *pp =*/ bfin->cd(j-3);
 				//pp->SetLogy();
 				sprintf(titleL,"Invariantna hmotnost #Lambda po aplikovani vsetkych cutov, i=%d", i+1);
 				hlmpc_pt_1D[j]->SetTitle(titleL);
@@ -250,10 +250,10 @@ void Hist(){
 	//=====inv. hmotnost AntiLambda ==========
 	
 	TCanvas *d = new TCanvas;
-	d->Divide(2,2);
+	d->Divide(2,3);
 			
 	TCanvas *dfin = new TCanvas;
-	dfin->Divide(2,2);
+	dfin->Divide(2,3);
 	
 	TLegend *lgAl = new TLegend[lPocetPtBinov];
 	
@@ -263,14 +263,14 @@ void Hist(){
 	
 	TH3F **halmpc = new TH3F*[lPocetCutov];
 	TH2D **halmpc_2D = new TH2D*[lPocetCutov];
-	for (Int_t i = 0; i<lPocetCutov; i++)
+	for (Int_t i = 6; i<lPocetCutov; i++)
 	{	
-		halmpc[i] = fHistAntiLambdaMassPtCut->Clone();
+		halmpc[i] = (TH3F*) fHistAntiLambdaMassPtCut->Clone();
 		//~ hlmpc[i]->Sumw2();
 		halmpc[i]->GetZaxis()->SetRange(i+1,i+1);
 		
 		//projekcie podla jednotlivych cutov do xy roviny - mass-pt
-		halmpc_2D[i] = halmpc[i]->Project3D("xy");
+		halmpc_2D[i] = (TH2D*) halmpc[i]->Project3D("xy");
 		
 		//priprava na projekcie podla pt binov
 		TH2D **halmpc_2D_pt = new TH2D*[lPocetPtBinov];
@@ -284,24 +284,24 @@ void Hist(){
 			halmpc_2D[i]->DrawCopy();
 		}
 		
-		for (Int_t j = 0; j<lPocetPtBinov; j++)
+		for (Int_t j = 4; j<lPocetPtBinov; j++)
 		{
 			
-			halmpc_2D_pt[j] = halmpc_2D[i]->Clone();
+			halmpc_2D_pt[j] = (TH2D*) halmpc_2D[i]->Clone();
 			halmpc_2D_pt[j] -> GetXaxis()->SetRange(j+1,j+1);
-			halmpc_pt_1D[j] = halmpc_2D_pt[j]->ProjectionY();
-			halmpc_pt_1D[j] -> SetFillColor(i+1);
+			halmpc_pt_1D[j] = (TH1D*) halmpc_2D_pt[j]->ProjectionY();
+			/*halmpc_pt_1D[j] -> SetFillColor(i+1);
 			halmpc_pt_1D[j] -> SetLineColor(i+1);
-			halmpc_pt_1D[j] -> SetFillStyle(3001);
+			halmpc_pt_1D[j] -> SetFillStyle(3001);*/
 			
-			tmp[j] = halmpc_pt_1D[j]->Clone();
+			tmp[j] = (TH1D*) halmpc_pt_1D[j]->Clone();
 			lgAl[j].AddEntry(tmp[j],legendaAl,"f");
 			
 			
 			
 			/*TPad *ppd =*/ d->cd(j+1);
 			//ppb->SetLogy();
-			if (i==0)
+			/*if (i==0)
 			{
 				sprintf(nazovAl,"Invaraintna hmotnost #bar{#Lambda}, %d. p_{T} bin", j+1); 
 				halmpc_pt_1D[j]->SetTitle(nazovAl);
@@ -318,12 +318,12 @@ void Hist(){
 			else
 			{
 				halmpc_pt_1D[j]->DrawCopy("SAME");								
-			}
+			}*/
 			
 			if(i==lPocetCutov-1) {
 				//printf("pocet cutov =%d, j=%d\n", lPocetCutov,j);
 				lgAl[j].Draw();
-				/*TPad *ppdd =*/ dfin->cd(j+1);
+				/*TPad *ppdd =*/ dfin->cd(j-3);
 				//pp->SetLogy();
 				sprintf(titleAl,"Invariantna hmotnost #bar{#Lambda} po aplikovani vsetkych cutov, i=%d", i+1);
 				halmpc_pt_1D[j]->SetTitle(titleAl);

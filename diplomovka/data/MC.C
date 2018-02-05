@@ -2,19 +2,22 @@
 
 void MC(){
 
-	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_01.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC15+16.root");  //MC2015c_Grid02.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
-	TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
+	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 
     TH3D *fHistMCPtAs = (TH3D*)list->FindObject("fHistMCPtAs");
     TH3D *fHistRCPtAs = (TH3D*)list->FindObject("fHistRCPtAs");
+    
+    TH3D *fHistMCPtTrigg = (TH3D*)list->FindObject("fHistMCPtTrigg");
+    TH3D *fHistRCPtTrigg = (TH3D*)list->FindObject("fHistRCPtTrigg");
     
     THnSparseF *fHistGenV0 = (THnSparseF*)list->FindObject("fHistGenV0");
     THnSparseF *fHistRecV0 = (THnSparseF*)list->FindObject("fHistRecV0");
 
     TCanvas *c1 = new TCanvas("c1","",600,800);
-	pad1 = new TPad("pad1","This is pad1",0.001,0.3,0.999,0.999);
-	pad2 = new TPad("pad2","This is pad2",0.001,0.001,0.999,0.3);
+	TPad* pad1 = new TPad("pad1","This is pad1",0.001,0.3,0.999,0.999);
+	TPad* pad2 = new TPad("pad2","This is pad2",0.001,0.001,0.999,0.3);
 	Printf ("x %d y %d z %d\n",fHistRCPtAs->GetXaxis()->GetNbins(),fHistRCPtAs->GetYaxis()->GetNbins(),fHistRCPtAs->GetZaxis()->GetNbins());
 	pad1->SetMargin(0.1,0.1,0,0.1);  
 	pad2->SetMargin(0.1,0.1,0.2,0);
@@ -26,6 +29,11 @@ void MC(){
     fHistMCPtAs->RebinY(2);
     fHistRCPtAs->RebinZ(4);
     fHistRCPtAs->RebinY(2);
+    
+    fHistMCPtTrigg->RebinZ(4);
+    fHistMCPtTrigg->RebinY(2);
+    fHistRCPtTrigg->RebinZ(4);
+    fHistRCPtTrigg->RebinY(2);
     
     //fHistMCPtAs->Sumw2();
     TH1D *fHistMCPtAsPojX = fHistMCPtAs->ProjectionX();
@@ -69,8 +77,8 @@ void MC(){
     fHistRCPtAsProjX->Fit("fiting");
 
     TCanvas *cK0 = new TCanvas("c2","",600,800);
-    padK01 = new TPad("padK01","This is padK01",0.001,0.3,0.999,0.999);
-    padK02 = new TPad("padK02","This is padK02",0.001,0.001,0.999,0.3);
+    TPad* padK01 = new TPad("padK01","This is padK01",0.001,0.3,0.999,0.999);
+    TPad* padK02 = new TPad("padK02","This is padK02",0.001,0.001,0.999,0.3);
     
     padK01->SetMargin(0.1,0.1,0,0.1);
     padK02->SetMargin(0.1,0.1,0.2,0);
@@ -119,8 +127,8 @@ void MC(){
     fHistGenV0->GetAxis(2)->SetRange(-1,0);
     
     TCanvas *cLam = new TCanvas("c3","",600,800);
-    padLam1 = new TPad("padLam1","This is padLam1",0.001,0.3,0.999,0.999);
-    padLam2 = new TPad("padLam2","This is padLam2",0.001,0.001,0.999,0.3);
+    TPad* padLam1 = new TPad("padLam1","This is padLam1",0.001,0.3,0.999,0.999);
+    TPad* padLam2 = new TPad("padLam2","This is padLam2",0.001,0.001,0.999,0.3);
     
     padLam1->SetMargin(0.1,0.1,0,0.1);
     padLam2->SetMargin(0.1,0.1,0.2,0);
@@ -138,7 +146,7 @@ void MC(){
     histV0GenLam->SetMarkerColor(kMagenta);
     histV0GenLam->SetLineColor(kMagenta);
     //histV0GenLam->SetAxisRange(0,4000,"y");
-    histV0GenLam->SetTitle("ucinnost rekonstrukcie  #Lambda + #bar{#Lambda}");
+    histV0GenLam->SetTitle("ucinnost rekonstrukcie  #Lambda");
     histV0GenLam->DrawCopy();
     
     
@@ -152,8 +160,8 @@ void MC(){
     histV0RecLam->DrawCopy("same");
     
     TLegend *lg3 = new TLegend(0.2,0.9,0.75,0.8);
-    lg3->AddEntry(histV0GenLam,"MC generovane #Lambda + #bar{#Lambda}","pl");
-    lg3->AddEntry(histV0RecLam,"rekonstruovane MC #Lambda + #bar{#Lambda}","pl");
+    lg3->AddEntry(histV0GenLam,"MC generovane #Lambda","pl");
+    lg3->AddEntry(histV0RecLam,"rekonstruovane MC #Lambda ","pl");
     lg3->Draw();
     
     
@@ -165,11 +173,66 @@ void MC(){
     histV0RecLam->SetStats(kFALSE);
     histV0RecLam->DrawCopy();
     
-    TFile *fNewFile = TFile::Open("Efiiciency.root","RECREATE");
+    fHistRecV0->GetAxis(2)->SetRange(-1,0);
+    fHistGenV0->GetAxis(2)->SetRange(-1,0);
+    
+    TCanvas *cALam = new TCanvas("c5","",600,800);
+    TPad* padALam1 = new TPad("padALam1","This is padALam1",0.001,0.3,0.999,0.999);
+    TPad* padALam2 = new TPad("padALam2","This is padALam2",0.001,0.001,0.999,0.3);
+    
+    padALam1->SetMargin(0.1,0.1,0,0.1);
+    padALam2->SetMargin(0.1,0.1,0.2,0);
+    
+    padALam1->Draw();
+    padALam2->Draw();
+    
+    padALam1->cd();
+    
+    fHistGenV0->GetAxis(2)->SetRange(3,3);
+    TH1D *histV0GenALam = fHistGenV0->Projection(0);
+    histV0GenALam->SetName("histV0GenALam");
+    histV0GenALam->SetMarkerStyle(23);
+    histV0GenALam->SetMarkerSize(1.5);
+    histV0GenALam->SetMarkerColor(kMagenta);
+    histV0GenALam->SetLineColor(kMagenta);
+    //histV0GenLam->SetAxisRange(0,4000,"y");
+    histV0GenALam->SetTitle("ucinnost rekonstrukcie #bar{#Lambda}");
+    histV0GenALam->DrawCopy();
+    
+    
+    fHistRecV0->GetAxis(2)->SetRange(3,3);
+    TH1D *histV0RecALam = fHistRecV0->Projection(0);
+    histV0RecALam->SetName("histV0RecALam");
+    histV0RecALam->SetMarkerStyle(23);
+    histV0RecALam->SetMarkerSize(1.5);
+    histV0RecALam->SetMarkerColor(kBlue);
+    histV0RecALam->SetLineColor(kBlue);
+    histV0RecALam->DrawCopy("same");
+    
+    TLegend *lg4 = new TLegend(0.2,0.9,0.75,0.8);
+    lg4->AddEntry(histV0GenALam,"MC generovane #bar{#Lambda}","pl");
+    lg4->AddEntry(histV0RecALam,"rekonstruovane #bar{#Lambda}","pl");
+    lg4->Draw();
+    
+    
+    padALam2->cd();
+    histV0RecALam->Divide(histV0GenALam);
+    histV0RecALam->SetXTitle("p_{T} (GeV)");
+    histV0RecALam->SetTitle("");
+    histV0RecALam->SetYTitle("");
+    histV0RecALam->SetStats(kFALSE);
+    histV0RecALam->DrawCopy();
+    
+    TFile *fNewFile = TFile::Open("EfiiciencyMC15+16.root","RECREATE");  //MC2015c_Grid02.root","RECREATE");
     fHistRCPtAs->Divide(fHistMCPtAs);
     TCanvas * cccc = new TCanvas;
     fHistRCPtAs->DrawCopy("colz");
     fHistRCPtAs->Write();
+    
+    fHistRCPtTrigg->Divide(fHistMCPtTrigg);
+    TCanvas * ccccc = new TCanvas;
+    fHistRCPtTrigg->DrawCopy("colz");
+    fHistRCPtTrigg->Write();
     
     fHistGenV0->GetAxis(2)->SetRange(1,1);
     TH3D *fHistGenV03DK0 = fHistGenV0->Projection(0,1,3);
@@ -177,8 +240,14 @@ void MC(){
     fHistRecV0->GetAxis(2)->SetRange(1,1);
     TH3D *fHistRecV03DK0 = fHistRecV0->Projection(0,1,3);
     fHistRecV03DK0->SetName("fHistRecV03DK0");
+    
+    fHistGenV03DK0->RebinZ(4);
+    fHistGenV03DK0->RebinY(2);
+    fHistRecV03DK0->RebinZ(4);
+    fHistRecV03DK0->RebinY(2);
+    
     fHistRecV03DK0->Divide(fHistGenV03DK0);
-    fHistGenV03DK0->Write();
+    fHistRecV03DK0->Write();
     
     fHistGenV0->GetAxis(2)->SetRange(-1,0);
     fHistRecV0->GetAxis(2)->SetRange(-1,0);
@@ -189,8 +258,29 @@ void MC(){
     fHistRecV0->GetAxis(2)->SetRange(2,2);
     TH3D *fHistRecV03DLam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DLam->SetName("fHistRecV03DLam");
+    
+    fHistGenV03DLam->RebinZ(4);
+    fHistGenV03DLam->RebinY(2);
+    fHistRecV03DLam->RebinZ(4);
+    fHistRecV03DLam->RebinY(2);
+    
     fHistRecV03DLam->Divide(fHistGenV03DLam);
     fHistRecV03DLam->Write();
+    
+    fHistGenV0->GetAxis(2)->SetRange(3,3);
+    TH3D *fHistGenV03DALam = fHistGenV0->Projection(0,1,3);
+    fHistGenV03DALam->SetName("fHistGenV03DAntiLam");
+    fHistRecV0->GetAxis(2)->SetRange(3,3);
+    TH3D *fHistRecV03DALam = fHistRecV0->Projection(0,1,3);
+    fHistRecV03DALam->SetName("fHistRecV03DAntiLam");
+    
+    fHistGenV03DALam->RebinZ(4);
+    fHistGenV03DALam->RebinY(2);
+    fHistRecV03DALam->RebinZ(4);
+    fHistRecV03DALam->RebinY(2);
+    
+    fHistRecV03DALam->Divide(fHistGenV03DALam);
+    fHistRecV03DALam->Write();
     
     fNewFile->Close();
 }

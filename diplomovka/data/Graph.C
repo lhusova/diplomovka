@@ -3,8 +3,9 @@
 void Graph(){
 
     gStyle->SetOptStat(0000000000);
-    TFile *g =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMCGen01.root");
-    TFile *f =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphData02.root");
+    TFile *g =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMCDataLikeNove.root");
+    TFile *f =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphDataNove.root");
+                            //DataNove.root");
 
     TGraphErrors *fGraphMCK0 = (TGraphErrors*) g->Get("fGraphK0Near");
     TGraphErrors *fGraphDataK0 = (TGraphErrors*) f->Get("fGraphK0Near");
@@ -34,12 +35,12 @@ void Graph(){
     fGraphMCK0->SetLineColor(kMagenta);
 
     TLegend *lg = new TLegend(0.2,0.9,0.75,0.8);
-	lg->AddEntry(fGraphDataK0," realne rekonstruovane data","pl");
-	lg->AddEntry(fGraphMCK0,"MC gen","pl");//MC rekonstruovane data","pl");
+    lg->AddEntry(fGraphDataK0,"realne data","pl");
+	lg->AddEntry(fGraphMCK0,"MC(Data Like) rekonstruovane data","pl");
 
      TCanvas *c1 = new TCanvas("c1","",600,800);
-	pad1 = new TPad("pad1","This is pad1",0.001,0.3,0.999,0.999);
-	pad2 = new TPad("pad2","This is pad2",0.001,0.001,0.999,0.3);
+	TPad * pad1 = new TPad("pad1","This is pad1",0.001,0.3,0.999,0.999);
+	TPad * pad2 = new TPad("pad2","This is pad2",0.001,0.001,0.999,0.3);
 	
 	pad1->SetMargin(0.1,0.1,0,0.1);  
 	pad2->SetMargin(0.1,0.1,0.2,0);
@@ -50,8 +51,8 @@ void Graph(){
      
     fGraphMCK0->GetXaxis()->SetRangeUser(4,15);
     fGraphMCK0->SetTitle("Porovnanie zavislosti vytazkov od p_{T}^{trig} pre K^{0}_{S}");
-    fGraphMCK0->GetYaxis()->SetTitleSize(0.045);
-
+    fGraphMCK0->GetYaxis()->SetTitleSize(0.04);
+    fGraphMCK0->GetYaxis()->SetRangeUser(0,1);
 
     fGraphMCK0->Draw("ap");
     fGraphDataK0->Draw("pSAME");
@@ -103,12 +104,12 @@ void Graph(){
     fGraphDataLambda->SetLineColor(kBlue);
 
     TLegend *lg1 = new TLegend(0.2,0.9,0.75,0.8);
-	lg1->AddEntry(fGraphDataLambda,"realne rekonstruovane data","pl");
-	lg1->AddEntry(fGraphMCLambda,"MC gen","pl");//MC rekonstruovane data","pl");
+    lg1->AddEntry(fGraphDataLambda,"realne data","pl");
+	lg1->AddEntry(fGraphMCLambda,"MC(DataLike) rekonstruovane data","pl");
 
     TCanvas *c2 = new TCanvas("c2","",600,800);
-	pad21 = new TPad("pad21","This is pad21",0.001,0.3,0.999,0.999);
-	pad22 = new TPad("pad22","This is pad22",0.001,0.001,0.999,0.3);
+	TPad * pad21 = new TPad("pad21","This is pad21",0.001,0.3,0.999,0.999);
+	TPad * pad22 = new TPad("pad22","This is pad22",0.001,0.001,0.999,0.3);
 	
 	pad21->SetMargin(0.1,0.1,0,0.1);  
 	pad22->SetMargin(0.1,0.1,0.2,0);
@@ -120,8 +121,8 @@ void Graph(){
     fGraphDataLambda->GetXaxis()->SetRangeUser(4,15);
     fGraphDataLambda->SetTitle("Porovnanie zavislosti vytazkov od p_{T}^{trig} pre #Lambda a #bar{#Lambda}");
     fGraphDataLambda->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
-    fGraphDataLambda->GetYaxis()->SetTitleSize(0.045);
-
+    fGraphDataLambda->GetYaxis()->SetTitleSize(0.04);
+    fGraphDataLambda->GetYaxis()->SetRangeUser(0,1);
 
     fGraphDataLambda->Draw("ap");
     fGraphMCLambda->Draw("pSAME");
@@ -236,12 +237,12 @@ void Graph(){
     fGraphDataH->SetLineColor(kBlue);
 
     TLegend *lg3 = new TLegend(0.2,0.9,0.75,0.8);
-	lg3->AddEntry(fGraphDataH,"realne rekonstruovane data","pl");
-	lg3->AddEntry(fGraphMCH,"MC gen","pl");//MC rekonstruovane data","pl");	
+    lg3->AddEntry(fGraphDataH,"realne data","pl");
+	lg3->AddEntry(fGraphMCH,"MC(DataLike) rekonstruovane data","pl");
 
     TCanvas *c4 = new TCanvas("c4","",600,800);
-	pad31 = new TPad("pad31","This is pad31",0.001,0.3,0.999,0.999);
-	pad32 = new TPad("pad32","This is pad32",0.001,0.001,0.999,0.3);
+	TPad * pad31 = new TPad("pad31","This is pad31",0.001,0.3,0.999,0.999);
+	TPad * pad32 = new TPad("pad32","This is pad32",0.001,0.001,0.999,0.3);
 	
 	pad31->SetMargin(0.1,0.1,0,0.1);  
 	pad32->SetMargin(0.1,0.1,0.2,0);
@@ -253,8 +254,8 @@ void Graph(){
     fGraphMCH->GetXaxis()->SetRangeUser(4,15);
     fGraphMCH->SetTitle("Porovnanie zavislosti vytazkov od p_{T}^{trig} pre nabity hadron ");
     fGraphMCH->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
-    fGraphMCH->GetYaxis()->SetTitleSize(0.045);
-
+    fGraphMCH->GetYaxis()->SetTitleSize(0.04);
+    fGraphMCH->GetYaxis()->SetRangeUser(0,1);
 
     fGraphMCH->Draw("ap");
     fGraphDataH->Draw("pSAME");

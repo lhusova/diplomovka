@@ -40,7 +40,7 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         void                    SetPtTrigMin(Double_t var) {fPtTrigMin=var;}
         void                    SetPtAsocMin(Double_t var) {fPtAsocMin=var;}
         void                    Corelations(TObjArray *triggers, TObjArray *associated, THnSparse * fHistKor, Double_t lPVz,THnSparse* fHistNumOfTrig,Bool_t hh,Bool_t V0h);
-        void                    CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz,Bool_t mcAnalysis);
+        void                    CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz);
     private:
         AliAODEvent*            fAOD;           		//! input event
         AliPIDResponse*         fPIDResponse;           //!
@@ -60,6 +60,7 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         TH3D*                   fHistRCPtAs;            //!
         THnSparse*              fHistNumberOfTriggers;  //!
         THnSparse*              fHistMCKorelacie;       //!
+        THnSparse*              fHistMCMixingRec;       //!
 
         Bool_t          			  fFillMixed;  // enable event mixing (default: ON)
         Int_t           			  fMixingTracks;      // size of track buffer for event mixing
@@ -77,6 +78,9 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
     
         THnSparse* fHistRecV0; //!
         THnSparse* fHistGenV0; //!
+    
+        TH3D*                   fHistMCPtTrigg;            //!
+        TH3D*                   fHistRCPtTrigg;            //!
 
         AliAnalysisTaskMyTask(const AliAnalysisTaskMyTask&); // not implemented
         AliAnalysisTaskMyTask& operator=(const AliAnalysisTaskMyTask&); // not implemented

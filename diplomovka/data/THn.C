@@ -5,20 +5,22 @@
 #include <TFile.h>
 #include "TMath.h"
 
-void THn(Bool_t isMC=kFALSE){
+void THn(){
 	gStyle->SetOptStat(0000000000);
 
-	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_01.root");
-	TList *list = g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC_Najnovsie2.root");
+	TList *list = (TList*) g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
     
     TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/Efiiciency.root");
     TH3D *fHistRCPtAs = (TH3D*) gg->Get("fHistRCPtAs");
 	
-    if(isMC) THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
-	else THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistMCKorelacie");
+     //THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
+	//else
+    THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacie");
 	THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistdPhidEtaMix");
-    if(isMC) THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersRec");
-    else THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersGen");
+   // THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersRec");
+   // else
+    THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggers");
 
 	const Double_t kPi = TMath::Pi();
 
@@ -61,7 +63,7 @@ void THn(Bool_t isMC=kFALSE){
      }
 
 	for(Int_t i=0;i<nPtBins;i++){
-		fHistPartClone[i]=fHistNumberOfTriggers->Clone();
+		fHistPartClone[i]=(THnSparse * )fHistNumberOfTriggers->Clone();
 		if (i==0) fHistPartClone[i]->GetAxis(0)->SetRange(1,1);
 		if (i==1) fHistPartClone[i]->GetAxis(0)->SetRange(2,2);
 		if (i==2) fHistPartClone[i]->GetAxis(0)->SetRange(3,3);
@@ -83,7 +85,7 @@ void THn(Bool_t isMC=kFALSE){
 	char hnamemulti[100];
 
 	for (Int_t i=0; i<nTig; i++){
-		fHistMultiClone[i]=fHistNumberOfTriggers->Clone();
+		fHistMultiClone[i]=(THnSparse * )fHistNumberOfTriggers->Clone();
 		if(i==0) fHistMultiClone[i]->GetAxis(1)->SetRange(1,1);
 		if(i==1) fHistMultiClone[i]->GetAxis(1)->SetRange(2,3);
 		if(i==2) fHistMultiClone[i]->GetAxis(1)->SetRange(4,4);
@@ -112,12 +114,12 @@ void THn(Bool_t isMC=kFALSE){
 	
 
 	for(Int_t i=0;i<nTig;i++){
-		fHistCorType[i]=fHistKorelacie->Clone();
+		fHistCorType[i]=(THnSparse*)fHistKorelacie->Clone();
 		if(i==0) fHistCorType[i]->GetAxis(5)->SetRange(i+1,i+1);
 		if(i==1) fHistCorType[i]->GetAxis(5)->SetRange(i+1,i+2);
 		if(i==2) fHistCorType[i]->GetAxis(5)->SetRange(i+2,i+2);
 		for(Int_t j=0;j<nPtBins;j++){
-			fHistRangePt[i*nPtBins+j]=fHistCorType[i]->Clone();
+			fHistRangePt[i*nPtBins+j]=(THnSparse*)fHistCorType[i]->Clone();
 
 			if (j==0) fHistRangePt[i*nPtBins+j]->GetAxis(0)->SetRange(1,1);
 			if (j==1) fHistRangePt[i*nPtBins+j]->GetAxis(0)->SetRange(2,2);
@@ -167,7 +169,7 @@ void THn(Bool_t isMC=kFALSE){
                         if (k3D==9&&sclale[9][l3D][m]!=0) proj2DRac->Scale(1./sclale[9][l3D][m]);
                          //Printf("%g %d %d %d \n",sclale[k3D][l3D][m],k,l,m);
                         
-                        if (nHist==0) fHistRangePtProjPhiEta[i*nPtBins+j] =proj2DRac->Clone();
+                        if (nHist==0) fHistRangePtProjPhiEta[i*nPtBins+j] =( TH2D *)proj2DRac->Clone();
                         else fHistRangePtProjPhiEta[i*nPtBins+j]->Add(proj2DRac);
                         nHist+=1;
                         
@@ -207,7 +209,7 @@ void THn(Bool_t isMC=kFALSE){
 	d->Divide(nPtBins,nTig);
 
 	for(Int_t i=0;i<nTig;i++){
-		fHistMixType[i]=fHistdPhidEtaMix->Clone();
+		fHistMixType[i]=(THnSparse*)fHistdPhidEtaMix->Clone();
 		if(i==0) fHistMixType[i]->GetAxis(5)->SetRange(1,1);
 		if(i==1) fHistMixType[i]->GetAxis(5)->SetRange(2,3);
 		if(i==2) fHistMixType[i]->GetAxis(5)->SetRange(4,4);
@@ -264,7 +266,7 @@ void THn(Bool_t isMC=kFALSE){
 	Double_t poz=0;
 
 	TH1D **fHistBack = new TH1D*[nTig];
-	TFile *fFile = TFile::Open("GraphMCGen01.root","RECREATE");
+	TFile *fFile = TFile::Open("GraphMCDataLikeNove.root","RECREATE");
 	
 
 	for(Int_t i=0; i<nTig;i++){ //i - type of Trigger particle
@@ -451,7 +453,7 @@ void THn(Bool_t isMC=kFALSE){
 	fGraphK0Near->SetMarkerColor(kBlue);
 	fGraphK0Near->SetMarkerSize(1.8);
 	fGraphK0Near->SetLineColor(kBlue);
-	fGraphK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik (MC generovane)");
+	fGraphK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik (MC Data like)");
 	fGraphK0Near->GetXaxis()->SetTitle("p_{T} (GeV/c)");
 	fGraphK0Near->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
 	fGraphK0Near->GetYaxis()->SetRangeUser(-0.1,1);
@@ -488,7 +490,7 @@ void THn(Bool_t isMC=kFALSE){
 	fGraphK0Away->SetMarkerStyle(23);
 	fGraphK0Away->SetMarkerColor(kBlue);
 	fGraphK0Away->SetMarkerSize(1.8);
-	fGraphK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik (MC generovane)");
+	fGraphK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik (MC Data Like)");
 	fGraphK0Away->GetXaxis()->SetTitle("p_{T} (GeV/c)");
 	fGraphK0Away->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
 	fGraphK0Away->SetLineColor(kBlue);
