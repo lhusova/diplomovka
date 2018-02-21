@@ -2,7 +2,7 @@
 
 void MC(){
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC15+16.root");  //MC2015c_Grid02.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015a+c_01.root ");  //MC2015c_Grid02.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
 	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 
@@ -74,7 +74,7 @@ void MC(){
     TF1 *f1 = new TF1("fiting","[0]",0,15);
     f1->SetParameter(0,0.8);
     //f1->Draw();
-    fHistRCPtAsProjX->Fit("fiting");
+    //fHistRCPtAsProjX->Fit("fiting");
 
     TCanvas *cK0 = new TCanvas("c2","",600,800);
     TPad* padK01 = new TPad("padK01","This is padK01",0.001,0.3,0.999,0.999);
@@ -223,7 +223,35 @@ void MC(){
     histV0RecALam->SetStats(kFALSE);
     histV0RecALam->DrawCopy();
     
-    TFile *fNewFile = TFile::Open("EfiiciencyMC15+16.root","RECREATE");  //MC2015c_Grid02.root","RECREATE");
+    TCanvas *canvas = new TCanvas;
+    
+    histV0RecK0->SetMarkerColor(kGreen);
+    fHistRCPtAsProjX->GetYaxis()->SetRangeUser(0.,0.9);
+    histV0RecK0->SetMarkerStyle(20);
+    histV0RecK0->SetLineColor(kGreen);
+    histV0RecLam->SetMarkerColor(28);
+    histV0RecLam->SetMarkerStyle(21);
+    histV0RecLam->SetLineColor(28);
+    histV0RecALam->SetMarkerStyle(22);
+    fHistRCPtAsProjX->SetMarkerColor(kRed);
+    fHistRCPtAsProjX->SetLineColor(kRed);
+    
+    fHistRCPtAsProjX->SetXTitle("p_T (GeV/c)");
+    fHistRCPtAsProjX->SetTitle("Ucinnost rekonstrukcie");
+    fHistRCPtAsProjX->DrawCopy();
+    histV0RecK0->DrawCopy("same");
+    histV0RecLam->DrawCopy("same");
+    histV0RecALam->DrawCopy("same");
+    
+    TLegend *lg5 = new TLegend(0.2,0.9,0.75,0.8);
+    lg5->AddEntry(histV0RecK0,"K^{0}_{S}","pl");
+    lg5->AddEntry(histV0RecALam," #bar{#Lambda}","pl");
+    lg5->AddEntry(histV0RecLam,"#Lambda","pl");
+    lg5->AddEntry(fHistRCPtAsProjX,"nabity hadron","pl");
+    lg5->Draw();
+    
+    
+    TFile *fNewFile = TFile::Open("EfiiciencyMC15a+c_01.root","RECREATE");  //MC2015c_Grid02.root","RECREATE");
     fHistRCPtAs->Divide(fHistMCPtAs);
     TCanvas * cccc = new TCanvas;
     fHistRCPtAs->DrawCopy("colz");

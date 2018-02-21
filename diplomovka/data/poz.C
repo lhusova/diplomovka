@@ -3,8 +3,8 @@ void poz(){
 
     gStyle->SetOptStat(0000000000);
 
-    TFile *g = new TFile("/home/lhusova/diplomovka/data/vysledky/AnalysisResultsPt24_03.root");
-	TList *list = g->Get("MyTask/MyOutputContainer");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsDataNajnovsie01.root");
+	TList *list = (TList*)g->Get("MyTask/MyOutputContainer");
 
     THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistdPhidEtaMix");
 

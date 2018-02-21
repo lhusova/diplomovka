@@ -39,8 +39,8 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
         void                    SetMCAnalysis(Bool_t var) {fAnalysisMC=var;}
         void                    SetPtTrigMin(Double_t var) {fPtTrigMin=var;}
         void                    SetPtAsocMin(Double_t var) {fPtAsocMin=var;}
-        void                    Corelations(TObjArray *triggers, TObjArray *associated, THnSparse * fHistKor, Double_t lPVz,THnSparse* fHistNumOfTrig,Bool_t hh,Bool_t V0h);
-        void                    CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz);
+        void                    Corelations(TObjArray *triggers, TObjArray *associated, THnSparse * fHistKor, Double_t lPVz,THnSparse* fHistNumOfTrig,Bool_t hh,Bool_t V0h,Float_t perc, Int_t multipl);
+        void                    CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz,Float_t perc, Int_t multipl);
     private:
         AliAODEvent*            fAOD;           		//! input event
         AliPIDResponse*         fPIDResponse;           //!
@@ -81,6 +81,11 @@ class AliAnalysisTaskMyTask : public AliAnalysisTaskSE
     
         TH3D*                   fHistMCPtTrigg;            //!
         TH3D*                   fHistRCPtTrigg;            //!
+        TH1D*                   fHistSelection;            //!
+        TH3D*                   fHistPhiEtaGen;            //!
+        TH3D*                   fHistPhiEtaRec;            //!
+        TH1F*                   fHistMultipPercentile;     //!
+        TH1F*                   fHistMultiplicity;         //!
 
         AliAnalysisTaskMyTask(const AliAnalysisTaskMyTask&); // not implemented
         AliAnalysisTaskMyTask& operator=(const AliAnalysisTaskMyTask&); // not implemented

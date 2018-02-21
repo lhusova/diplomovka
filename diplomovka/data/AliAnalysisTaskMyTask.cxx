@@ -40,6 +40,8 @@
 #include <AliEventPoolManager.h>
 #include <AliMixInputEventHandler.h>
 #include "AliAODMCParticle.h"
+#include "AliMultSelection.h"
+#include "AliPPVsMultUtils.h"
 
 class AliPIDResponse;
 class AliAnalysisTaskMyTask;    // your analysis class
@@ -50,11 +52,11 @@ ClassImp(AliAnalysisTaskMyTask) // classimp: necessary for root
 
 AliAnalysisTaskMyTask::AliAnalysisTaskMyTask() : AliAnalysisTaskSE(), 
     fAOD(0), fPIDResponse(0), fOutputList(0), fHistLambdaMassPtCut(0), fHistK0MassPtCut(0), fHistAntiLambdaMassPtCut(0),
-	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
-	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0), fHistMCMixingRec(0),
-	fFillMixed(kTRUE), 	fMixingTracks(5000), fCentrOrMult(-1), 
+	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
+    fHistMCMixingRec(0), fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
 	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
-    fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0),fHistRecV0(0),fHistGenV0(0),fHistMCPtTrigg(0),fHistRCPtTrigg(0)
+    fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0),fHistRecV0(0),fHistGenV0(0),fHistMCPtTrigg(0),fHistRCPtTrigg(0),fHistSelection(0),
+    fHistMultipPercentile(0), fHistMultiplicity(0)
 {
     // default constructor, don't allocate memory here!
     // this is used by root for IO purposes, it needs to remain empty
@@ -62,11 +64,11 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask() : AliAnalysisTaskSE(),
 //_____________________________________________________________________________
 AliAnalysisTaskMyTask::AliAnalysisTaskMyTask(const char* name) : AliAnalysisTaskSE(name),
     fAOD(0), fPIDResponse(0), fOutputList(0), fHistLambdaMassPtCut(0), fHistK0MassPtCut(0), fHistAntiLambdaMassPtCut(0),
-	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistEtaAssoc(0), fHistEtaTrigg(0), 
-	fHistPhiAssoc(0), fHistPhiTrigg(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0), fHistMCMixingRec(0),
-	fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
+	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistMCPtAs(0), fHistRCPtAs(0),
+    fHistNumberOfTriggers(0), fHistMCMixingRec(0), fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
 	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
-    fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0), fHistRecV0(0),fHistGenV0(0),fHistMCPtTrigg(0), fHistRCPtTrigg(0)
+    fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0), fHistRecV0(0),fHistGenV0(0),fHistMCPtTrigg(0), fHistRCPtTrigg(0), fHistSelection(0),
+    fHistMultipPercentile(0), fHistMultiplicity(0)
 {
     // constructor
     DefineInput(0, TChain::Class());    // define the input of the analysis: in this case we take a 'chain' of events
@@ -115,13 +117,13 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
 		kCuts[i+1]=kCuts[i]+1;
 	}
 
-	Int_t bins[8]= {11,13,144,100,20,7,40,40};
-	Double_t min[8] = {fPtTrigMin,fPtAsocMin, -kPi/2, -2., -10., 0.,-1,-1};
-	Double_t max[8] = {15., 15., -kPi/2+2*kPi, 2., 10., 7.,1,1};
+	Int_t bins[11]= {11,13,144,100,20,7,40,40,72,6,3};
+	Double_t min[11] = {fPtTrigMin,fPtAsocMin, -kPi/2, -2., -10., 0.,-1,-1,0.,1,0};
+	Double_t max[11] = {15., 15., -kPi/2+2*kPi, 2., 10., 7.,1,1, 2*kPi,300,100};
     
-    Int_t binsMix[6] = {11,13,144,100,20,7};
-    Double_t minMix[6] ={fPtTrigMin,fPtAsocMin, -kPi/2, -2., -10., 0.};
-    Double_t maxMix[6] = {15., 15., -kPi/2+2*kPi, 2., 10., 7.};
+    Int_t binsMix[8] = {11,13,144,100,20,7,6,10};
+    Double_t minMix[8] ={fPtTrigMin,fPtAsocMin, -kPi/2, -2., -10., 0.,1,0};
+    Double_t maxMix[8] = {15., 15., -kPi/2+2*kPi, 2., 10., 7.,300,100};
     
 	Int_t  NofCentBins  = 4;
     Double_t MBins[]={0,3,5,15,60.};
@@ -149,9 +151,9 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
  	Double_t vertexBins[] = {-10.,-8.,-6.,-4.,-2.,0.,2.,4.,6.,8.,10.};
     const Double_t* zvtxBins = vertexBins;
 
-	Int_t bins2d[4] = {11,20,40,7};
-	Double_t mis2d[4] = {fPtTrigMin,-10,-1,0.};
-	Double_t maxs2d[4] = {15.,10,1,7.};
+	Int_t bins2d[7] = {11,20,40,7,72,6,3};
+	Double_t mis2d[7] = {fPtTrigMin,-10,-1,0.,0.,1,0};
+	Double_t maxs2d[7] = {15.,10,1,7.,2*kPi,300,100};
 
 
 	
@@ -171,7 +173,7 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
 
     // example of a histogram
     
-    Printf("trig min %g, assoc min %g\n",fPtTrigMin,fPtAsocMin);
+   // Printf("trig min %g, assoc min %g\n",fPtTrigMin,fPtAsocMin);
         
     fHistK0MassPtCut = new TH3F ("fHistK0MassPtCut", "fHistK0MassPtCut", kMassBins, kMassBinsK, 10, kPtBins, kNCuts, kCuts);
     fHistLambdaMassPtCut = new TH3F("fHistLambdaMassPtCut", "fHistLambdaMassPtCut", kMassBins, kMassBinsLambda, 10, kPtBins, kNCuts, kCuts);
@@ -180,34 +182,41 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
     fOutputList->Add(fHistLambdaMassPtCut); 
 	fOutputList->Add(fHistAntiLambdaMassPtCut); 
 
-	fHistKorelacie = new THnSparseF ("fHistKorelacie","fHistKorelacie", 8, bins, min, max);
-	fHistdPhidEtaMix = new THnSparseF ("fHistdPhidEtaMix", "fHistdPhidEtaMix", 6, binsMix, minMix, maxMix);
+	fHistKorelacie = new THnSparseF ("fHistKorelacie","fHistKorelacie", 11, bins, min, max);
+	fHistdPhidEtaMix = new THnSparseF ("fHistdPhidEtaMix", "fHistdPhidEtaMix", 8, binsMix, minMix, maxMix);
 	fOutputList->Add(fHistKorelacie); 
 	fOutputList->Add(fHistdPhidEtaMix);
     
-    fHistMCMixingRec = new THnSparseF ("fHistMCMixingRec", "fHistMCMixingRec", 6, binsMix, minMix, maxMix);
+    fHistMCMixingRec = new THnSparseF ("fHistMCMixingRec", "fHistMCMixingRec", 8, binsMix, minMix, maxMix);
     fOutputList->Add(fHistMCMixingRec);
     fHistMCMixingRec->Sumw2();
 
-    fHistMCKorelacie = new THnSparseF ("fHistMCKorelacie","fHistMCKorelacie", 8, bins, min, max);
+    fHistMCKorelacie = new THnSparseF ("fHistMCKorelacie","fHistMCKorelacie", 11, bins, min, max);
     fOutputList->Add(fHistMCKorelacie);
-    fHistKorelacieMCrec = new THnSparseF ("fHistKorelacieMCrec","fHistKorelacieMCrec", 8, bins, min, max);
+    fHistKorelacieMCrec = new THnSparseF ("fHistKorelacieMCrec","fHistKorelacieMCrec", 11, bins, min, max);
     fOutputList->Add(fHistKorelacieMCrec);
+
+    Double_t varBins1[4] = {0.,10.,50.,100.};
+    Double_t varBins2[7] = {1.,3.,6.,9.,14.,24.,300.};
+    fHistKorelacieMCrec->GetAxis(9)->Set(6, varBins2);
+    fHistKorelacieMCrec->GetAxis(10)->Set(3, varBins1);
+    
+    fHistMCKorelacie->GetAxis(9)->Set(6, varBins2);
+    fHistMCKorelacie->GetAxis(10)->Set(3, varBins1);
+    fHistKorelacie->GetAxis(9)->Set(6, varBins2);
+    fHistKorelacie->GetAxis(10)->Set(3, varBins1);
+    
+    fHistdPhidEtaMix->GetAxis(6)->Set(6, varBins2);
+    fHistdPhidEtaMix->GetAxis(7)->Set(3, varBins1);
+    
+    fHistMCMixingRec->GetAxis(6)->Set(6, varBins2);
+    fHistMCMixingRec->GetAxis(7)->Set(3, varBins1);
 
 	fHistV0Multiplicity = new TH1D ("fHistV0Multiplicity", "fHistV0Multiplicity", 60, 0, 60);
 	fOutputList->Add(fHistV0Multiplicity); 
 
 	fHistMultVtxz = new TH2D ("fHistMultVtxz","fHistMultVtxz",NofCentBins,MBins,NofZVrtxBins,ZBins);
-	fOutputList->Add(fHistMultVtxz); 
-
-	fHistEtaAssoc = new TH1D ("fHistEtaAssoc","fHistEtaAssoc", 50, -1, 1);
-	fHistEtaTrigg = new TH1D ("fHistEtaTrigg", "fHistEtaTrigg", 50, -1, 1);
-	fHistPhiAssoc = new TH1D ("fHistPhiAssoc","fHistPhiAssoc", 72, 0, 2*kPi);
-	fHistPhiTrigg = new TH1D ("fHistPhiTrigg","fHistPhiTrigg", 72, 0, 2*kPi);
-	fOutputList->Add(fHistEtaAssoc);
-	fOutputList->Add(fHistEtaTrigg);
-	fOutputList->Add(fHistPhiAssoc);
-	fOutputList->Add(fHistPhiTrigg);
+	fOutputList->Add(fHistMultVtxz);
 
 	fHistMCPtAs = new TH3D("fHistMCPtAs","fHistMCPtAs",13,fPtAsocMin,15,20,-10,10,40,-1,1);
 	fOutputList->Add(fHistMCPtAs);
@@ -229,14 +238,33 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
     fOutputList->Add(fHistRecV0);
     fHistRecV0->Sumw2();
 
-	fHistNumberOfTriggers = new THnSparseF("fHistNumberOfTriggers","fHistNumberOfTriggers",4,bins2d,mis2d, maxs2d);
+	fHistNumberOfTriggers = new THnSparseF("fHistNumberOfTriggers","fHistNumberOfTriggers",7,bins2d,mis2d, maxs2d);
 	fOutputList->Add(fHistNumberOfTriggers);
-
-    fHistNumberOfTriggersGen = new THnSparseF("fHistNumberOfTriggersGen","fHistNumberOfTriggersGen",4,bins2d,mis2d, maxs2d);
+    fHistNumberOfTriggers->Sumw2();
+    fHistNumberOfTriggersGen = new THnSparseF("fHistNumberOfTriggersGen","fHistNumberOfTriggersGen",7,bins2d,mis2d, maxs2d);
     fOutputList->Add(fHistNumberOfTriggersGen);
-    fHistNumberOfTriggersRec = new THnSparseF("fHistNumberOfTriggersRec","fHistNumberOfTriggersRec",4,bins2d,mis2d, maxs2d);
+    fHistNumberOfTriggersGen->Sumw2();
+    fHistNumberOfTriggersRec = new THnSparseF("fHistNumberOfTriggersRec","fHistNumberOfTriggersRec",7,bins2d,mis2d, maxs2d);
     fOutputList->Add(fHistNumberOfTriggersRec);
-
+    fHistNumberOfTriggersRec->Sumw2();
+    
+    fHistNumberOfTriggersGen->GetAxis(5)->Set(6, varBins2);
+    fHistNumberOfTriggersGen->GetAxis(6)->Set(3, varBins1);
+    fHistNumberOfTriggersRec->GetAxis(5)->Set(6, varBins2);
+    fHistNumberOfTriggersRec->GetAxis(6)->Set(3, varBins1);
+    fHistNumberOfTriggers->GetAxis(5)->Set(6, varBins2);
+    fHistNumberOfTriggers->GetAxis(6)->Set(3, varBins1);
+    
+    fHistSelection = new TH1D("fHistSelection","fHistSelection",2,0,2);
+    fOutputList->Add(fHistSelection);
+    
+    fHistMultipPercentile = new TH1F("fHistMultipPercentile","fHistMultipPercentile",10,0,100);
+    fHistMultiplicity = new TH1F("fHistMultiplicity","fHistMultiplicity",6,varBins2);
+    fOutputList->Add(fHistMultipPercentile);
+    fOutputList->Add(fHistMultiplicity);
+    fHistMultiplicity->Sumw2();
+    fHistMultipPercentile->Sumw2();
+    
 	//fHistRCPtMultiTrig = new THnSparse("fHistRCPtMultiTrig","fHistRCPtMultiTrig",3,mcbins,mcmin, mcmin);
 	//fOutputList->Add(fHistRCPtMultiTrig); 
     
@@ -256,7 +284,7 @@ void AliAnalysisTaskMyTask::UserCreateOutputObjects()
 void AliAnalysisTaskMyTask::UserExec(Option_t *)
 {
 	const Double_t kPi = TMath::Pi();
-    //Printf("====== new event ======\n");
+   // Printf("====== new event ======\n");
     // user exec
     // this function is called once for each event
     // the manager will take care of reading the events from file, and with the static function InputEvent() you 
@@ -272,6 +300,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         // and extract some information from them which we'll store in a histogram
 
 		// physics selection
+    fHistSelection->Fill(0.5);
 	UInt_t maskIsSelected = inEvMain->IsEventSelected();
 
 	//  data trigger selection
@@ -280,6 +309,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	// Bool_t isSelected = ((maskIsSelected & AliVEvent::kMB) || (maskIsSelected & AliVEvent::kCentral) || (maskIsSelected & AliVEvent::kSemiCentral)); //PbPb
 
 	if (!isSelected) return;
+    fHistSelection->Fill(1.5);
 
 	AliAODVertex *myPrimVertex = fAOD->GetPrimaryVertex();
 	if (!myPrimVertex) return;
@@ -289,19 +319,30 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	Double_t lPVx = myPrimVertex->GetX();
 	Double_t lPVy = myPrimVertex->GetY();
 
-	
-
     Int_t iTracks(fAOD->GetNumberOfTracks());           // see how many tracks there are in the event
     Int_t iV0(fAOD->GetNumberOfV0s());                  // see how many V0 there are in the event
 
 	fHistV0Multiplicity->Fill(iV0);
 
-	// Centrality definition
-    Double_t lCent = 0.0;
-    AliCentrality *centralityObj = 0;
-    centralityObj = ((AliVAODHeader*)fAOD->GetHeader())->GetCentralityP();
-    lCent = centralityObj->GetCentralityPercentile("V0M");
-	//if(lCent<0 || lCent>99) return;
+	// Multiplicity definition
+    Float_t lPercentile = 302;
+    AliMultSelection *MultSelection = 0x0;
+    MultSelection = (AliMultSelection * ) fAOD->FindListObject("MultSelection");
+    if( !MultSelection) {
+        //If you get this warning (and lPercentiles 300) please check that the AliMultSelectionTask actually ran (before your task)
+        AliWarning("AliMultSelection object not found!");
+    }else{
+        lPercentile = MultSelection->GetMultiplicityPercentile("V0M");
+    }
+    //Printf ("muliplicita percentile %f\n",lPercentile);
+    
+    Int_t multip = 302;
+    
+    multip = AliPPVsMultUtils::GetStandardReferenceMultiplicity( fAOD );
+    
+    fHistMultipPercentile->Fill(lPercentile);
+    fHistMultiplicity->Fill(multip);
+   // Printf ("muliplicita utils %d \n",multip);
 
     TObjArray *mcTracksSel = new TObjArray;
     TObjArray *mcTracksTrigSel = new TObjArray;
@@ -379,7 +420,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
             Int_t motherPDG = static_cast<AliAODMCParticle*>(mcArray->At(mother))->PdgCode();
             
             if (TMath::Abs(motherPDG) == 3312 || TMath::Abs(motherPDG) == 3334 ) { // removing Lambdas from Xi and Omega
-                Printf("motherPDG %d \n",motherPDG);
+
                 continue;
             }
 
@@ -412,7 +453,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
             //MC V0 cuts 
             //Printf("V0 mother %d pt %g eta %g \n",mcTrack->GetMother(), mcTrack->Pt(),mcTrack->Eta());
 
-            if (TMath::Abs(mcTrack->Y())<0.5 && mcTrack->Pt()>fPtTrigMin){
+            if (TMath::Abs(mcTrack->Eta())<0.8 && mcTrack->Pt()>fPtTrigMin){
                // Printf("pdg gen %d label gen %d \n",mcPartPdg, mcTrack->GetLabel());
                 if(IsK0) {
                     mcTracksV0Sel->Add(new AliV0ChBasicParticle(mcTrack->Eta(),mcTrack->Phi(),mcTrack->Pt(),1,mcTrack->GetLabel(),labelPos-1,labelNeg-1));
@@ -437,10 +478,10 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
       
       //V0-h
       fHistMCKorelacie->Sumw2();
-      Corelations(mcTracksV0Sel,mcTracksSel,fHistMCKorelacie, lPVz, fHistNumberOfTriggersGen,kFALSE,kTRUE);
+      Corelations(mcTracksV0Sel,mcTracksSel,fHistMCKorelacie, lPVz, fHistNumberOfTriggersGen,kFALSE,kTRUE,lPercentile,multip);
 
       //h-h
-      Corelations(mcTracksTrigSel,mcTracksSel,fHistMCKorelacie, lPVz,fHistNumberOfTriggersGen, kTRUE, kFALSE);
+      Corelations(mcTracksTrigSel,mcTracksSel,fHistMCKorelacie, lPVz,fHistNumberOfTriggersGen, kTRUE, kFALSE,lPercentile,multip);
 
         //reconstructed part. 
 		Int_t nTracks = fAOD->GetNumberOfTracks();
@@ -565,7 +606,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
   
         
         Int_t oStatus = GetOStatus();
-       // if(!IsMyGoodV0(V0,myTrackPos,myTrackNeg,oStatus)) continue;
+        if(!IsMyGoodV0(V0,myTrackPos,myTrackNeg,oStatus)) continue;
         
         const AliAODPid *pPid = myTrackPos->GetDetPid();
         const AliAODPid *nPid = myTrackNeg->GetDetPid();
@@ -620,12 +661,12 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
             if(!IsMyGoodV0AngleK0(V0,myPrimVertex)) continue;  //V0 Cosine of Pointing Angle
             fHistK0MassPtCut->Fill(massK0,ptTrig,3.5);
             
+            //Printf("eta V0 %g\n", V0->Eta());
             if(!IsMyGoodV0RapidityK0(V0)) continue; //Rapidity
             fHistK0MassPtCut->Fill(massK0,ptTrig,4.5);
                                 
             if(!IsMyGoodLifeTimeK0(lPVx,lPVy,lPVz,V0)) continue;  //Proper Lifetime (mL/p)
             fHistK0MassPtCut->Fill(massK0,ptTrig,5.5);
-
             
             if(fAnalysisMC){
                 AliAODTrack *daughter1= static_cast<AliAODTrack*> (V0->GetDaughter(1));
@@ -869,15 +910,15 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
         //V0-h MC rec
         fHistKorelacieMCrec->Sumw2();
         //Printf("trig rec %d, track %d, assoc rec %d\n",selectedMCV0Triggersrec->GetEntriesFast(),selectedMCtrig->GetEntriesFast(),selectedMCassoc->GetEntriesFast());
-        Corelations(selectedMCV0Triggersrec,selectedMCassoc,fHistKorelacieMCrec, lPVz, fHistNumberOfTriggersRec,kFALSE,kTRUE);
+        Corelations(selectedMCV0Triggersrec,selectedMCassoc,fHistKorelacieMCrec, lPVz, fHistNumberOfTriggersRec,kFALSE,kTRUE,lPercentile,multip);
 
         //h-h MC rec
-        Corelations(selectedMCtrig,selectedMCassoc,fHistKorelacieMCrec, lPVz, fHistNumberOfTriggersRec,kTRUE,kFALSE);
+        Corelations(selectedMCtrig,selectedMCassoc,fHistKorelacieMCrec, lPVz, fHistNumberOfTriggersRec,kTRUE,kFALSE,lPercentile,multip);
     }
 	fHistKorelacie->Sumw2();
 
     //Data V0-h
-    Corelations(selectedV0Triggers,selectedAssociatedTracks,fHistKorelacie,lPVz,fHistNumberOfTriggers,kFALSE,kTRUE);
+    Corelations(selectedV0Triggers,selectedAssociatedTracks,fHistKorelacie,lPVz,fHistNumberOfTriggers,kFALSE,kTRUE,lPercentile,multip);
 	
 	// Corelation h-V0 ==========================================
 
@@ -932,7 +973,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 	}*/
 
 	// Corelation h-h ==========================================
-   // Corelations(selectedTriggerTracks,selectedAssociatedTracks,fHistKorelacie,lPVz,fHistNumberOfTriggers,kFALSE,kFALSE);
+    Corelations(selectedTriggerTracks,selectedAssociatedTracks,fHistKorelacie,lPVz,fHistNumberOfTriggers,kFALSE,kFALSE,lPercentile,multip);
 
 
  	// Mixing ==============================================
@@ -955,7 +996,10 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
 
 	
 	fPool = fPoolMgr->GetEventPool(fCentrOrMult, lPVz);
-    if (!fPool) AliFatal(Form("No pool found for centrality = %d, zVtx = %f", fCentrOrMult, lPVz));
+    if (!fPool) {
+        AliWarning(Form("No pool found for centrality = %d, zVtx = %f", fCentrOrMult, lPVz));
+        return;
+    }
  	Int_t nMix = fPool->GetCurrentNEvents();
 	if (fPool->IsReady() || fPool->NTracksInPool() > fMixingTracks / 5 || nMix >= 5)
 	{
@@ -965,8 +1009,8 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
  			TObjArray* bgTracks = fPool->GetEvent(jMix);
             if(fAnalysisMC) {
                 
-                CorelationsMixing(selectedMCV0Triggersrec,bgTracks,fHistMCMixingRec,lPVz);
-                CorelationsMixing(selectedMCtrig,bgTracks,fHistMCMixingRec,lPVz);
+                CorelationsMixing(selectedMCV0Triggersrec,bgTracks,fHistMCMixingRec,lPVz,lPercentile,multip);
+                CorelationsMixing(selectedMCtrig,bgTracks,fHistMCMixingRec,lPVz,lPercentile,multip);
             }
  			for (Int_t i=0; i<selectedV0Triggers->GetEntriesFast(); i++)
  			{// loop through selected V0 particles
@@ -991,7 +1035,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
  					if (dPhiMixV0h > (1.5*kPi)) dPhiMixV0h -= 2.0*kPi;
  					if (dPhiMixV0h < (-0.5*kPi)) dPhiMixV0h += 2.0*kPi;
 					 
- 					Double_t spMixV0h[8] = {trigPtV0, assoc->Pt(), dPhiMixV0h, dEtaMixV0h, lPVz, trigTypeV0,trigEtaV0,assoc->Eta()};
+ 					Double_t spMixV0h[8] = {trigPtV0, assoc->Pt(), dPhiMixV0h, dEtaMixV0h, lPVz, trigTypeV0, static_cast<Double_t> (multip),lPercentile};
  					fHistdPhidEtaMix->Fill(spMixV0h);
 
 					
@@ -1019,7 +1063,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
  						if (dPhiMixhh > (1.5*kPi)) dPhiMixhh -= 2.0*kPi;
  						if (dPhiMixhh < (-0.5*kPi)) dPhiMixhh += 2.0*kPi;
 					 
- 						Double_t spMixhh[6] = {trigPth, assoc->Pt(), dPhiMixhh, dEtaMixhh, lPVz, 3.5};
+ 						Double_t spMixhh[8] = {trigPth, assoc->Pt(), dPhiMixhh, dEtaMixhh, lPVz, 3.5, static_cast<Double_t> (multip),lPercentile};
  						fHistdPhidEtaMix->Fill(spMixhh);
 					 }
 
@@ -1071,7 +1115,9 @@ Bool_t AliAnalysisTaskMyTask::IsMyGoodV0AngleLambda(const AliAODv0 *t, AliAODVer
 Bool_t AliAnalysisTaskMyTask::IsMyGoodV0RapidityLambda(const AliAODv0 *t) 
 {
 		//Rapidity
-		if(TMath::Abs(t->RapLambda())>=0.5) return kFALSE;
+		//if(TMath::Abs(t->RapLambda())>=0.5) return kFALSE;
+    //Pseudorap
+    if(TMath::Abs(t->Eta())>=0.8) return kFALSE;
 		
 		return kTRUE;
 }
@@ -1079,7 +1125,9 @@ Bool_t AliAnalysisTaskMyTask::IsMyGoodV0RapidityLambda(const AliAODv0 *t)
 Bool_t AliAnalysisTaskMyTask::IsMyGoodV0RapidityK0(const AliAODv0 *t) 
 {
 		//Rapidity
-		if(TMath::Abs(t->RapK0Short())>=0.5) return kFALSE;
+		//if(TMath::Abs(t->RapK0Short())>=0.5) return kFALSE;
+    //Pseudorap
+    if(TMath::Abs(t->Eta())>=0.8) return kFALSE;
 		
 		return kTRUE;
 }
@@ -1208,7 +1256,7 @@ Bool_t AliAnalysisTaskMyTask::IsMyGoodV0(const AliAODv0 *v0,const AliAODTrack* m
 	return kTRUE;
 }
 //____________________________________________________________________________
-void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associated, THnSparse * fHistKor, Double_t lPVz, THnSparse* fHistNumOfTrig,Bool_t hhMC,Bool_t V0h){
+void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associated, THnSparse * fHistKor, Double_t lPVz, THnSparse* fHistNumOfTrig,Bool_t hhMC,Bool_t V0h,Float_t perc, Int_t multipl){
 
     const Double_t kPi = TMath::Pi();
     Int_t nAssoc = associated->GetEntriesFast();
@@ -1217,7 +1265,8 @@ void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associat
     for (Int_t i=0; i<nTrig; i++){
         AliV0ChBasicParticle* trig = (AliV0ChBasicParticle*)  triggers->At(i);
         
-        Double_t triggers[4]={trig->Pt(),lPVz,trig->Eta(),trig->WhichCandidate()-0.5};
+        Double_t triggers[7]={trig->Pt(),lPVz,trig->Eta(),trig->WhichCandidate()-0.5,trig->Phi(),static_cast<Double_t> (multipl),perc};
+        //Printf("mul tri %d \n",multipl);
         fHistNumOfTrig->Fill(triggers);
         for (Int_t j=0; j<nAssoc; j++){
             AliV0ChBasicParticle* assoc = (AliV0ChBasicParticle*)  associated->At(j);
@@ -1250,7 +1299,7 @@ void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associat
             
             if(labelTrig==labelAssoc) continue; // robi to velky rozdiel v pocte trackov korelacii , divne, nemam teraz rozdiel
             
-            Double_t korel[8] = {trig->Pt(),assoc->Pt(),deltaPhi,deltaEta, lPVz,trig->WhichCandidate()-0.5, trig->Eta(),assoc->Eta()};
+            Double_t korel[11] = {trig->Pt(),assoc->Pt(),deltaPhi,deltaEta, lPVz,trig->WhichCandidate()-0.5, trig->Eta(),assoc->Eta(),assoc->Phi(),static_cast<Double_t> (multipl),perc};
             fHistKor->Fill(korel);
             }
     }
@@ -1259,7 +1308,7 @@ void AliAnalysisTaskMyTask::Corelations(TObjArray *triggers, TObjArray *associat
 }
 
 //____________________________________________________________________________
-void AliAnalysisTaskMyTask::CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz){
+void AliAnalysisTaskMyTask::CorelationsMixing(TObjArray *triggers, TObjArray *bgTracks, THnSparse * fHistKor, Double_t lPVz, Float_t perc, Int_t multipl){
 
     const Double_t kPi = TMath::Pi();
     Int_t nAssoc = bgTracks->GetEntriesFast();
@@ -1283,7 +1332,7 @@ void AliAnalysisTaskMyTask::CorelationsMixing(TObjArray *triggers, TObjArray *bg
             //Printf("delta phi %g\n", deltaPhi);
             //Printf("deltaEta %g\n", deltaEta);
             
-            Double_t korel[6] = {trig->Pt(),assocPt,deltaPhi,deltaEta, lPVz,trig->WhichCandidate()-0.5 }; 
+            Double_t korel[8] = {trig->Pt(),assocPt,deltaPhi,deltaEta, lPVz,trig->WhichCandidate()-0.5,static_cast<Double_t> (multipl),perc };
             fHistKor->Fill(korel);
         }
     }

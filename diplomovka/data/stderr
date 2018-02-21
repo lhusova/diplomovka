@@ -1,0 +1,2 @@
+Warning in <TInterpreter::ReadRootmapFile>: class  AliT0AnalysisTaskQA found in libT0calib  is already in libPWGPP 
+myTask.sh: line 40: free: command not found
