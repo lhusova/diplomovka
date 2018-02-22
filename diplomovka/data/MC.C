@@ -2,7 +2,7 @@
 
 void MC(){
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015a+c_01.root ");  //MC2015c_Grid02.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid07.root ");  //MC2015c_Grid02.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
 	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 
@@ -251,7 +251,7 @@ void MC(){
     lg5->Draw();
     
     
-    TFile *fNewFile = TFile::Open("EfiiciencyMC15a+c_01.root","RECREATE");  //MC2015c_Grid02.root","RECREATE");
+    TFile *fNewFile = TFile::Open("EfiiciencyMC15c_07.root","RECREATE");
     fHistRCPtAs->Divide(fHistMCPtAs);
     TCanvas * cccc = new TCanvas;
     fHistRCPtAs->DrawCopy("colz");

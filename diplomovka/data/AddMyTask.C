@@ -28,7 +28,7 @@ AliAnalysisTaskMyTask* AddMyTask(TString name = "name")
     if(!task) return 0x0;
     task->SetPtTrigMin(4);
     task->SetPtAsocMin(2);
-    task->SetMCAnalysis(kTRUE);
+    task->SetMCAnalysis(kFALSE3);
     // add your task to the manager
     mgr->AddTask(task);
     // your task needs input: here we connect the manager to your task

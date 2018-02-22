@@ -54,7 +54,7 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask() : AliAnalysisTaskSE(),
     fAOD(0), fPIDResponse(0), fOutputList(0), fHistLambdaMassPtCut(0), fHistK0MassPtCut(0), fHistAntiLambdaMassPtCut(0),
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistMCPtAs(0), fHistRCPtAs(0), fHistNumberOfTriggers(0),
     fHistMCMixingRec(0), fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
-	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
+	fPoolMgr(0x0), fPool(0x0), fAnalysisMC(kFALSE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
     fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0),fHistRecV0(0),fHistGenV0(0),fHistMCPtTrigg(0),fHistRCPtTrigg(0),fHistSelection(0),
     fHistMultipPercentile(0), fHistMultiplicity(0)
 {
@@ -66,7 +66,7 @@ AliAnalysisTaskMyTask::AliAnalysisTaskMyTask(const char* name) : AliAnalysisTask
     fAOD(0), fPIDResponse(0), fOutputList(0), fHistLambdaMassPtCut(0), fHistK0MassPtCut(0), fHistAntiLambdaMassPtCut(0),
 	fHistKorelacie(0), fHistdPhidEtaMix(0), fHistV0Multiplicity(0), fHistMultVtxz(0), fHistMCPtAs(0), fHistRCPtAs(0),
     fHistNumberOfTriggers(0), fHistMCMixingRec(0), fFillMixed(kTRUE), fMixingTracks(5000), fCentrOrMult(-1),
-	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kTRUE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
+	fPoolMgr(0x0) ,fPool(0x0), fAnalysisMC(kFALSE), fOStatus(1), fPtTrigMin(0), fPtAsocMin(0), fHistKorelacieMCrec(0),
     fHistNumberOfTriggersGen(0),fHistNumberOfTriggersRec(0), fHistRecV0(0),fHistGenV0(0),fHistMCPtTrigg(0), fHistRCPtTrigg(0), fHistSelection(0),
     fHistMultipPercentile(0), fHistMultiplicity(0)
 {

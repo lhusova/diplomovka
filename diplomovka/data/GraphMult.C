@@ -6,7 +6,7 @@ void GraphMult(){
     TGraphErrors *fGraphK0Near2 = (TGraphErrors*) g->Get("fGraphK0Near2");
     TGraphErrors *fGraphK0Near3 = (TGraphErrors*) g->Get("fGraphK0Near3");
     
-    fGraphK0Near1->SetTitle("Zaviskost vytazkov od p_{T}^{trig} pre K_{0}^{S} pre jednotlive multiplicitne biny");
+    fGraphK0Near1->SetTitle("Zavislost vytazkov od p_{T}^{trig} pre K_{0}^{S} pre jednotlive multiplicitne biny");
     
     fGraphK0Near2->SetMarkerSize(1.8);
     fGraphK0Near2->SetMarkerStyle(21);
