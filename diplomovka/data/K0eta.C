@@ -44,8 +44,8 @@ void K0eta(){
         fHistMCKorelacie->GetAxis(5)->SetRange(1,1);
     }
     
-    TH1D * etaK0gen = (TH1D*) fHistMCKorelacie ->Projection(2);
-    TH1D * etaK0rec = (TH1D*) fHistKorelacieRec ->Projection(2);
+    TH1D * etaK0gen = (TH1D*) fHistMCKorelacie ->Projection(4);
+    TH1D * etaK0rec = (TH1D*) fHistKorelacieRec ->Projection(4);
     
    // TH1D * etaassocgen = (TH1D*) fHistMCKorelacie ->Projection(7);
     //TH1D * etaassocrec = (TH1D*) fHistKorelacieRec ->Projection(7);
@@ -102,48 +102,48 @@ void K0eta(){
     }
 
     Double_t scale =0;
-    Int_t l3D =0;
     Int_t nHist =0;
     TH2D *fHistTrig2D = 0x0;
     char hname2dvela[10];
+    TCanvas *recraw = new TCanvas;
+    fHistKorelacieRec->Projection(7,8)->DrawCopy("lego2z");
+    TCanvas *gen = new TCanvas;
+    fHistTrigGen2D->DrawCopy("lego2z");
+    
     for (Int_t l=0; l<nVzBins; l++) {
-         THnSparse * tmpHist1 = (THnSparse*)fHistKorelacieRec->Clone();
-        if(trigg) tmpHist1->GetAxis(1)->SetRange(l+1,l+1);
-        else tmpHist1->GetAxis(4)->SetRange(l+1,l+1);
+        if(trigg) fHistKorelacieRec->GetAxis(1)->SetRange(l+1,l+1);
+        else fHistKorelacieRec->GetAxis(4)->SetRange(l+1,l+1);
         //Printf("-- k %d -- \n",k);
         
-        Int_t k3D =0;
-        
         for(Int_t i=8; i<12; i++){
-            THnSparse * tmpHist2 = (THnSparse*)tmpHist1->Clone();
-            tmpHist2->GetAxis(0)->SetRange(i,i);
+
+            fHistKorelacieRec->GetAxis(0)->SetRange(i,i);
             TH2D * proj2D = 0x0;
-            if (trigg) proj2D = (TH2D *)tmpHist2->Projection(2,4);
-            else proj2D = (TH2D *)tmpHist2->Projection(7,8);
-            sprintf(hname2dvela,"_%d",l3D);
+            if (trigg) proj2D = (TH2D *)fHistKorelacieRec->Projection(2,4);
+            else proj2D = (TH2D *)fHistKorelacieRec->Projection(7,8);
+            sprintf(hname2dvela,"_%d",l);
             proj2D->SetName(hname2dvela);
-            
-            for(Int_t k=0;k<nEtaBins; k++){
+          //  Printf("bin 6 %d\n", proj2D->GetXaxis()->GetNbins());
+
+           for(Int_t k=0;k<nEtaBins; k++){
             //
                 //tmpHist2->GetAxis(6)->SetRange(k+1,k+3);
                 //Printf("+++ k %d +++ \n",k);
-                scale = fHistEff3DK0->GetBinContent(i,l3D+1,k3D+1);
-            
+                scale = fHistEff3DK0->GetBinContent(i,l+1,k+1);
                 for(Int_t j=0; j<72;j++){
+                    //Printf("scale %g for eta bin %d for phi value %s\n",scale,k,proj2D->GetYaxis()->GetBinLabel(j));
                     if(scale!=0){
-                        proj2D->SetBinContent(k+1,j+1, (proj2D->GetBinContent(k+1,j+1)/scale));
-                        proj2D->SetBinContent(k+2,j+1, (proj2D->GetBinContent(k+2,j+1)/scale));
-                        proj2D->SetBinContent(k+3,j+1, (proj2D->GetBinContent(k+3,j+1)/scale));
-                    } else if (trigg){
-                        proj2D->SetBinContent(k+1,j+1, (proj2D->GetBinContent(k+1,j+1)/0.3));
-                        proj2D->SetBinContent(k+2,j+1, (proj2D->GetBinContent(k+2,j+1)/0.3));
-                        proj2D->SetBinContent(k+3,j+1, (proj2D->GetBinContent(k+3,j+1)/0.3));
+                        //Printf("scale %g eta %d phi %d \n",scale,k,j);
+                        proj2D->SetBinContent(j+1,k+1, (proj2D->GetBinContent(j+1,k+1)/scale));
+
+                    }/*else if (trigg){
+                        proj2D->SetBinContent(j+1,k+1, (proj2D->GetBinContent(j+1,k+1)/0.3));
+
                     } else {
-                        proj2D->SetBinContent(k+1,j+1, (proj2D->GetBinContent(k+1,j+1)/0.8));
-                        proj2D->SetBinContent(k+2,j+1, (proj2D->GetBinContent(k+2,j+1)/0.8));
-                        proj2D->SetBinContent(k+3,j+1, (proj2D->GetBinContent(k+3,j+1)/0.8));
-                    }
-                }
+                        proj2D->SetBinContent(j+1,k+1, (proj2D->GetBinContent(j+1,k+1)/0.8));
+
+                    }*/
+             }
                 //proj2D->GetYaxis()->SetRange(k+1,k+3);
             
                 //if (scale !=0 ) proj2D->Scale(1./scale);
@@ -155,64 +155,67 @@ void K0eta(){
             
                 //Printf(" scale %g\n", scale);
             
-                if(k==36){
+                if(k+1==nEtaBins){
                     if (nHist==0) {
                         fHistTrig2D=(TH2D *)proj2D->Clone();
                         nHist+=1;
                     }
                     else {
                         fHistTrig2D->Add(proj2D);
-                         nHist+=1;
-                        Printf("maxim %g\n",proj2D->GetMaximum());
-                        Printf("nHist %d",nHist);
+                        nHist+=1;
                     }
-            
-                   
                 }
-                k3D+=1;
-                k+=3;
+
             }
             
-            delete tmpHist2;
+            fHistKorelacieRec->GetAxis(0)->SetRange(0,-1);
             
             delete proj2D;
             
         }
         
-        delete tmpHist1;
-        l+=1;
-        l3D+=1;
+        if(trigg) fHistKorelacieRec->GetAxis(1)->SetRange(0,-1);
+        else fHistKorelacieRec->GetAxis(4)->SetRange(0,-1);
+
+
     }
-    
-    Printf("max gen %g, max rec %g \n",fHistTrigGen2D->GetMaximum(),fHistTrig2D->GetMaximum() );
-    fHistTrigGen2D->Divide(fHistTrig2D);
-    
+    TCanvas *reckor = new TCanvas;
+    fHistTrig2D->DrawCopy("lego2z");
+   // Printf("max gen %g, max rec %g \n",fHistTrigGen2D->GetMaximum(),fHistTrig2D->GetMaximum() );
+    fHistTrig2D->Divide(fHistTrigGen2D);
     TCanvas *aa = new TCanvas();
-    fHistTrigGen2D->DrawCopy("colz");
+    fHistTrig2D->DrawCopy("lego2z");
     
-    TH1D * fHistProjPhi= (TH1D*) fHistTrigGen2D->ProjectionY();
+    TH1D * fHistProjPhi= (TH1D*) fHistTrig2D->ProjectionX();
     fHistProjPhi->SetName("projPhi");
+    fHistProjPhi->SetTitle("projPhi");
     
-    TH1D * fHistProjEta = (TH1D*) fHistTrigGen2D->ProjectionX();
+    TH1D * fHistProjEta = (TH1D*) fHistTrig2D->ProjectionY();
     fHistProjEta->SetName("projEta");
+    fHistProjEta->SetTitle("projEta");
     
     Int_t nBinsEta = fHistProjEta->GetNbinsX();
     Int_t nBinsPhi = fHistProjPhi->GetNbinsX();
+  //  Printf("bins eta %d bins phi %d\n",nBinsEta, nBinsPhi );
+   // Printf("2D bins eta %d bins phi %d\n",fHistTrig2D->GetYaxis()->GetNbins(), fHistTrig2D->GetXaxis()->GetNbins());
     
     for (Int_t k=0; k<nBinsEta; k++){
         
         Double_t scaleEta=0;
         Double_t chybaEta=0;
-        for(Int_t l=0; l<(nBinsPhi); l++){
-            if(fHistTrigGen2D->GetBinContent(k+1,l+1)>0) {
+        for(Int_t l=0; l<nBinsPhi; l++){
+            if(fHistTrig2D->GetBinContent(l+1,k+1)>0) {
                 scaleEta++;
-                chybaEta+=TMath::Power(fHistTrigGen2D->GetBinError(k+1,l+1),2);
+                chybaEta+=TMath::Power(fHistTrig2D->GetBinError(l+1,k+1),2);
+               // Printf ("scale %g, error %g\n",scaleEta,chybaEta);
             }
             
         }
         if(scaleEta>0) fHistProjEta->SetBinContent(k+1,(fHistProjEta->GetBinContent(k+1))/scaleEta);
+        else fHistProjEta->SetBinContent(k+1,0);
         chybaEta=TMath::Sqrt(chybaEta);
-        chybaEta=chybaEta/scaleEta;
+        if(scaleEta>0) chybaEta=chybaEta/scaleEta;
+        else chybaEta =0;
         fHistProjEta->SetBinError(k+1,chybaEta);
     }
     
@@ -221,10 +224,10 @@ void K0eta(){
         Double_t chybaPhi=0;
         Double_t hodnotaPhi = 0;
         for(Int_t l=0; l<nBinsEta; l++){
-            if(fHistTrigGen2D->GetBinContent(l+1,k+1)>0) {
+            if(fHistTrigGen2D->GetBinContent(k+1,l+1)>0) {
                 scalePhi++;
-                hodnotaPhi+=fHistTrigGen2D->GetBinContent(l+1,k+1);
-                chybaPhi+=TMath::Power(fHistTrigGen2D->GetBinError(l+1,k+1),2);
+                hodnotaPhi+=fHistTrig2D->GetBinContent(k+1,l+1);
+                chybaPhi+=TMath::Power(fHistTrig2D->GetBinError(k+1,l+1),2);
             }
         }
 
@@ -238,8 +241,14 @@ void K0eta(){
         
     }
 
+    TCanvas *proj = new TCanvas;
+    proj->Divide(1,2);
+    proj->cd(1);
+    fHistProjEta->DrawCopy();
+    proj->cd(2);
+    fHistProjPhi->DrawCopy();
     TFile *fNewFile = TFile::Open("K0etaAssoc.root","RECREATE");
-    fHistTrigGen2D->Write();
+    fHistTrig2D->Write();
     fHistProjEta->Write();
     fHistProjPhi->Write();
     fNewFile->Close();

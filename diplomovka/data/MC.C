@@ -2,7 +2,7 @@
 
 void MC(){
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid07.root ");  //MC2015c_Grid02.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_05.root ");  //MC2015c_Grid02.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
 	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 
@@ -24,7 +24,7 @@ void MC(){
 	
 	pad1->Draw();
     pad2->Draw();
-    
+   /*
     fHistMCPtAs->RebinZ(4);
     fHistMCPtAs->RebinY(2);
     fHistRCPtAs->RebinZ(4);
@@ -33,7 +33,7 @@ void MC(){
     fHistMCPtTrigg->RebinZ(4);
     fHistMCPtTrigg->RebinY(2);
     fHistRCPtTrigg->RebinZ(4);
-    fHistRCPtTrigg->RebinY(2);
+    fHistRCPtTrigg->RebinY(2);*/
     
     //fHistMCPtAs->Sumw2();
     TH1D *fHistMCPtAsPojX = fHistMCPtAs->ProjectionX();
@@ -251,7 +251,7 @@ void MC(){
     lg5->Draw();
     
     
-    TFile *fNewFile = TFile::Open("EfiiciencyMC15c_07.root","RECREATE");
+    TFile *fNewFile = TFile::Open("EfiiciencyMC16_05.root","RECREATE");
     fHistRCPtAs->Divide(fHistMCPtAs);
     TCanvas * cccc = new TCanvas;
     fHistRCPtAs->DrawCopy("colz");
@@ -269,10 +269,10 @@ void MC(){
     TH3D *fHistRecV03DK0 = fHistRecV0->Projection(0,1,3);
     fHistRecV03DK0->SetName("fHistRecV03DK0");
     
-    fHistGenV03DK0->RebinZ(4);
+  /*  fHistGenV03DK0->RebinZ(4);
     fHistGenV03DK0->RebinY(2);
     fHistRecV03DK0->RebinZ(4);
-    fHistRecV03DK0->RebinY(2);
+    fHistRecV03DK0->RebinY(2);*/
     
     fHistRecV03DK0->Divide(fHistGenV03DK0);
     fHistRecV03DK0->Write();
@@ -287,10 +287,10 @@ void MC(){
     TH3D *fHistRecV03DLam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DLam->SetName("fHistRecV03DLam");
     
-    fHistGenV03DLam->RebinZ(4);
+   /* fHistGenV03DLam->RebinZ(4);
     fHistGenV03DLam->RebinY(2);
     fHistRecV03DLam->RebinZ(4);
-    fHistRecV03DLam->RebinY(2);
+    fHistRecV03DLam->RebinY(2);*/
     
     fHistRecV03DLam->Divide(fHistGenV03DLam);
     fHistRecV03DLam->Write();
@@ -302,10 +302,10 @@ void MC(){
     TH3D *fHistRecV03DALam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DALam->SetName("fHistRecV03DAntiLam");
     
-    fHistGenV03DALam->RebinZ(4);
+  /*  fHistGenV03DALam->RebinZ(4);
     fHistGenV03DALam->RebinY(2);
     fHistRecV03DALam->RebinZ(4);
-    fHistRecV03DALam->RebinY(2);
+    fHistRecV03DALam->RebinY(2);*/
     
     fHistRecV03DALam->Divide(fHistGenV03DALam);
     fHistRecV03DALam->Write();

@@ -7,55 +7,62 @@
 
 void Hist(){
 	
-	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid01.root");
+	TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsDataNajnovsie03.root");
 	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
-	
-	/*TH1D *hlh;
-	hlh = (TH1D*)list->FindObject("fHistLambdaHadron");
-	TH1D *hkh;
-	hkh = (TH1D*)list->FindObject("fHistK0Hadron");
-	TH1D *halh;
-	halh = (TH1D*)list->FindObject("fHistAntiLambdaHadron");
-	TH1D *hnl;
-	hnl = (TH1D*)list->FindObject("fHistPocetLambda");
-	TH1D *hnk;
-	hnk = (TH1D*)list->FindObject("fHistPocetK0");
-	TH1D *hnal;
-	hnal = (TH1D*)list->FindObject("fHistPocetAntiLambda");
-	
-	hlh->Sumw2();
-	hkh->Sumw2();
-	hnl->Sumw2();
-	hnk->Sumw2();
-	hnal->Sumw2();
-	halh->Sumw2();
-	
-	hlh->Scale(1./hnl->GetBinContent(1)); // normovanie na pocet trigger castic
-	hkh->Scale(1./hnk->GetBinContent(1));
-	halh->Scale(1./hnal->GetBinContent(1));
-	
-	hlh->SetXTitle("#Delta#phi");
-	hkh->SetXTitle("#Delta#phi");
-	hlh->SetYTitle("# parov / # trigger castic");
-	hkh->SetYTitle("# parov / # trigger castic");
-	halh->SetXTitle("#Delta#phi");
-	halh->SetYTitle("# parov / # trigger castic");
-	halh->SetTitle("Uhlove korelacie #bar{#Lambda}-hadron");
-
-	TCanvas *c = new TCanvas;
-	c->Divide(1,3);
-	c->cd(1);
-	hlh->DrawCopy("E");
-	c->cd(2);
-	hkh->DrawCopy("E");
-	c->cd(3);
-	halh->DrawCopy("E");*/
 	
 	TH3F *fHistK0MassPtCut = (TH3F*)list->FindObject("fHistK0MassPtCut");
 	TH3F *fHistLambdaMassPtCut = (TH3F*)list->FindObject("fHistLambdaMassPtCut");
 	TH3F *fHistAntiLambdaMassPtCut = (TH3F*)list->FindObject("fHistAntiLambdaMassPtCut");
 	
-	Int_t lPocetCutov = 7;
+    fHistK0MassPtCut->GetZaxis()->SetRange(6,6);
+    TH1F * fHistInvMassK0 = (TH1F *)fHistK0MassPtCut->Project3D("x");
+    fHistInvMassK0->GetXaxis()->SetRangeUser(0.46,0.54);
+    TCanvas *cMassK0 = new TCanvas;
+    fHistInvMassK0->SetTitle("Rozdelenie invariantnej hmotnosti kandidatov na K^{0}_{S}");
+    fHistInvMassK0->SetXTitle("m_{#pi^{+} #pi^{-}}(GeV/c^{2})");
+    fHistInvMassK0->SetYTitle("#");
+    fHistInvMassK0->DrawCopy();
+    
+    Double_t integralCeleK0 =fHistInvMassK0->Integral("width");
+    Double_t vyskapozadiaK0 = (fHistInvMassK0->GetBinContent(fHistInvMassK0->FindBin(0.485))+fHistInvMassK0->GetBinContent(fHistInvMassK0->FindBin(0.511)))/2;
+    Double_t integralpozadieK0 = (0.52-0.48)*vyskapozadiaK0;
+    Double_t podielPozadiaK0 = (integralpozadieK0/integralCeleK0)*100;
+    Printf("cele %g pozadie %g, vyska pozadia %g K0\n",integralCeleK0,integralpozadieK0,vyskapozadiaK0);
+    Printf("podiel pozadia pre K0 %g \n",podielPozadiaK0);
+    
+    fHistLambdaMassPtCut->GetZaxis()->SetRange(6,6);
+    TH1F * fHistInvMassLam = (TH1F *)fHistLambdaMassPtCut->Project3D("x");
+    fHistInvMassLam->GetXaxis()->SetRangeUser(1.05,1.2);
+    TCanvas *cMassLam = new TCanvas;
+    fHistInvMassLam->SetTitle("Rozdelenie invariantnej hmotnosti kandidatov na #Lambda");
+    fHistInvMassLam->SetXTitle("m_{p#pi^{-}}(GeV/c^{2})");
+    fHistInvMassLam->SetYTitle("#");
+    fHistInvMassLam->DrawCopy();
+    
+    Double_t integralCeleLam =fHistInvMassLam->Integral("width");
+    Double_t vyskapozadiaLam = (fHistInvMassLam->GetBinContent(fHistInvMassLam->FindBin(1.102))+fHistInvMassLam->GetBinContent(fHistInvMassLam->FindBin(1.127)))/2;
+    Double_t integralpozadieLam = (1.2-1.05)*vyskapozadiaLam;
+    Double_t podielPozadiaLam = (integralpozadieLam/integralCeleLam)*100;
+    Printf("cele %g pozadie %g, vyska pozadia %g K0\n",integralCeleLam,integralpozadieLam,vyskapozadiaLam);
+    Printf("podiel pozadia pre Lambda %g \n",podielPozadiaLam);
+    
+    fHistAntiLambdaMassPtCut->GetZaxis()->SetRange(6,6);
+    TH1F * fHistInvMassALam = (TH1F *)fHistAntiLambdaMassPtCut->Project3D("x");
+    fHistInvMassALam->GetXaxis()->SetRangeUser(1.05,1.2);
+    TCanvas *cMassALam = new TCanvas;
+    fHistInvMassALam->SetTitle("Rozdelenie invariantnej hmotnosti kandidatov na #bar{#Lambda}");
+    fHistInvMassALam->SetXTitle("m_{#bar{p}#pi^{+}}(GeV/c^{2})");
+    fHistInvMassALam->SetYTitle("#");
+    fHistInvMassALam->DrawCopy();
+    
+    Double_t integralCeleALam =fHistInvMassALam->Integral("width");
+    Double_t vyskapozadiaALam = (fHistInvMassALam->GetBinContent(fHistInvMassALam->FindBin(1.102))+fHistInvMassALam->GetBinContent(fHistInvMassALam->FindBin(1.127)))/2;
+    Double_t integralpozadieALam = (1.2-1.05)*vyskapozadiaALam;
+    Double_t podielPozadiaALam = (integralpozadieALam/integralCeleALam)*100;
+    Printf("cele %g pozadie %g, vyska pozadia %g AntiLambda\n",integralCeleALam,integralpozadieALam,vyskapozadiaALam);
+    Printf("podiel pozadia pre AntiLambda %g \n",podielPozadiaALam);
+    
+/*	Int_t lPocetCutov = 7;
 	Int_t lPocetPtBinov = 10;
 
 	//=====inv. hmotnost K0 ==========
@@ -106,11 +113,11 @@ void Hist(){
 			hkmpc_pt_1D[j] -> SetLineColor(i+1);
 			hkmpc_pt_1D[j] -> SetFillStyle(3001);*/
 			
-			tmp[j] = (TH1D* )hkmpc_pt_1D[j]->Clone();
+		/*	tmp[j] = (TH1D* )hkmpc_pt_1D[j]->Clone();
 			lgK[j].AddEntry(tmp[j],legendaK,"f");	
 			
 			
-			/*TPad *pad =*/ a->cd(j+1);
+			/*TPad *pad =*/ //a->cd(j+1);
 			
 			//pad->SetLogy();
 			
@@ -135,11 +142,11 @@ void Hist(){
 				hkmpc_pt_1D[j]->DrawCopy("SAME");
 			}*/
 			
-			if (i==lPocetCutov-1) {
+	/*		if (i==lPocetCutov-1) {
 				lgK[j].Draw();
-				/*TPad *ppaf =*/ afin->cd(j-3);
+				/*TPad *ppaf =*/ //afin->cd(j-3);
 				//ppaf->SetLogy();
-				sprintf(titleK,"Invariantna hmotnost K^{0} po vsetkych cutoch, i=%d, pt bin %d",i+1, j);
+	/*			sprintf(titleK,"Invariantna hmotnost K^{0} po vsetkych cutoch, i=%d, pt bin %d",i+1, j);
 				hkmpc_pt_1D[j]->SetTitle(titleK);
 				hkmpc_pt_1D[j]->DrawCopy();
 			}
@@ -204,13 +211,12 @@ void Hist(){
 			hlmpc_pt_1D[j] -> SetLineColor(i+1);
 			hlmpc_pt_1D[j] -> SetFillStyle(3001);*/
 			
-			tmp[j] = (TH1D*) hlmpc_pt_1D[j]->Clone();
+		/*	tmp[j] = (TH1D*) hlmpc_pt_1D[j]->Clone();
 			lgL[j].AddEntry(tmp[j],legendaL,"f");
 			
 			
 			
-			/*TPad *ppb =*/ b->cd(j+1);
-			//ppb->SetLogy();
+		//	//ppb->SetLogy();
 			/*if (i==0)
 			{
 				sprintf(nazovL,"Invaraintna hmotnost #Lambda, %d. p_{T} bin", j+1); 
@@ -230,12 +236,12 @@ void Hist(){
 				hlmpc_pt_1D[j]->DrawCopy("SAME");								
 			}*/
 			
-			if(i==lPocetCutov-1) {
+	/*		if(i==lPocetCutov-1) {
 				//printf("pocet cutov =%d, j=%d\n", lPocetCutov,j);
 				lgL[j].Draw();
-				/*TPad *pp =*/ bfin->cd(j-3);
+				/*TPad *pp =*/ //bfin->cd(j-3);
 				//pp->SetLogy();
-				sprintf(titleL,"Invariantna hmotnost #Lambda po aplikovani vsetkych cutov, i=%d", i+1);
+	/*			sprintf(titleL,"Invariantna hmotnost #Lambda po aplikovani vsetkych cutov, i=%d", i+1);
 				hlmpc_pt_1D[j]->SetTitle(titleL);
 				hlmpc_pt_1D[j]->DrawCopy();
 
@@ -294,12 +300,12 @@ void Hist(){
 			halmpc_pt_1D[j] -> SetLineColor(i+1);
 			halmpc_pt_1D[j] -> SetFillStyle(3001);*/
 			
-			tmp[j] = (TH1D*) halmpc_pt_1D[j]->Clone();
+	/*		tmp[j] = (TH1D*) halmpc_pt_1D[j]->Clone();
 			lgAl[j].AddEntry(tmp[j],legendaAl,"f");
 			
 			
 			
-			/*TPad *ppd =*/ d->cd(j+1);
+			/*TPad *ppd =*/ //d->cd(j+1);
 			//ppb->SetLogy();
 			/*if (i==0)
 			{
@@ -320,12 +326,12 @@ void Hist(){
 				halmpc_pt_1D[j]->DrawCopy("SAME");								
 			}*/
 			
-			if(i==lPocetCutov-1) {
+		/*	if(i==lPocetCutov-1) {
 				//printf("pocet cutov =%d, j=%d\n", lPocetCutov,j);
 				lgAl[j].Draw();
-				/*TPad *ppdd =*/ dfin->cd(j-3);
+				/*TPad *ppdd =*/ //dfin->cd(j-3);
 				//pp->SetLogy();
-				sprintf(titleAl,"Invariantna hmotnost #bar{#Lambda} po aplikovani vsetkych cutov, i=%d", i+1);
+		/*		sprintf(titleAl,"Invariantna hmotnost #bar{#Lambda} po aplikovani vsetkych cutov, i=%d", i+1);
 				halmpc_pt_1D[j]->SetTitle(titleAl);
 				halmpc_pt_1D[j]->DrawCopy();
 			}
@@ -335,7 +341,7 @@ void Hist(){
 		delete halmpc_pt_1D;
 		delete tmp;
 		
-	}
+	}*/
 	
 	
 }

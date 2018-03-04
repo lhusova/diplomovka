@@ -32,46 +32,46 @@ TH1D* Podiel(TH1D* fHistData, TH1D* fHistMC, Int_t nbins, Double_t *bins,const c
 void Graph(){
 
     gStyle->SetOptStat(0000000000);
-    TFile *g =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC2015a_nove.root");
-    TFile *f =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC2015c_nove.root");
-    TFile *ff =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC2016_nove.root");
-    TFile *fdata =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphDataFeb_nove.root");
+    TFile *g =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2015a_03.root");
+    TFile *f =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2015c_Grid07.root");
+    TFile *ff =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2016_05.root");
+    TFile *fdata =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/Vytazky_minBias_data.root");
     
-    Bool_t Near = kFALSE;
+    Bool_t Near = kTRUE;
     
   //  if (Near){
-   /* TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("fGraphK0Near");
-    TGraphErrors *fGraphMCK015c = (TGraphErrors*) f->Get("fGraphK0Near");
-    TGraphErrors *fGraphMCK016 = (TGraphErrors*) ff->Get("fGraphK0Near");
-    TGraphErrors *fGraphDataK0 = (TGraphErrors*) fdata->Get("fGraphK0Near");
+    TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("fGraphK0Near1");
+    TGraphErrors *fGraphMCK015c = (TGraphErrors*) f->Get("fGraphK0Near1");
+    TGraphErrors *fGraphMCK016 = (TGraphErrors*) ff->Get("fGraphK0Near1");
+   // TGraphErrors *fGraphDataK0 = (TGraphErrors*) fdata->Get("fGraphK0Near");
 
-    TH1D * fHistK0NearMC15a = (TH1D*) g->Get("fHistK0Near");
-    TH1D * fHistK0NearMC15c = (TH1D*) f->Get("fHistK0Near");
-    TH1D * fHistK0NearMC16 = (TH1D*) ff->Get("fHistK0Near");
+    TH1D * fHistK0NearMC15a = (TH1D*) g->Get("fHistK0Near1");
+    TH1D * fHistK0NearMC15c = (TH1D*) f->Get("fHistK0Near1");
+    TH1D * fHistK0NearMC16 = (TH1D*) ff->Get("fHistK0Near1");
     TH1D * fHistK0NearData = (TH1D*) fdata->Get("fHistK0Near");
 
-    TGraphErrors *fGraphMCLambda15a = (TGraphErrors*) g->Get("fGraphLambdaNear");
-    TGraphErrors *fGraphMCLambda15c = (TGraphErrors*) f->Get("fGraphLambdaNear");
-    TGraphErrors *fGraphMCLambda16 = (TGraphErrors*) ff->Get("fGraphLambdaNear");
-    TGraphErrors *fGraphDataLambda = (TGraphErrors*) fdata->Get("fGraphLambdaNear");
+    TGraphErrors *fGraphMCLambda15a = (TGraphErrors*) g->Get("fGraphLambdaNear1");
+    TGraphErrors *fGraphMCLambda15c = (TGraphErrors*) f->Get("fGraphLambdaNear1");
+    TGraphErrors *fGraphMCLambda16 = (TGraphErrors*) ff->Get("fGraphLambdaNear1");
+   // TGraphErrors *fGraphDataLambda = (TGraphErrors*) fdata->Get("fGraphLambdaNear");
 
-    TH1D * fHistLambdaNearMC15a = (TH1D*) g->Get("fHistLambdaNear");
-    TH1D * fHistLambdaNearMC15c = (TH1D*) f->Get("fHistLambdaNear");
-    TH1D * fHistLambdaNearMC16 = (TH1D*) ff->Get("fHistLambdaNear");
+    TH1D * fHistLambdaNearMC15a = (TH1D*) g->Get("fHistLambdaNear1");
+    TH1D * fHistLambdaNearMC15c = (TH1D*) f->Get("fHistLambdaNear1");
+    TH1D * fHistLambdaNearMC16 = (TH1D*) ff->Get("fHistLambdaNear1");
     TH1D * fHistLambdaNearData = (TH1D*) fdata->Get("fHistLambdaNear");
 
-    TGraphErrors *fGraphMCH15a = (TGraphErrors*) g->Get("fGraphTrackNear");
-    TGraphErrors *fGraphMCH15c = (TGraphErrors*) f->Get("fGraphTrackNear");
-    TGraphErrors *fGraphMCH16 = (TGraphErrors*) ff->Get("fGraphTrackNear");
-    TGraphErrors *fGraphDataH = (TGraphErrors*) fdata->Get("fGraphTrackNear");
+    TGraphErrors *fGraphMCH15a = (TGraphErrors*) g->Get("fGraphTrackNear1");
+    TGraphErrors *fGraphMCH15c = (TGraphErrors*) f->Get("fGraphTrackNear1");
+    TGraphErrors *fGraphMCH16 = (TGraphErrors*) ff->Get("fGraphTrackNear1");
+   // TGraphErrors *fGraphDataH = (TGraphErrors*) fdata->Get("fGraphTrackNear");
 
-        TH1D * fHistHNearMC15a = (TH1D*) g->Get("fHistHadronNear");
-        TH1D * fHistHNearMC15c = (TH1D*) f->Get("fHistHadronNear");
-        TH1D * fHistHNearMC16 = (TH1D*) ff->Get("fHistHadronNear");
+        TH1D * fHistHNearMC15a = (TH1D*) g->Get("fHistHadronNear1");
+        TH1D * fHistHNearMC15c = (TH1D*) f->Get("fHistHadronNear1");
+        TH1D * fHistHNearMC16 = (TH1D*) ff->Get("fHistHadronNear1");
         TH1D * fHistHNearData = (TH1D*) fdata->Get("fHistHadronNear");
         
    // }else{*/
-    TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("Graph;3");
+   /* TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("Graph;3");
     TGraphErrors *fGraphMCK015c = (TGraphErrors*) f->Get("Graph;3");
     TGraphErrors *fGraphMCK016 = (TGraphErrors*) ff->Get("Graph;3");
     TGraphErrors *fGraphDataK0 = (TGraphErrors*) fdata->Get("Graph;3");
@@ -99,7 +99,7 @@ void Graph(){
         TH1D * fHistHNearMC15a = (TH1D*) g->Get("fHistHadronAway");
         TH1D * fHistHNearMC15c = (TH1D*) f->Get("fHistHadronAway");
         TH1D * fHistHNearMC16 = (TH1D*) ff->Get("fHistHadronAway");
-        TH1D * fHistHNearData = (TH1D*) fdata->Get("fHistHadronAway");
+        TH1D * fHistHNearData = (TH1D*) fdata->Get("fHistHadronAway");*/
         
 //    }
 
@@ -118,13 +118,13 @@ void Graph(){
     fGraphMCK016->SetMarkerStyle(21);
     fGraphMCK016->SetMarkerSize(1.2);
     
-    fGraphDataK0->SetMarkerColor(kBlack);
-    fGraphDataK0->SetLineColor(kBlack);
-    fGraphDataK0->SetMarkerStyle(23);
-    fGraphDataK0->SetMarkerSize(1.2);
+    fHistK0NearData->SetMarkerColor(kBlack);
+    fHistK0NearData->SetLineColor(kBlack);
+    fHistK0NearData->SetMarkerStyle(23);
+    fHistK0NearData->SetMarkerSize(1.2);
 
     TLegend *lg = new TLegend(0.2,0.9,0.75,0.8);
-    lg->AddEntry(fGraphDataK0,"realne data","pl");
+    lg->AddEntry(fHistK0NearData,"realne data","pl");
 	lg->AddEntry(fGraphMCK015a,"MC rekonstruovane data PYTHIA8 - Monash ","pl");
     lg->AddEntry(fGraphMCK015c,"MC rekonstruovane data PYTHIA6 - Perugia ","pl");
     lg->AddEntry(fGraphMCK016,"MC rekonstruovane data EPOS-LHC ","pl");
@@ -152,7 +152,7 @@ void Graph(){
 
     fGraphMCK015a->Draw("ap");
     fGraphMCK015c->Draw("pSAME");
-    fGraphDataK0->Draw("pSAME");
+    fHistK0NearData->Draw("SAME");
     fGraphMCK016->Draw("pSAME");
     
     lg->Draw();
@@ -214,13 +214,13 @@ void Graph(){
     fGraphMCLambda16->SetMarkerStyle(21);
     fGraphMCLambda16->SetMarkerSize(1.2);
     
-    fGraphDataLambda->SetMarkerColor(kBlack);
-    fGraphDataLambda->SetLineColor(kBlack);
-    fGraphDataLambda->SetMarkerStyle(23);
-    fGraphDataLambda->SetMarkerSize(1.2);
+    fHistLambdaNearData->SetMarkerColor(kBlack);
+    fHistLambdaNearData->SetLineColor(kBlack);
+    fHistLambdaNearData->SetMarkerStyle(23);
+    fHistLambdaNearData->SetMarkerSize(1.2);
 
     TLegend *lg1 = new TLegend(0.2,0.9,0.75,0.8);
-    lg1->AddEntry(fGraphDataLambda,"realne data","pl");
+    lg1->AddEntry(fHistLambdaNearData,"realne data","pl");
 	lg1->AddEntry(fGraphMCLambda15a,"MC rekonstruovane data PYTHIA8 - Monash","pl");
     lg1->AddEntry(fGraphMCLambda15c,"MC rekonstruovane data PYTHIA6 - Perugia","pl");
     lg1->AddEntry(fGraphMCLambda16,"MC rekonstruovane data EPOS - LHC","pl");
@@ -249,7 +249,7 @@ void Graph(){
 
     fGraphMCLambda15a->Draw("ap");
     fGraphMCLambda15c->Draw("pSAME");
-    fGraphDataLambda->Draw("pSAME");
+    fHistLambdaNearData->Draw("SAME");
     fGraphMCLambda16->Draw("pSAME");
     lg1->Draw();
 
@@ -307,13 +307,13 @@ void Graph(){
     fGraphMCH16->SetMarkerStyle(21);
     fGraphMCH16->SetMarkerSize(1.2);
     
-    fGraphDataH->SetMarkerColor(kBlack);
-    fGraphDataH->SetLineColor(kBlack);
-    fGraphDataH->SetMarkerStyle(23);
-    fGraphDataH->SetMarkerSize(1.2);
+    fHistHNearData->SetMarkerColor(kBlack);
+    fHistHNearData->SetLineColor(kBlack);
+    fHistHNearData->SetMarkerStyle(23);
+    fHistHNearData->SetMarkerSize(1.2);
 
     TLegend *lg3 = new TLegend(0.2,0.9,0.75,0.8);
-    lg3->AddEntry(fGraphDataH,"realne data","pl");
+    lg3->AddEntry(fHistHNearData,"realne data","pl");
 	lg3->AddEntry(fGraphMCH15a,"MC rekonstruovane data PYTHIA8 - Monash","pl");
     lg3->AddEntry(fGraphMCH15c,"MC rekonstruovane data PYTHIA6 - Perugia","pl");
     lg3->AddEntry(fGraphMCH16,"MC rekonstruovane data EPOS - LHC","pl");
@@ -341,7 +341,7 @@ void Graph(){
     fGraphMCH15a->GetYaxis()->SetRangeUser(0,1.2*MaxGraf);
 
     fGraphMCH15a->Draw("ap");
-    fGraphDataH->Draw("pSAME");
+    fHistHNearData->Draw("SAME");
     fGraphMCH15c->Draw("pSAME");
     fGraphMCH16->Draw("pSAME");
     lg3->Draw();
