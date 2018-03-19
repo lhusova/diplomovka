@@ -8,18 +8,18 @@
 void THn(){
 	gStyle->SetOptStat(0000000000);
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsDataNajnovsie03.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_05.root");
 	TList *list = (TList*) g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
     
-    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/EfiiciencyMC15c_07.root");
+    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/EfiiciencyMC16_05.root");
 	
-    THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacie");
-	THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistdPhidEtaMix");
-    THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggers");
+    //THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacie");
+	//THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistdPhidEtaMix");
+    //THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggers");
     
-    //THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
-    //THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersRec");
-    //THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistMCMixingRec");
+    THnSparse *fHistKorelacie = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
+    THnSparse *fHistNumberOfTriggers = (THnSparse*)list->FindObject("fHistNumberOfTriggersRec");
+    THnSparse *fHistdPhidEtaMix = (THnSparse*)list->FindObject("fHistMCMixingRec");
     
     TH3D *fHistRCPtAs = (TH3D*) gg->Get("fHistRCPtAs");
     TH3D *fHistRCPtTrigg = (TH3D*) gg->Get("fHistRCPtTrigg");
@@ -59,7 +59,6 @@ void THn(){
          Int_t l3D =0;
          for (Int_t l=0; l<nVzBins; l++) {
              for (Int_t m=0; m<nPtAssocBins; m++){
-                // Printf("%g %d %d %d \n",fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1),k,l,m);
                  sclaleAssoc[k3D][l3D][m]=fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1);
              }
              for (Int_t m=0; m<nPtBins; m++){
@@ -113,7 +112,7 @@ void THn(){
 	THnSparse **fHistMultiClone = new THnSparse*[nTig];
 	char hnamemulti[100];
 
-	for (Int_t i=2; i<nTig; i++){
+	for (Int_t i=0; i<nTig; i++){
 		fHistMultiClone[i]=(THnSparse * )fHistNumberOfTriggers->Clone();
 		if(i==0) fHistMultiClone[i]->GetAxis(1)->SetRange(1,1);
 		if(i==1) fHistMultiClone[i]->GetAxis(1)->SetRange(2,3);
@@ -142,17 +141,18 @@ void THn(){
 	c->Divide(nMuliplBins*nPtBins,nTig);
 	
     char hname1dvela[50];
+    char nameeff[20];
     
-    for(Int_t iMultBin = 1; iMultBin<2/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
-        fHistKorelacie->GetAxis(10)->SetRange(iMultBin+1,iMultBin+1);
-        fHistNumberOfTriggers->GetAxis(6)->SetRange(iMultBin+1,iMultBin+1);
+    for(Int_t iMultBin = 0; iMultBin<1/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
+       // fHistKorelacie->GetAxis(10)->SetRange(iMultBin+1,iMultBin+1);
+       // fHistNumberOfTriggers->GetAxis(6)->SetRange(iMultBin+1,iMultBin+1);
         
-        for(Int_t i=2;i<nTig;i++){ // loop cez druh triggra
+        for(Int_t i=0;i<nTig;i++){ // loop cez druh triggra
 
             if(i==0) fHistKorelacie->GetAxis(5)->SetRange(i+1,i+1);
             if(i==1) fHistKorelacie->GetAxis(5)->SetRange(i+1,i+2);
             if(i==2) fHistKorelacie->GetAxis(5)->SetRange(i+2,i+2);
-            for(Int_t j=3;j<6/*nPtBins*/;j++){ // loop cez pt trigger
+            for(Int_t j=0;j<nPtBins;j++){ // loop cez pt trigger
                 
                 if (j==0) {
                     fHistKorelacie->GetAxis(0)->SetRange(1,1);
@@ -178,6 +178,9 @@ void THn(){
                     fHistKorelacie->GetAxis(0)->SetRange(8,11);
                     fHistNumberOfTriggers->GetAxis(0)->SetRange(8,11);
                 }
+                
+                sprintf(nameeff,"eff_%d_%d",i,j);
+                TH3D *fHistEff = (TH3D*)gg->Get(nameeff);
                 
                Int_t l3D =0;
                 Int_t nHist =0;
@@ -303,8 +306,8 @@ void THn(){
             fHistKorelacie->GetAxis(5)->SetRange(0,-1);
         }
         
-        fHistKorelacie->GetAxis(10)->SetRange(0,-1);
-        fHistNumberOfTriggers->GetAxis(6)->SetRange(0,-1);
+      //  fHistKorelacie->GetAxis(10)->SetRange(0,-1);
+      //  fHistNumberOfTriggers->GetAxis(6)->SetRange(0,-1);
     }
 	
 
@@ -315,16 +318,16 @@ void THn(){
 	TCanvas *d = new TCanvas;
 	d->Divide(nMuliplBins*nPtBins,nTig);
 
-    for(Int_t iMultBin = 1; iMultBin<2/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
-        fHistdPhidEtaMix->GetAxis(7)->SetRange(iMultBin+1,iMultBin+1);
+    for(Int_t iMultBin = 0; iMultBin<1/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
+        //fHistdPhidEtaMix->GetAxis(7)->SetRange(iMultBin+1,iMultBin+1);
         
-        for(Int_t i=2;i<nTig;i++){
+        for(Int_t i=0;i<nTig;i++){
             //HistMixType[i]=(THnSparse*)fHistdPhidEtaMix->Clone();
             if(i==0) fHistdPhidEtaMix->GetAxis(5)->SetRange(1,1);
             if(i==1) fHistdPhidEtaMix->GetAxis(5)->SetRange(2,3);
             if(i==2) fHistdPhidEtaMix->GetAxis(5)->SetRange(4,4);
             
-            for(Int_t j=3;j<6/*nPtBins*/;j++){
+            for(Int_t j=0;j<nPtBins;j++){
                 
                 if (j==0) fHistdPhidEtaMix->GetAxis(0)->SetRange(1,1);
                 if (j==1) fHistdPhidEtaMix->GetAxis(0)->SetRange(2,2);
@@ -351,7 +354,7 @@ void THn(){
              fHistdPhidEtaMix->GetAxis(5)->SetRange(0,-1);
         }
         
-        fHistdPhidEtaMix->GetAxis(7)->SetRange(0,-1);
+      //  fHistdPhidEtaMix->GetAxis(7)->SetRange(0,-1);
     }
 	//delete fHistMixType;
 
@@ -385,11 +388,11 @@ void THn(){
     char triggname[20];
 
 	TH1D **fHistBack = new TH1D*[nTig];
-	TFile *fFile = TFile::Open("GraphData_03_2MultBin_hh_3-5Pt.root","RECREATE");
+	TFile *fFile = TFile::Open("GraphMC_2016_05.root","RECREATE");
 	
-    for(Int_t iMultBin = 1; iMultBin<2/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
-        for(Int_t i=2; i<nTig;i++){ //i - type of Trigger particle
-            for(Int_t j=3;j<6/*nPtBins*/;j++){ //j - pt bin
+    for(Int_t iMultBin = 0; iMultBin<1/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
+        for(Int_t i=0; i<nTig;i++){ //i - type of Trigger particle
+            for(Int_t j=0;j<nPtBins;j++){ //j - pt bin
                 fHistRangePtProjPhiEta[iMultBin*nTig+i*nPtBins+j]->Divide(fHistRangePtProjPhiEtaMix[iMultBin*nTig+i*nPtBins+j]);
                 
                 sprintf(nameproj2D, "2dproj_%d_%d_%d",iMultBin,i,j);

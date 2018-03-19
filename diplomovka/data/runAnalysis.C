@@ -16,7 +16,7 @@ void runAnalysis()
     mgr->SetInputEventHandler(aodH);
     
     gROOT->LoadMacro("$ALICE_ROOT/ANALYSIS/macros/AddTaskPIDResponse.C");
-    AliAnalysisTask *pidtask = AddTaskPIDResponse(kFALSE,kTRUE);//,kTRUE,"2",kFALSE,"",kTRUE,kTRUE,-1);
+    AliAnalysisTask *pidtask = AddTaskPIDResponse(kTRUE,"2",kFALSE,"",kTRUE,kTRUE,-1);
     
     gROOT->LoadMacro("$ALICE_PHYSICS/OADB/COMMON/MULTIPLICITY/macros/AddTaskMultSelection.C");
     AliMultSelectionTask * multiptask = AddTaskMultSelection(kFALSE);
@@ -37,12 +37,12 @@ void runAnalysis()
         // if you want to run locally, we need to define some input
         TChain* chain = new TChain("aodTree");
         // add a few files to the chain (change this so that your local files are added)
-         chain->Add("AliAODpp.root"); //pp
+        // chain->Add("AliAODpp.root"); //pp
         // chain->Add("AliAODPbPb1.root");
         // chain->Add("AliAODPbPb2.root");
         // chain->Add("AliAODPbPb3.root");
         // chain->Add("AliAODPbPb4.root");
-      /*  chain->Add("AliAODMC01.root"); //MC
+        chain->Add("AliAODMC01.root"); //MC
         chain->Add("AliAODMC02.root"); //MC
         chain->Add("AliAODMC03.root"); //MC
         chain->Add("AliAODMC04.root"); //MC
@@ -53,7 +53,11 @@ void runAnalysis()
         chain->Add("AliAODMC09.root"); //MC
         chain->Add("AliAODMC10.root"); //MC
         chain->Add("AliAODMC11.root"); //MC
-        chain->Add("AliAODMC12.root"); //MC*/
+        chain->Add("AliAODMC12.root"); //MC
+        chain->Add("AliAODMC13.root"); //MC
+        chain->Add("AliAODMC14.root"); //MC
+        chain->Add("AliAODMC15.root"); //MC
+        chain->Add("AliAODMC16.root"); //MC
         /*chain->Add("AliAOD_MC15a_01.root");// MC /alice/sim/2015/LHC15g3a3
          chain->Add("AliAOD_MC15a_02.root");
          chain->Add("AliAOD_MC15a_03.root");
@@ -88,23 +92,23 @@ void runAnalysis()
         // are LOADED AUTOMATICALLY!
         alienHandler->SetAliPhysicsVersion("vAN-20180218-1");
         // select the input data
-       alienHandler->SetGridDataDir("/alice/data/2015/LHC15f"); //pp
+       //alienHandler->SetGridDataDir("/alice/data/2015/LHC15f"); //pp
         //alienHandler->SetGridDataDir("/alice/data/2011/LHC11h_2");//PbPb
-       //alienHandler->SetGridDataDir(" /alice/sim/2015/LHC15g3c3"); //MC
+       alienHandler->SetGridDataDir(" /alice/sim/2015/LHC15g3c3"); //MC
         //alienHandler->SetGridDataDir(" /alice/sim/2015/LHC15g3a3"); //MC 2015a
          //alienHandler->SetGridDataDir(" /alice/sim/LHC10f6a"); // MC 2010
         //alienHandler->SetGridDataDir("/alice/sim/2016/LHC16d3"); //MC 2016
-        alienHandler->SetDataPattern("pass2/AOD171/*AOD.root"); //pp
+        //alienHandler->SetDataPattern("pass2/AOD171/*AOD.root"); //pp
        // alienHandler->SetDataPattern("ESDs/pass2/AOD145/*AOD.root"); //PbPb
         //alienHandler->SetDataPattern("AOD/*AOD.root"); // MC 2016
-        //alienHandler->SetDataPattern("AOD176/*AOD.root"); // MC 2015c + 2015a
-        //alienHandler->SetDataPattern("AOD161/*AOD.root"); //MC 2010
+        alienHandler->SetDataPattern("AOD176/*AOD.root"); // MC 2015c + 2015a
+       // alienHandler->SetDataPattern("AOD161/*AOD.root"); //MC 2010
         // MC has no prefix, data has prefix 000
-        alienHandler->SetRunPrefix("000");
+       // alienHandler->SetRunPrefix("000");
         // runnumber
         //alienHandler->AddRunNumber(169858); //PbPb
         //alienHandler->AddRunNumber(169855); //PbPb
-        alienHandler->AddRunNumber(226500); //pp
+   /*     alienHandler->AddRunNumber(226500); //pp
         alienHandler->AddRunNumber(226495);
         alienHandler->AddRunNumber(226483);
         alienHandler->AddRunNumber(226476);
@@ -154,9 +158,9 @@ void runAnalysis()
         alienHandler->AddRunNumber(225037);
         alienHandler->AddRunNumber(225035);
         alienHandler->AddRunNumber(225031);
-        alienHandler->AddRunNumber(225026);
+        alienHandler->AddRunNumber(225026);*/
 
-       /* alienHandler->AddRunNumber(225768); //MC 2015c
+        alienHandler->AddRunNumber(225768); //MC 2015c
         alienHandler->AddRunNumber(225587);
         alienHandler->AddRunNumber(226500);
         alienHandler->AddRunNumber(226495);
@@ -209,7 +213,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(225031);
         alienHandler->AddRunNumber(225026);
         
-        alienHandler->AddRunNumber(225000); //MC 2015a
+       /* alienHandler->AddRunNumber(225000); //MC 2015a
         alienHandler->AddRunNumber(225011);
         alienHandler->AddRunNumber(225016);
         alienHandler->AddRunNumber(225026);
@@ -339,8 +343,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTest_012");
-        alienHandler->SetGridOutputDir("myWorkingDirTest_012");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_013");
+        alienHandler->SetGridOutputDir("myWorkingDirTestMC_013");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);

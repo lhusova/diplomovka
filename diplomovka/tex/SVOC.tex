@@ -90,7 +90,30 @@ Na tomto mieste sa chcem poďakovať vedúcemu mojej práce doc. RNDr. Marekovi 
 \tableofcontents
 \newpage
 
-
+\chapter*{Zoznam skratiek a značiek}
+\addcontentsline{toc}{chapter}{Zoznam skratiek a značiek}
+\begin{itemize}
+	\item[] LHC - Large Hadron Collider
+	\item[] CERN - Conseil Européen pour la Recherche Nucléaire
+	\item[] ŠM - Štandardný model
+	\item[] QGP - Kvarkovo-gluónová plazma
+	\item[] ALICE - A Large Ion Collider Experiment
+	\item[] SLAC - Stanford Linear Accelerator Center
+	\item[] QCD - Kvantová chromodynamika
+	\item[] QED - Kvanotová elektrodynamika
+	\item[] LHCb - Large Hadron Collider beauty experiment
+	\item[] GeV - gigaelektrónvolt
+	\item[] LEP - Large Electron-Positron Collider
+	\item[] OPAL - Omni-Purpose Apparatus at LEP
+	\item[] c - rýchlosť svetla vo vákuu
+	\item[] $m^3$ - meter kubický
+	\item[] TeV - teraelektrónvolt
+	\item[] $p_T$ - priečna hybnosť; $p_T=\sqrt{p_{x}^2+p_{y}^2}$
+	\item[] $\varphi$ - azimutálny uhol
+	\item[] $\eta$ - pseudorapidita; $\eta=-\ln \tan {\frac{\theta}{2}}$
+	\item[] $\alpha_S$ - konštante silnej interakcie
+\end{itemize}
+\newpage
 
 
 \chapter*{Úvod}
@@ -538,19 +561,19 @@ TPC je valec naplnený plynovou zmesou ( $Ne/CO_2/N_2$) s objemom $88m^3$ (obr.~
 ROOT je vývojové prostredie napísané v objektovo orientovanom programovacom jazyku C++ určené na analýzu dát. Užívateľovi poskytuje veľký počet funkcionalít spojených so spracovávaním veľkého množstva dát, napr. histogramy, funkcie pre štatistickú analýzu, vizualizáciu zrážok a bohatý matematický aparát. Užívateľ má taktiež možnosť vytvorenia vlastných tried a knižníc vhodných pre svoju analýzu. ROOT je možné prepojiť s už existujúcimi programovacími jazykmi a štatistickými programami, ako sú Python, Ruby, R a Mathematica~\cite{root}.
 
 \section{AliRoot}
-AliRoot je oficiálnym analyzačným softvérom kolaborácie ALICE, základom ktorého je ROOT rozšírený o špeciálne triedy, ktoré sa používajú na rekonštrukciu, simuláciu a analýzu dát v experimente ALICE. Jeho štruktúra, triedy a funkcie sú vytvárané v súlade s~potrebami analýzy dát nameraných na experimente ALICE. Z toho vyplýva aj delenie jeho tried na všeobecné a triedy využívané pre rekonštrukcii, simulácii a analýze. 
+AliRoot \cite{aliroot} je oficiálnym analyzačným softvérom kolaborácie ALICE, základom ktorého je ROOT rozšírený o špeciálne triedy, ktoré sa používajú na rekonštrukciu, simuláciu a analýzu dát v experimente ALICE. Jeho štruktúra, triedy a funkcie sú vytvárané v súlade s~potrebami analýzy dát nameraných na experimente ALICE. Z toho vyplýva aj delenie jeho tried na všeobecné a triedy využívané pre rekonštrukcii, simulácii a analýze. 
 
 Pomocou AliRootu je možné spracovávať dáta v rôznych formátoch:
 \begin{itemize}
 	\item \textbf {raw dáta} - signály z jednotlivých detektorov priradené k jednotlivým zrážkam, ktoré sa ďalej spracovávajú na gride\footnote{Grid je celosvetová počítačová sieť, na ktorej sa rekonštruujú a analyzujú dáta. Grid experimentu ALICE sa nazýva AliEn a obsahuje okolo 100000 CPU jadier.} 
 	\item \textbf {ESD (Event Summary Data) dáta} - spracované ale nefiltrované raw dáta, obsahujú objekty, ktoré sa vypočítali pomocou raw dát, ako napríklad druhy nabitých častíc alebo slabé neutrálne rozpady. K jednotlivým objektom sú priradené ich vlastnosti ako hmotnosť, hybnosť, energia, elektrický náboj a pod..
-	\item \textbf {AOD (Analysis Object Data) dáta} - fitrované ESD dáta vhodné skoro pre všetky druhy analýz, tvoria približne 10\% pôvodnej veľkosti ESD dát, použité aj v tejto analýze
+	\item \textbf {AOD (Analysis Object Data) dáta} - filtrované ESD dáta vhodné skoro pre všetky druhy analýz, tvoria približne 10\% pôvodnej veľkosti ESD dát, použité aj v tejto analýze
 \end{itemize}
 
 Pre všetky tieto druhy dát sú v AliRoote vytvorené špeciálne triedy s podobnými funkciami. Okrem dát zozbieraných z detektorov, AliRoot umožňuje spracovanie aj simulovaných dát, pre ktoré tiež existujú samostatné triedy. Na simulácie sa využívajú rôzne Monte Carlo (MC) generátory zrážok:
 \begin{itemize}
 	\item HIJING \cite{hijing} - generovanie jadrovo-jadrových zrážok, založený na QCD a Lundskom modeli fragmentácie jetov
-	\item PYTHIA \cite{pythia}, Herwig \cite{herwig} - generovanie protónovo-protónových zrážok
+	\item PYTHIA \cite{pythia}, PHOJET \cite{phojet}, Herwig \cite{herwig} - generovanie protónovo-protónových zrážok
 \end{itemize}
 
 Rekonštrukcia simulovaných dát (raw, ESD, AOD) sa uskutočňuje pomocou rovnakého kódu ako rekonštrukcia reálnych dát.
@@ -561,14 +584,14 @@ Rekonštrukcia simulovaných dát (raw, ESD, AOD) sa uskutočňuje pomocou rovna
 V analýze boli spracovávané dáta z protónovo-protónových zrážok pri energii $\sqrt{s_{NN}}=13$~TeV z roku 2015. Analyzované dáta boli vo formáte AOD. Dokopy bolo analyzovaných $1.17\times10^7$ zrážok, ktoré boli vyselektované na zákldade trigra \textit{AliVEvent::kINT7}, ktorý znamená logický AND medzi signálmi z detektorov V0A a V0C.
 MC produkcia bola zviazaná s týmito dátami a boli použité MC produkcie z 3 rôznych generátorov: PYTHIA6 - Perugia \cite{perugia} , PYTHIA8 - Monash \cite{monash}, EPOS - LHC \cite{epos}. 
 
-Analyzované boli iba tie zrážky, ktorých primárny vertex\footnote{miesto zrážky dvoch protónov} bol vzdialený maximálne 10 cm od geometrického stredu detektora. Nabité primárne hadróny museli spĺňať selekčné kritériá optimalizované pre tento druh analýzy.
+Analyzované boli iba tie zrážky, ktorých PV bol vzdialený maximálne 10 cm od geometrického stredu detektora. Nabité primárne hadróny museli spĺňať selekčné kritériá optimalizované pre tento druh analýzy.
 
 Na obrázku~\ref{schema} je zobrazená schéma rozpadu $V^0$ častice, konkrétne $\Lambda$. Pri selekcii jednotlivých $V^0$ častíc sme sa zamerali na parametre:
 \begin{itemize}
 	\item DCA (Distance of Closest Approach) $V^0$ Neg. daughter - najkratšia vzdialenosť v priestore negatívne nabitej dcéry k primárnemu vertexu
 	\item DCA $V^0$ pos. - najkratšia vzdialenosť pozitívne nabitej dcéry
 	\item DCA between daughters - najkratšia vzdialenosť v priestore medzi dcérami $V^0$ častice
-	\item V0 2D Decay Radius  - je vzdialenosť bodu rozpadu $V^0$ (sekundárny vertex) a primárneho vertexu zrážky v $xy$ rovine
+	\item V0 2D Decay Radius  - vzdialenosť bodu rozpadu $V^0$ (sekundárny vertex) a primárneho vertexu zrážky v $xy$ rovine
 	\item Pointing angle $\theta_{PA}$ - uhol medzi úsečkou spájajúcou primárny vertex zrážky a bod rozpadu $V^0$ a vektorom celkovej hybnosti $V^0$ častice
 	\item lifetime - doba života
 	\item pseudorapidita $\eta$
@@ -577,7 +600,7 @@ Všetky hodnoty selekčných kritérii sú zosumarizované v tabuľke~\ref{tabul
 
 \begin{figure}[hbtp!]
 	\centering
-	\includegraphics[scale=0.9]{./Obrazky_praca/SchemaV0.png}
+	\includegraphics[scale=0.8]{./Obrazky_praca/SchemaV0.png}
 	\caption{Schéma topologickej selekcie pre $V^0$ častice~\cite{schema}}
 	\label{schema} 
 \end{figure}
@@ -604,12 +627,38 @@ Všetky hodnoty selekčných kritérii sú zosumarizované v tabuľke~\ref{tabul
 \newpage
 Selekčné kritéria boli aplikované aj na dcérske častice pochádzajúce z $V^0$. Rekonštruované dráhy nabitých dcérskych častíc $V^0$ prešli najmenej cez 70 rovín ("padrows") v TPC. Pomer počtu reálne prejdených a teoreticky možných rovín v TPC musel byť väčší ako 0.8. Posledným kritériom výberu dcérskych častíc bola ich identifikácia pomocou straty energie v TPC pre $V^0$ častice s priečnou hybnosťou menšou ako 1 GeV, kde strata energie kandidáta na dcérsku časticu $V^0$ musela byť v intervale do $3\sigma$ od teoreticky vypočítanej straty energie pre danú časticu.
 
-Posledným kritériom potrebným na štúdium dvojčasticových korelácií je priečna hybnosť. Trigrovacia častica musela mať priečnu hybnosť väčšiu ako 4 GeV/c a asociovaná sa musela nachádzať v intervale 2 GeV/c$<p_T^{asoc}<p_T^{trig}$.
+Na základe týchto selekčných kritérii sme z invariatného rozdelenia hmotnosti kandidátov na dcérske častice $V^0$ extrahovali signál (obr. \ref{k0} a \ref{Lambdy} ). Vybrané $V^0$ sme použili v ďalšej analýze. 
+
+\begin{figure}[hbtp!]
+	\centering
+	\includegraphics[scale=0.4]{../histogramy/massK0.png}
+	\caption{Vybrantý signál mezónu $K^0_S$ z invariantného rozdelenia párov $\pi^+\pi^-$}
+	\label{k0}
+\end{figure}
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../histogramy/massLam.png}
+		\caption{}
+		\label{Lam}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1\linewidth]{../histogramy/massALam.png}
+		\caption{}
+		\label{ALam}
+	\end{subfigure}
+	\caption{Vybrantý signál baryónu (a) $\Lambda$ z invariantného rozdelenia párov $p\pi^-$, (b) $\bar{\Lambda}$ z invariantného rozdelenia párov $\bar{p}\pi^+$}
+	\label{Lambdy}
+\end{figure}
+
+Posledným kritériom potrebným na štúdium dvojčasticových korelácií je priečna hybnosť. Trigrovacia častica musela mať priečnu hybnosť väčšiu ako 4 GeV/c a asociovaná sa musela nachádzať v intervale 2 GeV/$c<p_T^{asoc}<p_T^{trig}$.
 
 \section{Korekcie}
 Okrem jednotlivých selekčných kritérii bolo potrebné pri analýze použiť aj tri typy korekcií. 
 
-Prvou je korekcia na konečnú akceptanciu detektora. Túto korekciu sme urobili pomocou metódy mixing. Trigrovacia častica bola z jedného prípadu a asociovaná častica z iného nezávislého prípadu. Kvôli väčšej štatistike sme jednu trigrovaciu časticu mixovali s minimálne piatimi prípadmi, pričom oba prípady museli mať z-ovú zložku primárneho vertexu rovnakú v rámci 1 cm a spadať do rovnakého multiplicitného binu. Mixovaním získané rozdelenie tvaru kombinatorického pozadia v rovine ($\Delta \phi \Delta \eta$) je na obrázku~\ref{pozadie}. Toto rozdelenie bolo následne normované na hodnotu najvyššieho binu rozdalenia. Za predpokladu, že účinnosť rekonštrukcie páru v najvyššom bine je 100\%, získame tak rozdelenie účinnosti rekonštrukcie párov v priestore $(\Delta \phi,\Delta\eta)$.
+Prvou je korekcia na konečnú akceptanciu detektora. Túto korekciu sme urobili pomocou metódy mixing. Trigrovacia častica bola z jedného prípadu a asociovaná častica z iného nezávislého prípadu. Kvôli väčšej štatistike sme jednu trigrovaciu časticu mixovali s minimálne piatimi prípadmi, pričom oba prípady museli mať z-ovú zložku primárneho vertexu rovnakú v rámci 1 cm a mať približne rovnakú multiplicitu. Mixovaním získané rozdelenie tvaru kombinatorického pozadia v rovine ($\Delta \phi \Delta \eta$) je na obrázku~\ref{pozadie}. Toto rozdelenie bolo následne normované na hodnotu najvyššieho binu rozdalenia. Za predpokladu, že účinnosť rekonštrukcie páru v najvyššom bine je 100\%, získame tak rozdelenie účinnosti rekonštrukcie párov v priestore $(\Delta \phi,\Delta\eta)$.
 
 \begin{figure}[hbtp!]
 	\centering
@@ -621,12 +670,12 @@ Prvou je korekcia na konečnú akceptanciu detektora. Túto korekciu sme urobili
 Druhou je korekcia na účinnosť rekonštrukcie asociovaných častíc v detektore. Pri tejto korekcii boli použité dáta nasimulované metódou Monte Carlo, ktoré zodpovedajú energii aj druhu zrážok spracovávaných dát. Generované dáta prešli \-re\-kon\-štruk\-ciou, pri ktorej boli použité rovnaké selekčné kritéria ako pre reálne dáta. Účinnosť re\-kon\-štruk\-cie sa definuje ako podiel počtu zrekonštruovaných častíc ku počtu generovaných v závislosti od priečnej hybnosti a  pseudorapidity asociovanej častice a z-ovej súradnice primárneho vertexu, pričom každá rekonštruovaná častica musí byť spojená s generovanou časticou.  
 \begin{equation}
 \footnotesize
-\epsilon_{asoc}(p_{T}^{asoc},\eta,Pz) = \frac{N_{asoc}^{gen}}{N_{asoc}^{rek}}(p_{T}^{asoc},\eta,Pz)
+\epsilon_{asoc}(p_{T}^{asoc},\eta,Pz) = \frac{N_{asoc}^{rek}}{N_{asoc}^{gen}}(p_{T}^{asoc},\eta,Pz)
 \end{equation}
 Poslednou je korekcia na účinnosť rekonštrukcie trigrovacích častíc. Bola robená podobne ako pre asociované častice v závislosti od priečnej hybnosti a  pseudorapidity trigrovacej častice a z-ovej súradnice primárneho vertexu. Na obrázku \ref{uc} je zobrazená účinnosť rekonštrukcie pre jednotlivé typy častíc v závislosti od ich priečnej hybnosti.
 \begin{equation}
 \footnotesize
-\epsilon_{trig}(p_{T}^{trig},\eta,Pz) = \frac{N_{trig}^{gen}}{N_{trig}^{rek}}(p_{T}^{trig},\eta,Pz)
+\epsilon_{trig}(p_{T}^{trig},\eta,Pz) = \frac{N_{trig}^{rek}}{N_{trig}^{gen}}(p_{T}^{trig},\eta,Pz)
 \end{equation}
 \begin{equation}\end{equation}
 Po aplikovaní všetkých korekcií dostávame výsledné dvojrozmerné rozdelenie:
@@ -650,7 +699,7 @@ N^{corr}_{trig}=N^{raw}_{trig}\frac{1}{\epsilon_{trig}(p_{T}^{trig},\eta,Pz)}
 
 \section{MC closure test}
 
-Monte Carlo closure test je v princípe skúška správnosti kódu použitého na štúdium dvojčasticových korelácií. Použitá tu bola kombinácia dvoch produkcií MC (Perugia a Monash) kvôli zvýšeniu štastistiky. V rámci tohto testu sa pozeráme na korelačné funkcie hadrónov, ktoré boli vygenerované a na korelačné funkcie MC zrekonštruovaných hadrónov, na ktoré boli aplikované už skôr spomínané korekcie. Pre generované ako aj rekonštruované dáta sme urobili korelačné funkcie v závislosti od priečnej hybnosti  a od druhu trigrovacej častice. Následne sme tieto dvojrozmerné rozdelenia generovaných častíc predelili rozdeleniami rekonštruovaných častíc. Z týchto dvojrozmerných pomerov sme potom robili projekcie na jednotlivé osi, pričom prázdne biny boli ignorované, a tie sme fitovali konštantnou funkciou. Hodnoty jednotlivých fitov sme zobrazili v závislosti od priečnej hybnosti a druhu trigrovacej častice Obr \ref{fitMC} . Očakávaný výsledok bol v blízkom okolí 1, ktorý sme dosiahli pre korelácie, kde trgrovacími časticami boli nabité hadróny. Tento výsledok znamená, že s aplikovanými korekciami sme dokázali zrekonštruovať situáciu, len minimálne ovplyvnenú detektorom.
+Monte Carlo closure test je v princípe skúška správnosti kódu použitého na štúdium dvojčasticových korelácií. Použitá tu bola kombinácia dvoch produkcií MC (Perugia a Monash) kvôli zvýšeniu štastistiky. V rámci tohto testu sa pozeráme na korelačné funkcie hadrónov, ktoré boli vygenerované a na korelačné funkcie MC zrekonštruovaných hadrónov, na ktoré boli aplikované už skôr spomínané korekcie. Pre generované ako aj rekonštruované dáta sme urobili korelačné funkcie v závislosti od priečnej hybnosti  a od druhu trigrovacej častice. Následne sme tieto dvojrozmerné rozdelenia generovaných častíc predelili rozdeleniami rekonštruovaných častíc. Z týchto dvojrozmerných pomerov sme potom robili projekcie na jednotlivé osi, pričom prázdne biny boli ignorované, a tie sme fitovali konštantnou funkciou. Hodnoty jednotlivých fitov sme zobrazili v závislosti od priečnej hybnosti a druhu trigrovacej častice na obr. \ref{fitMC} . Očakávaný výsledok bol v blízkom okolí 1, ktorý sme dosiahli pre korelácie, kde trgrovacími časticami boli nabité hadróny. Tento výsledok znamená, že s aplikovanými korekciami sme dokázali zrekonštruovať situáciu, len minimálne ovplyvnenú detektorom.
 V prípade V0 ako trigrovacích častíc je fit viac posunutý od 1. Ako je vidieť na jednotlivých projekciách (Obr. \ref{K0phi}  až Obr.\ref{heta}  ), projekcia na $\Delta \phi$ je približne konštantná a rovnako posunutá od hodnoty 1 pre $K^0_S$ ako aj pre $\Lambda$. Pri projekcii na $\Delta \eta$ vidíme rovnaké správanie v okolí 0, teda v okolí korelačného píku, ale na okrajoch hodota pomeru klesá. Tento efekt by mohol byť spôsobený detektorom a bude zarátaný v rámci systematickej chyby. 
 
 \begin{figure}
@@ -667,7 +716,7 @@ V prípade V0 ako trigrovacích častíc je fit viac posunutý od 1. Ako je vidi
 		\caption{}
 		\label{fitEta}
 	\end{subfigure}
-	\caption{Hodnota fitu pre jednotlivé $p_T$ biny.}
+	\caption{Hodnota fitu pre jednotlivé $p_{T}^{trig}$ biny.}
 	\label{fitMC}
 \end{figure}
 
@@ -745,25 +794,92 @@ Výťažky sme počítali pomocou vzťahu~\ref{yield} v intevale $-0.9$ až 0.9 
 
 \begin{figure}[hbtp!]
 	\centering
-	\includegraphics[width=\textwidth]{./Obrazky_praca/vytazok_near.png}
+	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/vytazky_minBias_prilahly_mult.png}
 	\caption{Závislosť výťažkov od priečnej hybnosti trigrovacej častice pre priľahlý pík}
 	\label{near}
 \end{figure}
 
 \begin{figure}[hbtp!]
 	\centering
-	\includegraphics[width=\textwidth]{./Obrazky_praca/vytazok_away.png}
+	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/vytazky_minBias_protilahly_mult.png}
 	\caption{Závislosť výťažkov od priečnej hybnosti trigrovacej častice pre protiľahlý pík}
 	\label{away}
 \end{figure}
 
+\subsection{Výťažky a korelačné funkcie v závislosti od multiplicity zrážok}
+Okrem závislosti výťažkov od priečnej hybnosti trigrovacej častice sme študovali aj závislosti výťažkov pre jednotlivé trigrovacie častice aj od multiplicity zrážok. Zrážky sme rozdelili na 3 kategórie: 0-10\% - zrážky s najvyššou multiplicitou (viac ako 11,5 $<dN_{ch}/d\eta>$\footnote{Priemerný počet nabitých častíc v jednotke pseudorapidity pre strednú pseudorapiditu.}), 10-50\% - zrážky so strednou multiplicitou (4,5 - 11,5 $<dN_{ch}/d\eta>$) a 50-100\% - zrážky s nízkou multiplicitou (menej ako 4,5 $<dN_{ch}/d\eta>$) a v každej sme vypočítali výťažky v závislosti priečnej hybnosti trigrovacej častice pre jednotlivé druhy korelácií (obr. \ref{K0mult} až \ref{hhmult}).
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/vytazky_Kh_prilahly_mult.png}
+		\caption{}
+		\label{K0pril}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/vytazky_Kh_protilahly_mult.png}
+		\caption{}
+		\label{K0proti}
+	\end{subfigure}
+	\caption{Závisloť výťažkov pre korelácie $K^0_S - h$ od $p_T^{trig}$ a multiplicitnej triedy zrážky pre piľahlý pík (a) a protiľahlý pík (b).}
+	\label{K0mult}
+\end{figure}
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/vytazky_Lh_prilahly_mult.png}
+		\caption{}
+		\label{Lampril}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/vytazky_Lh_protilahly_mult.png}
+		\caption{}
+		\label{Lamproti}
+	\end{subfigure}
+	\caption{Závisloť výťažkov pre korelácie $(\Lambda + \bar{\Lambda})- h$ od $p_T^{trig}$ a multiplicitnej triedy zrážky pre piľahlý pík (a) a protiľahlý pík (b).}
+	\label{Lammult}
+\end{figure}
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/vytazky_hh_prilahly_mult.png}
+		\caption{}
+		\label{hhpril}
+	\end{subfigure}%
+	\begin{subfigure}{0.5\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/vytazky_hh_protilahly_mult.png}
+		\caption{}
+		\label{hhproti}
+	\end{subfigure}
+	\caption{Závisloť výťažkov pre korelácie $h - h$ od $p_T^{trig}$ a multiplicitnej triedy zrážky pre piľahlý pík (a) a protiľahlý pík (b).}
+	\label{hhmult}
+\end{figure}
+
+Podobne ako sa robilo v skoršej analýze na experimente ALICE, porovnávali sme dvojrozmerné korelačné funkcie pre jednotlivé multiplicitné triedy zrážok. Na obr. \ref{multroz} je zobrazený rozdiel korelačných funkcií pre triedu najvyšších a najnižších multiplicitných tried ((0-10\%)-(50-100\%)).
+
+\begin{figure}[hbtp!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/odcitane.png}
+	\caption{Rozdiel korelacných funkcií pre (0-10\%)a (50-100\%).}
+	\label{multroz}
+\end{figure}
 \chapter{Diskusia}
  
 Na grafoch závislosti výťažkov od priečnej hybnosti trigrovacej častice je viditieľné, že výťažok rastie so zväčšujúcou sa $p_T$ trigrovacej častice pre priľahlý aj pre protiľahlý pík a pre všetky druhy trigrovacích častíc. Tento výsledok bol očákavaný, pretože trigrovacia častica s vysokou $p_T$ pochádza z jetu s vysokou energiou, ktoré majú vyššiu multiplicitu ako jety s nižšou energiou, a teda sa tam nachádza väčší počet asociovaných častíc. 
 
 Výťažky protiľahlých píkov sú nižšie ako priľahlých. Tento efekt môže byť spôsobený tým, že protiľahlý jet nie je viditeľný v detektore v prípade, že sa nachádzá v intervale pseudorapidity mimo akceptancie detektora. 
 
-Čo sa týka veľkosti výťažkov pre jednotlivé trigrovacie častice, hoci nevieme stanoviť jednoznačný trend kvôli veľkým štatistickým chybám a fluktuáciám výťažkov, je viditeľné výrazné zvýšenie výťažkov pre korelácie s trigrovacími časticami $\Lambda$ a $\bar{\Lambda}$ v priľahlom aj protiľahlom píku pre najvyššie $p_T$ trigrovacích častíc. Toto zvýšenie by mohlo byť spôsobené tým, že baryóny s väčšou pravdepodobnosťou vznikajú v gluónových jetoch, ktoré majú vyššiu multiplicitu, a teda aj vyšší výťažok. Druhým vysvetlením je fluktuácia spôsobená systematickými chybami, ktoré zatiaľ neboli do výsledkov započítané. Toto vysvetlenie podporuje aj porovnanie výťažkov pre priľahlý pík s MC dátami(obr. \ref{porovnanieL}), kde je viditeľný odklon výťažku od MC hodnoty až 35\% (za predpokladu, že MC dobre popisuje počty podivných častíc v jetoch).    
+Čo sa týka veľkosti výťažkov pre jednotlivé trigrovacie častice, pre priľahlý pík je jasne viditeľné, že najvyššie výťažky majú korelácie s nabitým hadrónom ako trigrovacou časticou. Tento efekt by mohol byť spôsobený tým, že vädšina nabitých hadrónov v experimente sú nabité pióny, ktoré majú malú hmotnosť. Z tohto dôvodu zostáva dostatok energie na tvorbu asociovaných častíc v jete. Výťažky pre korelácie s $K^0_S$ mezónmi a $\Lambda$ baryónmi ako trigrovacími časticami sú nižšie, keďže obe častice sú hmotnejšie ako pióny. Rozdiel medzi výťažkami z týchto dvoch korelácií nie je jednoznačný, je však vidieť náznak vyšších výťažkov pre korelácie $\Lambda - h$. Toto by mohlo byť dôsledkom rozdielov medzi kvarkovými a gluónovými jetmi. $\Lambda$ častice ako baryóny by sa mali s väčšou pravdepodobnosťou tvoriť v gluónových jetoch, ktoré majú majú väčšiu multiplicitu a teda by mali mať aj vyšší výťažok, zatiaľ čo pre mezóny sa tvoria približne s rovnakou pravdepodobnosťou v kvarkových aj gluónových jetoch. Ak tento efekt ovplyvňuje veľkosti výťažkov v tejto analýze, je príliž malý, aby sme ho mohli jednoznačne určiť. Minimálny rozdiel medzi výťažkami pre korelácie  $\Lambda - h$ a $K^0_S-h$ by mohol byť spôsobený aj tým, že pri LHC energiách je približne 80\% všetkých jetov gluónových. 
+
+Výťažky protiľahlých píkov sú približne rovnaké pre všetky druhy trigrovacích častíc.
+
+Závisloť výťažkov od multiplicitnej triedy zrážky je najlepšie viditeľná pre korelácie s nabitým hadrónom. Navyššie výťažky sú pozorované pre zrážky s najvyššou multiplicitou a najnižšie pre zrážky s najnižsou multiplicitou. Rovnaký trend je vidieť aj pre nízke priečne hybnosti trigrovacej častice pre korelácie  $K^0_S-h$ . 
+  
 
 Výťažky pre priľahlý aj protiľahlý pík pre všetky trigrovacie častice sme porovnali s MC dátami pre rôzne typy generátorov, ktoré sú zobrazené na obrázkoch~\ref{porovnanie} až \ref{porovnanieh}. Najlepšie dáta popisuje generátor PYTHIA6 - Perugia, ako je možné vidieť na spodných častiach obrázkov, kde sú zobrazené pomery výťažkov MC ku výťažkom z dát.
 %Pomer výťažkov pre generované \-re\-konšt\-ru\-o\-va\-né dáta a namerarané dáta je približne rovný 1 pre všetky trigrovacie častice a pre všetky intervaly priečnej hybnosti. To ukazuje, že PYTHIA veľmi dobre popisuje fragmentáciu nabitých častíc ako aj podivných častíc. 
@@ -772,12 +888,12 @@ Výťažky pre priľahlý aj protiľahlý pík pre všetky trigrovacie častice 
 	\centering
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\linewidth]{../histogramy/vytazky/K0_prilahly.png}
+		\includegraphics[width=0.8\linewidth]{./Obrazky_praca/vytazok_near_K0_MC.png}
 		\caption{}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\linewidth]{../histogramy/vytazky/K0_protilahly.png}
+		\includegraphics[width=0.8\linewidth]{./Obrazky_praca/vytazok_away_K0_MC.png}
 		\caption{}
 	\end{subfigure}
 	\caption{Porovnanie závislosti výťažkov od priečnej hybnosti trigrovacej častice pre priľahlý pík (a) a pre protiľahlý pík (b) s trigrovacou časticou $K^0_S$ pre reálne dáta a pre rekonštruované MC dáta pochádzajúce z rôznych generátorov}
@@ -788,12 +904,12 @@ Výťažky pre priľahlý aj protiľahlý pík pre všetky trigrovacie častice 
 	\centering
 \begin{subfigure}{0.5\textwidth}
 	\centering
-	\includegraphics[width=1.1\linewidth]{../histogramy/vytazky/lam_prilahly.png}
+	\includegraphics[width=0.8\linewidth]{./Obrazky_praca/vytazok_near_Lam_MC.png}
 	\caption{}
 \end{subfigure}%
 \begin{subfigure}{0.5\textwidth}
 	\centering
-	\includegraphics[width=1.1\linewidth]{../histogramy/vytazky/lam_protilahly.png}
+	\includegraphics[width=0.8\linewidth]{./Obrazky_praca/vytazok_away_Lam_MC.png}
 	\caption{}
 \end{subfigure}
 	\caption{Porovnanie závislosti výťažkov od priečnej hybnosti trigrovacej častice pre priľahlý pík (a) a pre protiľahlý pík (b) s trigrovacími časticami $\Lambda$ a $\bar{\Lambda}$ pre reálne dáta a pre rekonštruované MC dáta pochádzajúce z rôznych generátorov}
@@ -804,12 +920,12 @@ Výťažky pre priľahlý aj protiľahlý pík pre všetky trigrovacie častice 
 	\centering
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\linewidth]{../histogramy/vytazky/hh_prilahly.png}
+		\includegraphics[width=0.8\linewidth]{./Obrazky_praca/vytazok_near_hh_MC.png}
 		\caption{}
 	\end{subfigure}%
 	\begin{subfigure}{0.5\textwidth}
 		\centering
-		\includegraphics[width=1.1\linewidth]{../histogramy/vytazky/hh_protilahly.png}
+		\includegraphics[width=0.8\linewidth]{./Obrazky_praca/vytazok_away_hh__MC.png}
 		\caption{}
 	\end{subfigure}
 	\caption{Porovnanie závislosti výťažkov od priečnej hybnosti trigrovacej častice pre priľahlý pík (a) a pre protiľahlý pík (b) s~nabitým hadrónom ako trigrovacou časticou pre reálne dáta a pre rekonštruované MC dáta pochádzajúce z rôznych generátorov}
@@ -904,12 +1020,16 @@ http://aliceinfo.cern.ch/ArtSubmission/node/716
 http://aliceinfo.cern.ch/Public/en/Chapter2/Chap2\_TPC.html
 \bibitem{root}
 https://root.cern.ch/about-root 
+\bibitem{aliroot}
+http://alice-offline.web.cern.ch/sites/alice-offline.web.cern.ch/files/uploads/OfflineBible.pdf
 \bibitem{hijing}
 GYULASSY, Miklos a Xin-Nian WANG. HIJING 1.0: A Monte Carlo program for parton and particle production in high energy hadronic and nuclear collisions. \textit{Computer Physics Communications} [online]. 1994, 83(2-3. ISSN 00104655. http://linkinghub.elsevier.com/retrieve/pii/0010465594900574
 \bibitem{pythia}
 SJOSTRAND, T., SKANDS, P., PRESTEL, S. PYTHIA 8 Worksheet. 24P, http://home.thep.lu.se/~torbjorn/pythia8/worksheet8183.pdf
+\bibitem{phojet}
+BOPP, F.W., ENGEL, R., RANFT, J. Rapidity gaps and the PHOJET Monte Carlo, https://arxiv.org/abs/hep-ph/9803437
 \bibitem{herwig}
-BELLM, Johannes, Stefan GIESEKE, David GRELLSCHEID, et al. Herwig 7.0/Herwig++ 3.0 release note. \textit{The European Physical Journal C} [online]. 2016, 76(4), - [cit. 2018-02-21]. DOI: 10.1140/epjc/s10052-016-4018-8. ISSN 1434-6044. http://link.springer.com/10.1140/epjc/s10052-016-4018-8
+BELLM, Johannes, Stefan GIESEKE, David GRELLSCHEID, et al. Herwig 7.0/Herwig++ 3.0 release note. \textit{The European Physical Journal C} [online]. 2016, 76(4). ISSN 1434-6044. http://link.springer.com/10.1140/epjc/s10052-016-4018-8
 \bibitem{perugia}
 SKANDS, Peter Z. Tuning Monte Carlo generators: The Perugia tunes. \textit{Physical Review D }[online]. 2010, 82(7). ISSN 1550-7998. https://link.aps.org/doi/10.1103/PhysRevD.82.074018
 \bibitem{monash}

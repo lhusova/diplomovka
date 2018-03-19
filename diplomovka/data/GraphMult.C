@@ -27,7 +27,7 @@ void GraphMult(){
     TFile *gL3 =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphData_03_3MultBin_Lh_0-2Pt.root");
     TFile *fL3 =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphData_03_3MultBin_Lh_3-5Pt.root");
     
-  /* TH2D* fHist2DhhHighMultipl = (TH2D*)g->Get("2dproj_0_2_0");
+   TH2D* fHist2DhhHighMultipl = (TH2D*)g->Get("2dproj_0_2_0");
     TH2D* fHist2DhhHighMultiplHighPt = (TH2D*)g->Get("2dproj_0_2_0");
     fHist2DhhHighMultiplHighPt->SetName("fHist2DhhHighMultiplHighPt");
     TH2D* fHist2DKhHighMultipl = (TH2D*)gK->Get("2dproj_0_0_0");
@@ -46,63 +46,121 @@ void GraphMult(){
     fHist2DhhLowMultiplHighPt->SetName("fHist2DhhLowMultiplHighPt");
     TH2D* fHist2DKhLowMultipl = (TH2D*)gK3->Get("2dproj_2_0_0");
     TH2D* fHist2DLhLowMultipl = (TH2D*)gL3->Get("2dproj_2_1_0");
-    char name3[20];*/
-   /* for(Int_t j=0;j<3;j++){
+    char name3[20];
+    
+    char nameTrigg1[20];
+    char nameTrigg2[20];
+    char nameTrigg3[20];
+    
+    TH1D* fHist1DhhHighMultiplTrigg = (TH1D*)g->Get("1dtrigg_0_2_0");
+    TH1D* fHist1DKhHighMultiplTrigg = (TH1D*)gK->Get("1dtrigg_0_0_0");
+    TH1D* fHist1DLhHighMultiplTrigg = (TH1D*)gL->Get("1dtrigg_0_1_0");
+    
+    TH1D* fHist1DhhMidleMultiplTrigg = (TH1D*)g2->Get("1dtrigg_1_2_0");
+    TH1D* fHist1DKhMidleMultiplTrigg = (TH1D*)gK2->Get("1dtrigg_1_0_0");
+    TH1D* fHist1DLhMidleMultiplTrigg = (TH1D*)gL2->Get("1dtrigg_1_1_0");
+    
+    TH1D* fHist1DhhLowMultiplTrigg = (TH1D*)g3->Get("1dtrigg_2_2_0");
+    TH1D* fHist1DKhLowMultiplTrigg = (TH1D*)gK3->Get("1dtrigg_2_0_0");
+    TH1D* fHist1DLhLowMultiplTrigg = (TH1D*)gL3->Get("1dtrigg_2_1_0");
+    
+    for(Int_t j=0;j<3;j++){
         for(Int_t i=1;i<6;i++){
             sprintf(name1,"2dproj_0_%d_%d",j,i);
             sprintf(name2,"2dproj_1_%d_%d",j,i);
             sprintf(name3,"2dproj_2_%d_%d",j,i);
+            sprintf(nameTrigg1,"1dtrigg_0_%d_%d",j,i);
+            sprintf(nameTrigg2,"1dtrigg_1_%d_%d",j,i);
+            sprintf(nameTrigg3,"1dtrigg_2_%d_%d",j,i);
             TH2D * tmp = 0x0;
             TH2D * tmp2 = 0x0;
             TH2D * tmp3 = 0x0;
+            TH1D * tmpTrigg = 0x0;
+            TH1D * tmpTrigg2 = 0x0;
+            TH1D * tmpTrigg3 = 0x0;
             if(j==2){
                 if(i<3) {
                     tmp =(TH2D*)g->Get(name1);
                     tmp2 =(TH2D*)g2->Get(name2);
                     tmp3 =(TH2D*)g3->Get(name3);
+                    tmpTrigg = (TH1D*)g->Get(nameTrigg1);
+                    tmpTrigg2 = (TH1D*)g2->Get(nameTrigg2);
+                    tmpTrigg3 = (TH1D*)g3->Get(nameTrigg3);
                 }
                 else {
                     tmp =(TH2D*)f->Get(name1);
                     tmp2 =(TH2D*)f2->Get(name2);
                     tmp3 =(TH2D*)f3->Get(name3);
+                    tmpTrigg = (TH1D*)f->Get(nameTrigg1);
+                    tmpTrigg2 = (TH1D*)f2->Get(nameTrigg2);
+                    tmpTrigg3 = (TH1D*)f3->Get(nameTrigg3);
                 }
                 fHist2DhhHighMultipl->Add(tmp);
                 fHist2DhhMidleMultipl->Add(tmp2);
                 fHist2DhhLowMultipl->Add(tmp3);
+                
+                fHist1DhhHighMultiplTrigg->Add(tmpTrigg);
+                fHist1DhhMidleMultiplTrigg->Add(tmpTrigg2);
+                fHist1DhhLowMultiplTrigg->Add(tmpTrigg3);
+                
             }
             if(j==0){
                 if(i<3) {
                     tmp =(TH2D*)gK->Get(name1);
                     tmp2 =(TH2D*)gK2->Get(name2);
                     tmp3 =(TH2D*)gK3->Get(name3);
+                    tmpTrigg = (TH1D*)gK->Get(nameTrigg1);
+                    tmpTrigg2 = (TH1D*)gK2->Get(nameTrigg2);
+                    tmpTrigg3 = (TH1D*)gK3->Get(nameTrigg3);
                 }
                 else {
                     tmp =(TH2D*)fK->Get(name1);
                     tmp2 =(TH2D*)fK2->Get(name2);
                     tmp3 =(TH2D*)fK3->Get(name3);
+                    tmpTrigg = (TH1D*)fK->Get(nameTrigg1);
+                    tmpTrigg2 = (TH1D*)fK2->Get(nameTrigg2);
+                    tmpTrigg3 = (TH1D*)fK3->Get(nameTrigg3);
                 }
                 fHist2DKhHighMultipl->Add(tmp);
                 fHist2DKhMidleMultipl->Add(tmp2);
                 fHist2DKhLowMultipl->Add(tmp3);
+                
+                fHist1DKhHighMultiplTrigg->Add(tmpTrigg);
+                fHist1DKhMidleMultiplTrigg->Add(tmpTrigg2);
+                fHist1DKhLowMultiplTrigg->Add(tmpTrigg3);
             }
             if(j==1){
                 if(i<3) {
                     tmp =(TH2D*)gL->Get(name1);
                     tmp2 =(TH2D*)gL2->Get(name2);
                     tmp3 =(TH2D*)gL3->Get(name3);
+                    tmpTrigg = (TH1D*)gL->Get(nameTrigg1);
+                    tmpTrigg2 = (TH1D*)gL2->Get(nameTrigg2);
+                    tmpTrigg3 = (TH1D*)gL3->Get(nameTrigg3);
                 }
                 else {
                     tmp =(TH2D*)fL->Get(name1);
                     tmp2 =(TH2D*)fL2->Get(name2);
                     tmp3 =(TH2D*)fL3->Get(name3);
+                    tmpTrigg = (TH1D*)fL->Get(nameTrigg1);
+                    tmpTrigg2 = (TH1D*)fL2->Get(nameTrigg2);
+                    tmpTrigg3 = (TH1D*)fL3->Get(nameTrigg3);
                 }
                 fHist2DLhHighMultipl->Add(tmp);
                 fHist2DLhMidleMultipl->Add(tmp2);
                 fHist2DLhLowMultipl->Add(tmp3);
+                
+                fHist1DLhHighMultiplTrigg->Add(tmpTrigg);
+                fHist1DLhMidleMultiplTrigg->Add(tmpTrigg2);
+                fHist1DLhLowMultiplTrigg->Add(tmpTrigg3);
             }
             delete tmp;
             delete tmp2;
             delete tmp3;
+            
+            delete tmpTrigg;
+            delete tmpTrigg2;
+            delete tmpTrigg3;
         }
     }
     
@@ -110,44 +168,51 @@ void GraphMult(){
     fHist2DhhHighMultipl->SetTitle("Korelacna funkcia pre hh, 0-10%");
     fHist2DhhHighMultipl->SetYTitle("#Delta #phi");
     fHist2DhhHighMultipl->SetXTitle("#Delta #eta");
+    fHist2DhhHighMultipl->Scale(1./fHist1DhhHighMultiplTrigg->GetBinContent(4));
     fHist2DhhHighMultipl->DrawCopy("lego2z");
     
-    TCanvas *cHighMulHighPt = new TCanvas;
+ /*   TCanvas *cHighMulHighPt = new TCanvas;
     fHist2DhhHighMultiplHighPt->SetTitle("Korelacna funkcia pre hh, 0-10%, 4<p_{T}^{trig}<5 GeV/c");
     fHist2DhhHighMultiplHighPt->SetYTitle("#Delta #phi");
     fHist2DhhHighMultiplHighPt->SetXTitle("#Delta #eta");
-    fHist2DhhHighMultiplHighPt->DrawCopy("lego2z");
+    fHist2DhhHighMultiplHighPt->DrawCopy("lego2z");*/
     
     TCanvas *cMediumMul = new TCanvas;
     fHist2DhhMidleMultipl->SetTitle("Korelacna funkcia pre hh, 10-50%");
     fHist2DhhMidleMultipl->SetYTitle("#Delta #phi");
     fHist2DhhMidleMultipl->SetXTitle("#Delta #eta");
+    fHist2DhhMidleMultipl->Scale(1./fHist1DhhMidleMultiplTrigg->GetBinContent(4));
     fHist2DhhMidleMultipl->DrawCopy("lego2z");
     
-    TCanvas *cMidleMulHighPt = new TCanvas;
+    /*TCanvas *cMidleMulHighPt = new TCanvas;
     fHist2DhhMidleMultiplHighPt->SetTitle("Korelacna funkcia pre hh, 10-50%, 4<p_{T}^{trig}<5 GeV/c");
     fHist2DhhMidleMultiplHighPt->SetYTitle("#Delta #phi");
     fHist2DhhMidleMultiplHighPt->SetXTitle("#Delta #eta");
-    fHist2DhhMidleMultiplHighPt->DrawCopy("lego2z");
+    fHist2DhhMidleMultiplHighPt->DrawCopy("lego2z");*/
     
     TCanvas *cLowMul = new TCanvas;
     fHist2DhhLowMultipl->SetTitle("Korelacna funkcia pre hh, 50-100%");
     fHist2DhhLowMultipl->SetYTitle("#Delta #phi");
     fHist2DhhLowMultipl->SetXTitle("#Delta #eta");
+    fHist2DhhLowMultipl->Scale(1./fHist1DhhLowMultiplTrigg->GetBinContent(4));
     fHist2DhhLowMultipl->DrawCopy("lego2z");
     
-    TCanvas *cLowMulHighPt = new TCanvas;
+  /*  TCanvas *cLowMulHighPt = new TCanvas;
     fHist2DhhLowMultiplHighPt->SetTitle("Korelacna funkcia pre hh, 50-100%, 4<p_{T}^{trig}<5 GeV/c");
     fHist2DhhLowMultiplHighPt->SetYTitle("#Delta #phi");
     fHist2DhhLowMultiplHighPt->SetXTitle("#Delta #eta");
-    fHist2DhhLowMultiplHighPt->DrawCopy("lego2z");
+    fHist2DhhLowMultiplHighPt->DrawCopy("lego2z");*/
     
     TCanvas *cHighMulRozdiel = new TCanvas;
+   // Double_t maxHighMultipl = fHist2DhhHighMultipl->GetMaximum();
+   // Double_t maxLowMultipl = fHist2DhhLowMultipl->GetMaximum();
+   // Double_t scale = maxHighMultipl/maxLowMultipl;
+   // fHist2DhhLowMultipl->Scale(scale);
     fHist2DhhHighMultipl->Add(fHist2DhhLowMultipl,-1);
-    fHist2DhhHighMultipl->SetTitle("0-10% po odciatni 50-100%");
+    fHist2DhhHighMultipl->SetTitle("0-10% po odciatni 50-100% pre korelacie h-h");
     fHist2DhhHighMultipl->DrawCopy("lego2z");
     
-    TCanvas *cHighMulK0 = new TCanvas;
+  /*  TCanvas *cHighMulK0 = new TCanvas;
     fHist2DKhHighMultipl->SetTitle("Korelacna funkcia pre Kh, 0-10%");
     fHist2DKhHighMultipl->SetYTitle("#Delta #phi");
     fHist2DKhHighMultipl->SetXTitle("#Delta #eta");
@@ -191,8 +256,8 @@ void GraphMult(){
     TCanvas *cHighMulRozdielLam = new TCanvas;
     fHist2DLhHighMultipl->Add(fHist2DLhLowMultipl,-1);
     fHist2DLhHighMultipl->SetTitle("0-10% po odciatni 50-100% pre L-h");
-    fHist2DLhHighMultipl->DrawCopy("lego2z");
-    */
+    fHist2DLhHighMultipl->DrawCopy("lego2z");*/
+    
     // ----------- vytazky -------------
     
     TH1D* fHistYieldNearLow = (TH1D*) g->Get("fHistHadronNear1");
@@ -322,7 +387,7 @@ void GraphMult(){
     fHistYieldAwayKLow2->Add(fHistYieldAwayKHigh2);
     fHistYieldAwayKLow3->Add(fHistYieldAwayKHigh3);
     fHistYieldAwayKLow->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik pre K^{0}_{S}-h");
-    fHistYieldAwayKLow->GetYaxis()->SetRangeUser(0,0.4);
+    fHistYieldAwayKLow->GetYaxis()->SetRangeUser(0,0.35);
     fHistYieldAwayKLow->SetXTitle("p_{T} (GeV/c)");
     fHistYieldAwayKLow->SetYTitle("Y_{J}^{#Delta#phi}");
     fHistYieldAwayKLow->SetMarkerStyle(21);
@@ -347,7 +412,7 @@ void GraphMult(){
     fHistYieldAwayKLow2->DrawCopy("same");
     fHistYieldAwayKLow3->DrawCopy("same");
     lgKhAway->Draw();
-    
+ 
     TH1D* fHistYieldNearLamLow = (TH1D*) gL->Get("fHistLambdaNear1");
     TH1D* fHistYieldNearLamHigh = (TH1D*) fL->Get("fHistLambdaNear1");
     TH1D* fHistYieldNearLamLow2 = (TH1D*) gL2->Get("fHistLambdaNear2");
@@ -427,6 +492,206 @@ void GraphMult(){
     fHistYieldAwayLamLow3->DrawCopy("same");
     lgLamhAway->Draw();
     
+    //------- vytazky v zav od multiplicity -------
+    const Double_t multbins[4] = {0,10,50,100};
+    Double_t ptBins[7]={4,5,6,7,9,11,15};
+    Int_t color[6]={1,2,3,4,6,49};
+    Int_t marker[6]={20,21,22,29,33,34};
+    char leg [20];
+    
+    TH1D *fHistK0Near = new TH1D[6];
+    TCanvas *cK0NearMulti = new TCanvas;
+    
+    for(Int_t j=0;j<6;j++){
+        fHistK0Near[j].SetBins(3,multbins);
+        
+        fHistK0Near[j].SetBinContent(1,fHistYieldNearKLow->GetBinContent(j+1));
+        fHistK0Near[j].SetBinError(1,fHistYieldNearKLow->GetBinError(j+1));
+        
+        fHistK0Near[j].SetBinContent(2,fHistYieldNearKLow2->GetBinContent(j+1));
+        fHistK0Near[j].SetBinError(2,fHistYieldNearKLow2->GetBinError(j+1));
+        
+        fHistK0Near[j].SetBinContent(3,fHistYieldNearKLow3->GetBinContent(j+1));
+        fHistK0Near[j].SetBinError(3,fHistYieldNearKLow3->GetBinError(j+1));
+        
+        fHistK0Near[j].SetLineColor(color[j]);
+        fHistK0Near[j].SetMarkerColor(color[j]);
+        fHistK0Near[j].SetMarkerStyle(marker[j]);
+        fHistK0Near[j].SetMarkerSize(1.8);
+        
+        sprintf(leg,"%g < p_{T}^{trig} < %g GeV/c",ptBins[j],ptBins[j+1]);
+        fHistK0Near[j].SetTitle(leg);
+        if(j==0) {
+            fHistK0Near[j].GetYaxis()->SetRangeUser(0,0.6);
+            fHistK0Near[j].SetXTitle("Multiplicita (%)");
+            fHistK0Near[j].SetYTitle("Y^{#Delta#phi}_{J}");
+            fHistK0Near[j].DrawCopy();
+        }
+        else fHistK0Near[j].DrawCopy("same");
+    }
+    cK0NearMulti->BuildLegend();
+    
+    TH1D *fHistK0Away = new TH1D[6];
+    TCanvas *cK0AwayMulti = new TCanvas;
+    
+    for(Int_t j=0;j<6;j++){
+        fHistK0Away[j].SetBins(3,multbins);
+        
+        fHistK0Away[j].SetBinContent(1,fHistYieldAwayKLow->GetBinContent(j+1));
+        fHistK0Away[j].SetBinError(1,fHistYieldAwayKLow->GetBinError(j+1));
+        
+        fHistK0Away[j].SetBinContent(2,fHistYieldAwayKLow2->GetBinContent(j+1));
+        fHistK0Away[j].SetBinError(2,fHistYieldAwayKLow2->GetBinError(j+1));
+        
+        fHistK0Away[j].SetBinContent(3,fHistYieldAwayKLow3->GetBinContent(j+1));
+        fHistK0Away[j].SetBinError(3,fHistYieldAwayKLow3->GetBinError(j+1));
+        
+        fHistK0Away[j].SetLineColor(color[j]);
+        fHistK0Away[j].SetMarkerColor(color[j]);
+        fHistK0Away[j].SetMarkerStyle(marker[j]);
+        fHistK0Away[j].SetMarkerSize(1.8);
+        
+        sprintf(leg,"%g < p_{T}^{trig} < %g GeV/c",ptBins[j],ptBins[j+1]);
+        fHistK0Away[j].SetTitle(leg);
+        if(j==0) {
+            fHistK0Away[j].GetYaxis()->SetRangeUser(0,0.4);
+            fHistK0Away[j].SetXTitle("Multiplicita (%)");
+            fHistK0Away[j].SetYTitle("Y^{#Delta#phi}_{J}");
+            fHistK0Away[j].DrawCopy();
+        }
+        else fHistK0Away[j].DrawCopy("same");
+    }
+    cK0AwayMulti->BuildLegend();
+
+
+    TH1D *fHistLamNear = new TH1D[6];
+    TCanvas *cLamNearMulti = new TCanvas;
+    
+    for(Int_t j=0;j<6;j++){
+        fHistLamNear[j].SetBins(3,multbins);
+        
+        fHistLamNear[j].SetBinContent(1,fHistYieldNearLamLow->GetBinContent(j+1));
+        fHistLamNear[j].SetBinError(1,fHistYieldNearLamLow->GetBinError(j+1));
+        
+        fHistLamNear[j].SetBinContent(2,fHistYieldNearLamLow2->GetBinContent(j+1));
+        fHistLamNear[j].SetBinError(2,fHistYieldNearLamLow2->GetBinError(j+1));
+        
+        fHistLamNear[j].SetBinContent(3,fHistYieldNearLamLow3->GetBinContent(j+1));
+        fHistLamNear[j].SetBinError(3,fHistYieldNearLamLow3->GetBinError(j+1));
+        
+        fHistLamNear[j].SetLineColor(color[j]);
+        fHistLamNear[j].SetMarkerColor(color[j]);
+        fHistLamNear[j].SetMarkerStyle(marker[j]);
+        fHistLamNear[j].SetMarkerSize(1.8);
+        
+        sprintf(leg,"%g < p_{T}^{trig} < %g GeV/c",ptBins[j],ptBins[j+1]);
+        fHistLamNear[j].SetTitle(leg);
+        if(j==0) {
+            fHistLamNear[j].GetYaxis()->SetRangeUser(0,0.6);
+            fHistLamNear[j].SetXTitle("Multiplicita (%)");
+            fHistLamNear[j].SetYTitle("Y^{#Delta#phi}_{J}");
+            fHistLamNear[j].DrawCopy();
+        }
+        else fHistLamNear[j].DrawCopy("same");
+    }
+    cLamNearMulti->BuildLegend();
+    
+    TH1D *fHistLambdaAway = new TH1D[6];
+    TCanvas *cLamAwayMulti = new TCanvas;
+    
+    for(Int_t j=0;j<6;j++){
+        fHistLambdaAway[j].SetBins(3,multbins);
+        
+        fHistLambdaAway[j].SetBinContent(1,fHistYieldAwayLamLow->GetBinContent(j+1));
+        fHistLambdaAway[j].SetBinError(1,fHistYieldAwayLamLow->GetBinError(j+1));
+        
+        fHistLambdaAway[j].SetBinContent(2,fHistYieldAwayLamLow2->GetBinContent(j+1));
+        fHistLambdaAway[j].SetBinError(2,fHistYieldAwayLamLow2->GetBinError(j+1));
+        
+        fHistLambdaAway[j].SetBinContent(3,fHistYieldAwayLamLow3->GetBinContent(j+1));
+        fHistLambdaAway[j].SetBinError(3,fHistYieldAwayLamLow3->GetBinError(j+1));
+        
+        fHistLambdaAway[j].SetLineColor(color[j]);
+        fHistLambdaAway[j].SetMarkerColor(color[j]);
+        fHistLambdaAway[j].SetMarkerStyle(marker[j]);
+        fHistLambdaAway[j].SetMarkerSize(1.8);
+        
+        sprintf(leg,"%g < p_{T}^{trig} < %g GeV/c",ptBins[j],ptBins[j+1]);
+        fHistLambdaAway[j].SetTitle(leg);
+        if(j==0) {
+            fHistLambdaAway[j].GetYaxis()->SetRangeUser(0,0.6);
+            fHistLambdaAway[j].SetXTitle("Multiplicita (%)");
+            fHistLambdaAway[j].SetYTitle("Y^{#Delta#phi}_{J}");
+            fHistLambdaAway[j].DrawCopy();
+        }
+        else fHistLambdaAway[j].DrawCopy("same");
+    }
+    cLamAwayMulti->BuildLegend();
+    
+    TH1D *fHisthhNear = new TH1D[6];
+    TCanvas *chhNearMulti = new TCanvas;
+    
+    for(Int_t j=0;j<6;j++){
+        fHisthhNear[j].SetBins(3,multbins);
+        
+        fHisthhNear[j].SetBinContent(1,fHistYieldNearLow->GetBinContent(j+1));
+        fHisthhNear[j].SetBinError(1,fHistYieldNearLow->GetBinError(j+1));
+        
+        fHisthhNear[j].SetBinContent(2,fHistYieldNearLow2->GetBinContent(j+1));
+        fHisthhNear[j].SetBinError(2,fHistYieldNearLow2->GetBinError(j+1));
+        
+        fHisthhNear[j].SetBinContent(3,fHistYieldNearLow3->GetBinContent(j+1));
+        fHisthhNear[j].SetBinError(3,fHistYieldNearLow3->GetBinError(j+1));
+        
+        fHisthhNear[j].SetLineColor(color[j]);
+        fHisthhNear[j].SetMarkerColor(color[j]);
+        fHisthhNear[j].SetMarkerStyle(marker[j]);
+        fHisthhNear[j].SetMarkerSize(1.8);
+        
+        sprintf(leg,"%g < p_{T}^{trig} < %g GeV/c",ptBins[j],ptBins[j+1]);
+        fHisthhNear[j].SetTitle(leg);
+        if(j==0) {
+            fHisthhNear[j].GetYaxis()->SetRangeUser(0,0.6);
+            fHisthhNear[j].SetXTitle("Multiplicita (%)");
+            fHisthhNear[j].SetYTitle("Y^{#Delta#phi}_{J}");
+            fHisthhNear[j].DrawCopy();
+        }
+        else fHisthhNear[j].DrawCopy("same");
+    }
+    chhNearMulti->BuildLegend();
+    
+    TH1D *fHisthhAway = new TH1D[6];
+    TCanvas *chhAwayMulti = new TCanvas;
+    
+    for(Int_t j=0;j<6;j++){
+        fHisthhAway[j].SetBins(3,multbins);
+        
+        fHisthhAway[j].SetBinContent(1,fHistYieldAwayLow->GetBinContent(j+1));
+        fHisthhAway[j].SetBinError(1,fHistYieldAwayLow->GetBinError(j+1));
+        
+        fHisthhAway[j].SetBinContent(2,fHistYieldAwayLow2->GetBinContent(j+1));
+        fHisthhAway[j].SetBinError(2,fHistYieldAwayLow2->GetBinError(j+1));
+        
+        fHisthhAway[j].SetBinContent(3,fHistYieldAwayLow3->GetBinContent(j+1));
+        fHisthhAway[j].SetBinError(3,fHistYieldAwayLow3->GetBinError(j+1));
+        
+        fHisthhAway[j].SetLineColor(color[j]);
+        fHisthhAway[j].SetMarkerColor(color[j]);
+        fHisthhAway[j].SetMarkerStyle(marker[j]);
+        fHisthhAway[j].SetMarkerSize(1.8);
+        
+        sprintf(leg,"%g < p_{T}^{trig} < %g GeV/c",ptBins[j],ptBins[j+1]);
+        fHisthhAway[j].SetTitle(leg);
+        if(j==0) {
+            fHisthhAway[j].GetYaxis()->SetRangeUser(0,0.6);
+            fHisthhAway[j].SetXTitle("Multiplicita (%)");
+            fHisthhAway[j].SetYTitle("Y^{#Delta#phi}_{J}");
+            fHisthhAway[j].DrawCopy();
+        }
+        else fHisthhAway[j].DrawCopy("same");
+    }
+    chhAwayMulti->BuildLegend();
+    
     // ------ vytazky pre min bias -----------
   /*  const Int_t nPtBins = 6;
     const Int_t nTig =3;
@@ -457,7 +722,7 @@ void GraphMult(){
     TCanvas *canH = new TCanvas;
     canH->Divide(2,3);
     for(Int_t i=0;i<nTig;i++){
-        for(Int_t j=0;j<1nPtBins;j++){
+        for(Int_t j=0;j<nPtBins;j++){
             for(Int_t iMult=0; iMult<3; iMult++ ){
                 sprintf(nameMinBias,"2dproj_%d_%d_%d;1",iMult,i,j);
                 sprintf(nameprojphi,"1dtrigg_%d_%d_%d;1",iMult,i,j);
@@ -465,47 +730,89 @@ void GraphMult(){
                 TH1D* tmpTrig = 0x0;
                 if (iMult==0){
                     if(i==0){
-                        if(j<3)tmp = (TH2D*) gK ->Get(nameMinBias);
-                        else tmp = (TH2D*) fK ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) gK ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) gK ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) fK ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) fK ->Get(nameprojphi);
+                        }
                     }
                     if(i==1){
-                        if(j<3)tmp = (TH2D*) gL ->Get(nameMinBias);
-                        else tmp = (TH2D*) fL ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) gL ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) gL ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) fL ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) fL ->Get(nameprojphi);
+                        }
                     }
                     if(i==2){
-                        if(j<3)tmp = (TH2D*) g ->Get(nameMinBias);
-                        if(j<3)tmpTrig = (TH1D*) g ->Get(nameprojphi);
-                        else tmp = (TH2D*) f ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) g ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) g ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) f ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) f ->Get(nameprojphi);
+                        }
                     }
                 }
                 if (iMult==1){
                     if(i==0){
-                        if(j<3)tmp = (TH2D*) gK2 ->Get(nameMinBias);
-                        else tmp = (TH2D*) fK2 ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) gK2 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) gK2 ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) fK2 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) fK2 ->Get(nameprojphi);
+                        }
                     }
                     if(i==1){
-                        if(j<3)tmp = (TH2D*) gL2 ->Get(nameMinBias);
-                        else tmp = (TH2D*) fL2 ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) gL2 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) gL2 ->Get(nameprojphi);
+                        } else{
+                            tmp = (TH2D*) fL2 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) fL2 ->Get(nameprojphi);
+                        }
                     }
                     if(i==2){
-                        if(j<3)tmp = (TH2D*) g ->Get(nameMinBias);
-                        if(j<3)tmpTrig = (TH1D*) g ->Get(nameprojphi);
-                        else tmp = (TH2D*) f2 ->Get(nameMinBias);
+                        if(j<3) {
+                            tmp = (TH2D*) g2 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) g2 ->Get(nameprojphi);
+                        }else {
+                            tmp = (TH2D*) f2 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) f2 ->Get(nameprojphi);
+                        }
                     }
                 }
                 if (iMult==2){
                     if(i==0){
-                        if(j<3)tmp = (TH2D*) gK3 ->Get(nameMinBias);
-                        else tmp = (TH2D*) fK3 ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) gK3 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) gK3 ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) fK3 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) fK3 ->Get(nameprojphi);
+                        }
                     }
                     if(i==1){
-                        if(j<3)tmp = (TH2D*) gL3 ->Get(nameMinBias);
-                        else tmp = (TH2D*) fL3 ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) gL3 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) gL3 ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) fL3 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) fL3 ->Get(nameprojphi);
+                        }
                     }
                     if(i==2){
-                        if(j<3)tmp = (TH2D*) g ->Get(nameMinBias);
-                        if(j<3)tmpTrig = (TH1D*) g ->Get(nameprojphi);
-                        else tmp = (TH2D*) f3 ->Get(nameMinBias);
+                        if(j<3){
+                            tmp = (TH2D*) g3 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) g3 ->Get(nameprojphi);
+                        } else {
+                            tmp = (TH2D*) f3 ->Get(nameMinBias);
+                            tmpTrig = (TH1D*) f3 ->Get(nameprojphi);
+                        }
                     }
                 }
                 if(iMult==0) {
@@ -680,7 +987,7 @@ void GraphMult(){
      fHistK0Near->SetMarkerColor(kBlue);
      fHistK0Near->SetMarkerSize(1.8);
      fHistK0Near->SetLineColor(kBlue);
-     fHistK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik");
+     fHistK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik, min bias");
      fHistK0Near->GetXaxis()->SetTitle("p_{T} (GeV/c)");
      fHistK0Near->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
      fHistK0Near->GetYaxis()->SetRangeUser(-0.1,1);
@@ -710,7 +1017,7 @@ void GraphMult(){
      fHistK0Away->SetMarkerColor(kBlue);
      fHistK0Away->SetMarkerSize(1.8);
      fHistK0Away->SetLineColor(kBlue);
-     fHistK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik");
+     fHistK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik, min. bias");
      fHistK0Away->GetXaxis()->SetTitle("p_{T} (GeV/c)");
      fHistK0Away->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
      fHistK0Away->GetYaxis()->SetRangeUser(-0.1,1);

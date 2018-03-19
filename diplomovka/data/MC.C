@@ -2,7 +2,7 @@
 
 void MC(){
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2016_05.root ");  //MC2015c_Grid02.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid07.root ");  //MC2015c_Grid02.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
 	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
 
@@ -24,8 +24,8 @@ void MC(){
 	
 	pad1->Draw();
     pad2->Draw();
-   /*
-    fHistMCPtAs->RebinZ(4);
+   
+   /* fHistMCPtAs->RebinZ(4);
     fHistMCPtAs->RebinY(2);
     fHistRCPtAs->RebinZ(4);
     fHistRCPtAs->RebinY(2);
@@ -251,7 +251,7 @@ void MC(){
     lg5->Draw();
     
     
-    TFile *fNewFile = TFile::Open("EfiiciencyMC16_05.root","RECREATE");
+    TFile *fNewFile = TFile::Open("EfiiciencyMC15c_07.root","RECREATE");
     fHistRCPtAs->Divide(fHistMCPtAs);
     TCanvas * cccc = new TCanvas;
     fHistRCPtAs->DrawCopy("colz");
@@ -269,10 +269,10 @@ void MC(){
     TH3D *fHistRecV03DK0 = fHistRecV0->Projection(0,1,3);
     fHistRecV03DK0->SetName("fHistRecV03DK0");
     
-  /*  fHistGenV03DK0->RebinZ(4);
-    fHistGenV03DK0->RebinY(2);
-    fHistRecV03DK0->RebinZ(4);
-    fHistRecV03DK0->RebinY(2);*/
+  //  fHistGenV03DK0->RebinZ(4);
+  //  fHistGenV03DK0->RebinY(2);
+  //  fHistRecV03DK0->RebinZ(4);
+  //  fHistRecV03DK0->RebinY(2);
     
     fHistRecV03DK0->Divide(fHistGenV03DK0);
     fHistRecV03DK0->Write();
@@ -287,10 +287,10 @@ void MC(){
     TH3D *fHistRecV03DLam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DLam->SetName("fHistRecV03DLam");
     
-   /* fHistGenV03DLam->RebinZ(4);
-    fHistGenV03DLam->RebinY(2);
-    fHistRecV03DLam->RebinZ(4);
-    fHistRecV03DLam->RebinY(2);*/
+  //  fHistGenV03DLam->RebinZ(4);
+  //  fHistGenV03DLam->RebinY(2);
+  //  fHistRecV03DLam->RebinZ(4);
+  //  fHistRecV03DLam->RebinY(2);
     
     fHistRecV03DLam->Divide(fHistGenV03DLam);
     fHistRecV03DLam->Write();
@@ -302,13 +302,84 @@ void MC(){
     TH3D *fHistRecV03DALam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DALam->SetName("fHistRecV03DAntiLam");
     
-  /*  fHistGenV03DALam->RebinZ(4);
-    fHistGenV03DALam->RebinY(2);
-    fHistRecV03DALam->RebinZ(4);
-    fHistRecV03DALam->RebinY(2);*/
+   // fHistGenV03DALam->RebinZ(4);
+   // fHistGenV03DALam->RebinY(2);
+   // fHistRecV03DALam->RebinZ(4);
+   // fHistRecV03DALam->RebinY(2);
     
     fHistRecV03DALam->Divide(fHistGenV03DALam);
     fHistRecV03DALam->Write();
+    
+    THnSparseF *fHistMCKorelGen = (THnSparseF*)list->FindObject("fHistMCKorelacie");
+    THnSparseF *fHistMCKorelRec = (THnSparseF*)list->FindObject("fHistKorelacieMCrec");
+    
+    char nameEff[20];
+    
+    for(Int_t i=0;i<3; i++) { //loop cez druh trigg
+        if(i==0){
+            fHistMCKorelGen->GetAxis(5)->SetRange(1,1);
+            fHistMCKorelRec->GetAxis(5)->SetRange(1,1);
+        }
+        if(i==1){
+            fHistMCKorelGen->GetAxis(5)->SetRange(2,3);
+            fHistMCKorelRec->GetAxis(5)->SetRange(2,3);
+        }
+        if(i==3) {
+            fHistMCKorelGen->GetAxis(5)->SetRange(4,4);
+            fHistMCKorelRec->GetAxis(5)->SetRange(4,4);
+        }
+        for(Int_t j=0; j<6; j++){ //loop cez pt trigg
+            if (j==0) {
+                fHistMCKorelGen->GetAxis(0)->SetRange(1,1);
+                fHistMCKorelRec->GetAxis(0)->SetRange(1,1);
+            }
+            if (j==1) {
+                fHistMCKorelGen->GetAxis(0)->SetRange(2,2);
+                fHistMCKorelRec->GetAxis(0)->SetRange(2,2);
+            }
+            if (j==2){
+                fHistMCKorelGen->GetAxis(0)->SetRange(3,3);
+                fHistMCKorelRec->GetAxis(0)->SetRange(3,3);
+            }
+            if (j==3) {
+                fHistMCKorelGen->GetAxis(0)->SetRange(4,5);
+                fHistMCKorelRec->GetAxis(0)->SetRange(4,5);
+            }
+            if (j==4) {
+                fHistMCKorelGen->GetAxis(0)->SetRange(6,7);
+                fHistMCKorelRec->GetAxis(0)->SetRange(6,7);
+            }
+            if (j==5) {
+                fHistMCKorelGen->GetAxis(0)->SetRange(8,11);
+                fHistMCKorelRec->GetAxis(0)->SetRange(8,11);
+            }
+            
+            sprintf(nameEff,"eff_%d_%d",i,j);
+            
+            TH3D * fHistPtPvzEtaGen = fHistMCKorelGen->Projection(1,4,7);
+            TH3D * fHistPtPvzEtaRec = fHistMCKorelRec->Projection(1,4,7);
+            
+            fHistPtPvzEtaGen->RebinZ(4);
+            fHistPtPvzEtaGen->RebinY(2);
+            fHistPtPvzEtaRec->RebinZ(4);
+            fHistPtPvzEtaRec->RebinY(2);
+            
+            fHistPtPvzEtaRec->Divide(fHistPtPvzEtaGen);
+            fHistPtPvzEtaRec->SetName(nameEff);
+            fHistPtPvzEtaRec->Write();
+            
+            delete fHistPtPvzEtaGen;
+            delete fHistPtPvzEtaRec;
+            
+            fHistMCKorelGen->GetAxis(0)->SetRange(0,-1);
+            fHistMCKorelRec->GetAxis(0)->SetRange(0,-1);
+        }
+        
+        
+        fHistMCKorelGen->GetAxis(5)->SetRange(0,-1);
+        fHistMCKorelRec->GetAxis(5)->SetRange(0,-1);
+        
+    }
     
     fNewFile->Close();
 }

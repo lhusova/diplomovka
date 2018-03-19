@@ -37,10 +37,10 @@ void Graph(){
     TFile *ff =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2016_05.root");
     TFile *fdata =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/Vytazky_minBias_data.root");
     
-    Bool_t Near = kTRUE;
+    Bool_t Near = kFALSE;
     
   //  if (Near){
-    TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("fGraphK0Near1");
+ /*   TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("fGraphK0Near1");
     TGraphErrors *fGraphMCK015c = (TGraphErrors*) f->Get("fGraphK0Near1");
     TGraphErrors *fGraphMCK016 = (TGraphErrors*) ff->Get("fGraphK0Near1");
    // TGraphErrors *fGraphDataK0 = (TGraphErrors*) fdata->Get("fGraphK0Near");
@@ -70,36 +70,36 @@ void Graph(){
         TH1D * fHistHNearMC16 = (TH1D*) ff->Get("fHistHadronNear1");
         TH1D * fHistHNearData = (TH1D*) fdata->Get("fHistHadronNear");
         
-   // }else{*/
-   /* TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("Graph;3");
-    TGraphErrors *fGraphMCK015c = (TGraphErrors*) f->Get("Graph;3");
-    TGraphErrors *fGraphMCK016 = (TGraphErrors*) ff->Get("Graph;3");
-    TGraphErrors *fGraphDataK0 = (TGraphErrors*) fdata->Get("Graph;3");
+    }else{*/
+    TGraphErrors *fGraphMCK015a = (TGraphErrors*) g->Get("fGraphK0Away1");
+    TGraphErrors *fGraphMCK015c = (TGraphErrors*) f->Get("fGraphK0Away1");
+    TGraphErrors *fGraphMCK016 = (TGraphErrors*) ff->Get("fGraphK0Away1");
+    //TGraphErrors *fGraphDataK0 = (TGraphErrors*) fdata->Get("Graph;3");
         
-        TH1D * fHistK0NearMC15a = (TH1D*) g->Get("fHistK0Away");
-        TH1D * fHistK0NearMC15c = (TH1D*) f->Get("fHistK0Away");
-        TH1D * fHistK0NearMC16 = (TH1D*) ff->Get("fHistK0Away");
+        TH1D * fHistK0NearMC15a = (TH1D*) g->Get("fHistK0Away1");
+        TH1D * fHistK0NearMC15c = (TH1D*) f->Get("fHistK0Away1");
+        TH1D * fHistK0NearMC16 = (TH1D*) ff->Get("fHistK0Away1");
         TH1D * fHistK0NearData = (TH1D*) fdata->Get("fHistK0Away");
         
-    TGraphErrors *fGraphMCLambda15a = (TGraphErrors*) g->Get("Graph;2");
-    TGraphErrors *fGraphMCLambda15c = (TGraphErrors*) f->Get("Graph;2");
-    TGraphErrors *fGraphMCLambda16 = (TGraphErrors*) ff->Get("Graph;2");
-    TGraphErrors *fGraphDataLambda = (TGraphErrors*) fdata->Get("Graph;2");
+    TGraphErrors *fGraphMCLambda15a = (TGraphErrors*) g->Get("fGraphLambdaAway1");
+    TGraphErrors *fGraphMCLambda15c = (TGraphErrors*) f->Get("fGraphLambdaAway1");
+    TGraphErrors *fGraphMCLambda16 = (TGraphErrors*) ff->Get("fGraphLambdaAway1");
+    //TGraphErrors *fGraphDataLambda = (TGraphErrors*) fdata->Get("Graph;2");
         
-        TH1D * fHistLambdaNearMC15a = (TH1D*) g->Get("fHistLambdaAway");
-        TH1D * fHistLambdaNearMC15c = (TH1D*) f->Get("fHistLambdaAway");
-        TH1D * fHistLambdaNearMC16 = (TH1D*) ff->Get("fHistLambdaAway");
+        TH1D * fHistLambdaNearMC15a = (TH1D*) g->Get("fHistLambdaAway1");
+        TH1D * fHistLambdaNearMC15c = (TH1D*) f->Get("fHistLambdaAway1");
+        TH1D * fHistLambdaNearMC16 = (TH1D*) ff->Get("fHistLambdaAway1");
         TH1D * fHistLambdaNearData = (TH1D*) fdata->Get("fHistLambdaAway");
         
-    TGraphErrors *fGraphMCH15a = (TGraphErrors*) g->Get("Graph;1");
-    TGraphErrors *fGraphMCH15c = (TGraphErrors*) f->Get("Graph;1");
-    TGraphErrors *fGraphMCH16 = (TGraphErrors*) ff->Get("Graph;1");
-    TGraphErrors *fGraphDataH = (TGraphErrors*) fdata->Get("Graph;1");
+    TGraphErrors *fGraphMCH15a = (TGraphErrors*) g->Get("fGraphTrackAway1");
+    TGraphErrors *fGraphMCH15c = (TGraphErrors*) f->Get("fGraphTrackAway1");
+    TGraphErrors *fGraphMCH16 = (TGraphErrors*) ff->Get("fGraphTrackAway1");
+    //TGraphErrors *fGraphDataH = (TGraphErrors*) fdata->Get("Graph;1");
         
-        TH1D * fHistHNearMC15a = (TH1D*) g->Get("fHistHadronAway");
-        TH1D * fHistHNearMC15c = (TH1D*) f->Get("fHistHadronAway");
-        TH1D * fHistHNearMC16 = (TH1D*) ff->Get("fHistHadronAway");
-        TH1D * fHistHNearData = (TH1D*) fdata->Get("fHistHadronAway");*/
+        TH1D * fHistHNearMC15a = (TH1D*) g->Get("fHistHadronAway1");
+        TH1D * fHistHNearMC15c = (TH1D*) f->Get("fHistHadronAway1");
+        TH1D * fHistHNearMC16 = (TH1D*) ff->Get("fHistHadronAway1");
+        TH1D * fHistHNearData = (TH1D*) fdata->Get("fHistHadronAway");
         
 //    }
 
