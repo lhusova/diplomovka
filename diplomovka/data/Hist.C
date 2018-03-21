@@ -32,7 +32,7 @@ void Hist(){
     
     fHistLambdaMassPtCut->GetZaxis()->SetRange(6,6);
     TH1F * fHistInvMassLam = (TH1F *)fHistLambdaMassPtCut->Project3D("x");
-    fHistInvMassLam->GetXaxis()->SetRangeUser(1.05,1.2);
+    fHistInvMassLam->GetXaxis()->SetRangeUser(1.08,1.15);
     TCanvas *cMassLam = new TCanvas;
     fHistInvMassLam->SetTitle("Rozdelenie invariantnej hmotnosti kandidatov na #Lambda");
     fHistInvMassLam->SetXTitle("m_{p#pi^{-}}(GeV/c^{2})");
@@ -48,7 +48,7 @@ void Hist(){
     
     fHistAntiLambdaMassPtCut->GetZaxis()->SetRange(6,6);
     TH1F * fHistInvMassALam = (TH1F *)fHistAntiLambdaMassPtCut->Project3D("x");
-    fHistInvMassALam->GetXaxis()->SetRangeUser(1.05,1.2);
+    fHistInvMassALam->GetXaxis()->SetRangeUser(1.08,1.15);
     TCanvas *cMassALam = new TCanvas;
     fHistInvMassALam->SetTitle("Rozdelenie invariantnej hmotnosti kandidatov na #bar{#Lambda}");
     fHistInvMassALam->SetXTitle("m_{#bar{p}#pi^{+}}(GeV/c^{2})");

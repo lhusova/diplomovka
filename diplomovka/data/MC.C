@@ -25,15 +25,15 @@ void MC(){
 	pad1->Draw();
     pad2->Draw();
    
-   /* fHistMCPtAs->RebinZ(4);
+    fHistMCPtAs->RebinZ(2);
     fHistMCPtAs->RebinY(2);
-    fHistRCPtAs->RebinZ(4);
+    fHistRCPtAs->RebinZ(2);
     fHistRCPtAs->RebinY(2);
     
-    fHistMCPtTrigg->RebinZ(4);
+    fHistMCPtTrigg->RebinZ(2);
     fHistMCPtTrigg->RebinY(2);
-    fHistRCPtTrigg->RebinZ(4);
-    fHistRCPtTrigg->RebinY(2);*/
+    fHistRCPtTrigg->RebinZ(2);
+    fHistRCPtTrigg->RebinY(2);
     
     //fHistMCPtAs->Sumw2();
     TH1D *fHistMCPtAsPojX = fHistMCPtAs->ProjectionX();
@@ -269,10 +269,10 @@ void MC(){
     TH3D *fHistRecV03DK0 = fHistRecV0->Projection(0,1,3);
     fHistRecV03DK0->SetName("fHistRecV03DK0");
     
-  //  fHistGenV03DK0->RebinZ(4);
-  //  fHistGenV03DK0->RebinY(2);
-  //  fHistRecV03DK0->RebinZ(4);
-  //  fHistRecV03DK0->RebinY(2);
+    fHistGenV03DK0->RebinZ(2);
+    fHistGenV03DK0->RebinY(2);
+    fHistRecV03DK0->RebinZ(2);
+    fHistRecV03DK0->RebinY(2);
     
     fHistRecV03DK0->Divide(fHistGenV03DK0);
     fHistRecV03DK0->Write();
@@ -287,10 +287,10 @@ void MC(){
     TH3D *fHistRecV03DLam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DLam->SetName("fHistRecV03DLam");
     
-  //  fHistGenV03DLam->RebinZ(4);
-  //  fHistGenV03DLam->RebinY(2);
-  //  fHistRecV03DLam->RebinZ(4);
-  //  fHistRecV03DLam->RebinY(2);
+    fHistGenV03DLam->RebinZ(4);
+    fHistGenV03DLam->RebinY(2);
+    fHistRecV03DLam->RebinZ(4);
+    fHistRecV03DLam->RebinY(2);
     
     fHistRecV03DLam->Divide(fHistGenV03DLam);
     fHistRecV03DLam->Write();
@@ -302,10 +302,10 @@ void MC(){
     TH3D *fHistRecV03DALam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DALam->SetName("fHistRecV03DAntiLam");
     
-   // fHistGenV03DALam->RebinZ(4);
-   // fHistGenV03DALam->RebinY(2);
-   // fHistRecV03DALam->RebinZ(4);
-   // fHistRecV03DALam->RebinY(2);
+    fHistGenV03DALam->RebinZ(2);
+    fHistGenV03DALam->RebinY(2);
+    fHistRecV03DALam->RebinZ(2);
+    fHistRecV03DALam->RebinY(2);
     
     fHistRecV03DALam->Divide(fHistGenV03DALam);
     fHistRecV03DALam->Write();
@@ -359,9 +359,9 @@ void MC(){
             TH3D * fHistPtPvzEtaGen = fHistMCKorelGen->Projection(1,4,7);
             TH3D * fHistPtPvzEtaRec = fHistMCKorelRec->Projection(1,4,7);
             
-            fHistPtPvzEtaGen->RebinZ(4);
+            fHistPtPvzEtaGen->RebinZ(2);
             fHistPtPvzEtaGen->RebinY(2);
-            fHistPtPvzEtaRec->RebinZ(4);
+            fHistPtPvzEtaRec->RebinZ(2);
             fHistPtPvzEtaRec->RebinY(2);
             
             fHistPtPvzEtaRec->Divide(fHistPtPvzEtaGen);
