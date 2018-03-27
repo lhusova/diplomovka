@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.6.4)  26 MAR 2018 11:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.6.4)  26 MAR 2018 12:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**SVOC.tex
-(./SVOC.tex
+**diplomovka.tex
+(./diplomovka.tex
 LaTeX2e <2017-04-15>
 Babel <3.10> and hyphenation patterns for 84 language(s) loaded.
 (./rnthesis.cls
@@ -443,12 +443,12 @@ Package: multirow 2016/11/25 v2.2 Span multiple rows of a table
 \bigstrutjot=\dimen120
 )
 \@glossaryfile=\write3
-\openout3 = `SVOC.glo'.
+\openout3 = `diplomovka.glo'.
 
 
-Writing glossary file SVOC.glo
-(./SVOC.aux)
-\openout1 = `SVOC.aux'.
+Writing glossary file diplomovka.glo
+(./diplomovka.aux)
+\openout1 = `diplomovka.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
 LaTeX Font Info:    ... okay on input line 46.
@@ -558,437 +558,875 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 90.
 [1]
 \@abstractmargin=\skip46
- [2] [3] (./SVOC.toc
+ [2] [3] (./diplomovka.toc
 \p@rindent=\dimen123
 \p@rindent=\dimen124
 \p@rindent=\dimen125
 \p@rindent=\dimen126
 \p@rindent=\dimen127
 \p@rindent=\dimen128
-\p@rindent=\dimen129
  [4
 
 ]
+\p@rindent=\dimen129
 \p@rindent=\dimen130
 \p@rindent=\dimen131
+\p@rindent=\dimen132
 )
 \tf@toc=\write4
-\openout4 = `SVOC.toc'.
+\openout4 = `diplomovka.toc'.
 
  [5] [6
+
+] [7] [8
 
 ]
 Kapitola 1.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 103.
+(Font)              <7> on input line 150.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 103.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 108.
+(Font)              <5> on input line 150.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 155.
 
 (/usr/local/texlive/2017/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 108.
- [7
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 155.
+ [9
 
-] [8]
-<./Obrazky_praca/zrazka.png, id=47, 679.53876pt x 697.60625pt>
+] [10]
+<./Obrazky_praca/zrazka.png, id=54, 679.53876pt x 697.60625pt>
 File: ./Obrazky_praca/zrazka.png Graphic file (type png)
 
 <use ./Obrazky_praca/zrazka.png>
-Package pdftex.def Info: ./Obrazky_praca/zrazka.png used on input line 140.
+Package pdftex.def Info: ./Obrazky_praca/zrazka.png used on input line 187.
 (pdftex.def)             Requested size: 271.81068pt x 279.03755pt.
- [9] [10 <./Obrazky_praca/zrazka.png>]
-<./Obrazky_praca/el_pole.png, id=59, 2007.5pt x 1505.625pt>
+ [11] [12 <./Obrazky_praca/zrazka.png>]
+<./Obrazky_praca/el_pole.png, id=66, 2007.5pt x 1505.625pt>
 File: ./Obrazky_praca/el_pole.png Graphic file (type png)
 
 <use ./Obrazky_praca/el_pole.png>
-Package pdftex.def Info: ./Obrazky_praca/el_pole.png used on input line 167.
+Package pdftex.def Info: ./Obrazky_praca/el_pole.png used on input line 217.
 (pdftex.def)             Requested size: 160.60327pt x 120.45245pt.
 
-<./Obrazky_praca/chromo_pole.png, id=60, 726.715pt x 304.13625pt>
+<./Obrazky_praca/chromo_pole.png, id=67, 726.715pt x 304.13625pt>
 File: ./Obrazky_praca/chromo_pole.png Graphic file (type png)
 
 <use ./Obrazky_praca/chromo_pole.png>
-Package pdftex.def Info: ./Obrazky_praca/chromo_pole.png used on input line 173
+Package pdftex.def Info: ./Obrazky_praca/chromo_pole.png used on input line 223
 .
 (pdftex.def)             Requested size: 181.6783pt x 76.03387pt.
 
-<./Obrazky_praca/jet.png, id=61, 548.0475pt x 281.05pt>
+<./Obrazky_praca/jet.png, id=68, 548.0475pt x 281.05pt>
 File: ./Obrazky_praca/jet.png Graphic file (type png)
 
 <use ./Obrazky_praca/jet.png>
-Package pdftex.def Info: ./Obrazky_praca/jet.png used on input line 180.
+Package pdftex.def Info: ./Obrazky_praca/jet.png used on input line 230.
 (pdftex.def)             Requested size: 274.02307pt x 140.52464pt.
- [11 <./Obrazky_praca/el_pole.png> <./Obrazky_praca/chromo_pole.png (PNG copy)>
- <./Obrazky_praca/jet.png>]
-Kapitola 2.
 
-Overfull \hbox (13.43556pt too wide) in paragraph at lines 203--204
-\OT1/cmr/m/n/12 pro-til[]ahl^^Sy p^^S^^Pk (v an-gli^^Tctine ''away-side peak'')
-(obr. 2.5[]). In^^Sa situ^^Sacia nast^^Sava v pozd[]l^^Tznom
+Overfull \hbox (1.16347pt too wide) in paragraph at lines 238--239
+\OT1/cmr/m/n/12 V^^Sysledky expe-ri-men-tov uka-zuj^^Su, ^^Tze vlast-nosti je-t
+ov sa l^^S^^P^^Tsia podl[]a toho, z ak^^Seho part^^Sonu
  []
 
-[12
+[13 <./Obrazky_praca/el_pole.png> <./Obrazky_praca/chromo_pole.png (PNG copy)> 
+<./Obrazky_praca/jet.png>]
+<./Obrazky_praca/multiplic.png, id=74, 786.94pt x 630.355pt>
+File: ./Obrazky_praca/multiplic.png Graphic file (type png)
 
-] <./Obrazky_praca/dijetcorrelations.png, id=71, 771.88374pt x 265.99374pt>
+<use ./Obrazky_praca/multiplic.png>
+Package pdftex.def Info: ./Obrazky_praca/multiplic.png used on input line 242.
+(pdftex.def)             Requested size: 348.2631pt x 278.96333pt.
+ [14 <./Obrazky_praca/multiplic.png>]
+<./Obrazky_praca/phasDiag.png, id=79, 500.87125pt x 396.48125pt>
+File: ./Obrazky_praca/phasDiag.png Graphic file (type png)
+
+<use ./Obrazky_praca/phasDiag.png>
+Package pdftex.def Info: ./Obrazky_praca/phasDiag.png used on input line 254.
+(pdftex.def)             Requested size: 250.435pt x 198.24013pt.
+
+Underfull \hbox (badness 1460) in paragraph at lines 260--260
+[][]\OT1/cmr/m/n/10 z angl. Co-lour Glass Con-de-sate - uni-verz^^Salna forma h
+moty tvo-riaca vy-so-ko-ener-ge-tick^^Se
+ []
+
+[15 <./Obrazky_praca/phasDiag.png>]
+<./Obrazky_praca/QGP1.png, id=84, 778.91pt x 715.67375pt>
+File: ./Obrazky_praca/QGP1.png Graphic file (type png)
+
+<use ./Obrazky_praca/QGP1.png>
+Package pdftex.def Info: ./Obrazky_praca/QGP1.png used on input line 268.
+(pdftex.def)             Requested size: 272.62259pt x 250.48956pt.
+ [16 <./Obrazky_praca/QGP1.png>]
+Overfull \hbox (5.63704pt too wide) in paragraph at lines 278--279
+\OT1/cmr/m/n/12 znakmi, ktor^^Se z^^Savisia najm[]a od ener-gie zr^^Sa^^Tzky. P
+reto boli na jed-not-liv^^Sych ur^^Sychl[]ova^^Tcoch
+ []
+
+
+Overfull \hbox (10.05836pt too wide) in paragraph at lines 283--285
+[]\OT1/cmr/m/n/12 zv^^Sy^^Tsen^^Sa pro-duk-cia po-div-nosti oproti prot^^Sonovo
+-prot^^Sonov^^Sym zr^^Sa^^Tzkam. Tvorba
+ []
+
+[17]
+Overfull \hbox (13.57024pt too wide) in paragraph at lines 293--294
+[]\OT1/cmr/m/n/12 v pod-state v^^Tsetky sig-nat^^Sury po-zo-ro-van^^Se pri ni^^
+Tz^^Ts^^S^^Pch energi^^Sach na ur^^Sychl[]ova^^Tcoch
+ []
+
+<./Obrazky_praca/zvysenie.png, id=93, 548.0475pt x 394.47375pt>
+File: ./Obrazky_praca/zvysenie.png Graphic file (type png)
+
+<use ./Obrazky_praca/zvysenie.png>
+Package pdftex.def Info: ./Obrazky_praca/zvysenie.png used on input line 301.
+(pdftex.def)             Requested size: 219.2151pt x 157.7867pt.
+
+<./Obrazky_praca/elipticflow.png, id=94, 808.01875pt x 390.45876pt>
+File: ./Obrazky_praca/elipticflow.png Graphic file (type png)
+
+<use ./Obrazky_praca/elipticflow.png>
+Package pdftex.def Info: ./Obrazky_praca/elipticflow.png used on input line 309
+.
+(pdftex.def)             Requested size: 282.8108pt x 136.6626pt.
+
+<./Obrazky_praca/nature.png, id=95, 396.48125pt x 333.245pt>
+File: ./Obrazky_praca/nature.png Graphic file (type png)
+
+<use ./Obrazky_praca/nature.png>
+Package pdftex.def Info: ./Obrazky_praca/nature.png used on input line 319.
+(pdftex.def)             Requested size: 237.89058pt x 199.94853pt.
+
+Overfull \hbox (0.71962pt too wide) in paragraph at lines 316--324
+\OT1/cmr/m/n/12 tom. Nov^^Se me-ra-nia prot^^Sonovo-prot^^Sonov^^Sych a prot^^S
+onovo-oloven^^Sych zr^^Sa^^Tzok pri energi^^Sach
+ []
+
+[18 <./Obrazky_praca/zvysenie.png>] [19 <./Obrazky_praca/elipticflow.png> <./Ob
+razky_praca/nature.png>]
+Kapitola 2.
+
+Overfull \hbox (19.3105pt too wide) in paragraph at lines 341--342
+\OT1/cmr/m/n/12 pro-til[]ahl^^Sy p^^S^^Pk (v an-gli^^Tctine ''away-side peak'')
+(obr. 2.11[]). In^^Sa situ^^Sacia nast^^Sava v pozd[]l^^Tznom
+ []
+
+[20
+
+]
+<./Obrazky_praca/dijetcorrelations.png, id=109, 771.88374pt x 265.99374pt>
 File: ./Obrazky_praca/dijetcorrelations.png Graphic file (type png)
 
 <use ./Obrazky_praca/dijetcorrelations.png>
 Package pdftex.def Info: ./Obrazky_praca/dijetcorrelations.png used on input li
-ne 207.
+ne 345.
 (pdftex.def)             Requested size: 435.32724pt x 150.0148pt.
- [13 <./Obrazky_praca/dijetcorrelations.png>]
-Overfull \hbox (6.59778pt too wide) in paragraph at lines 245--246
+ [21 <./Obrazky_praca/dijetcorrelations.png>]
+Overfull \hbox (6.59778pt too wide) in paragraph at lines 382--383
 \OT1/cmr/m/n/12 tra-lity si-mu-lo-van^^S^^Pm odozvy TPC na pre-chod ^^Tcastice.
  []U^^Tcinnost[] bola pri-bli^^Tzne kon^^Tstantn^^Sa
  []
 
-[14] <./Obrazky_praca/clanokstar.png, id=80, 479.54156pt x 484.05844pt>
+[22] <./Obrazky_praca/clanokstar.png, id=118, 479.54156pt x 484.05844pt>
 File: ./Obrazky_praca/clanokstar.png Graphic file (type png)
 
 <use ./Obrazky_praca/clanokstar.png>
-Package pdftex.def Info: ./Obrazky_praca/clanokstar.png used on input line 262.
+Package pdftex.def Info: ./Obrazky_praca/clanokstar.png used on input line 399.
 
 (pdftex.def)             Requested size: 239.77019pt x 242.02863pt.
- [15] [16 <./Obrazky_praca/clanokstar.png>] <./Obrazky_praca/clanok2.png, id=88
-, 459.21562pt x 432.86719pt>
+ [23] [24 <./Obrazky_praca/clanokstar.png>] <./Obrazky_praca/clanok2.png, id=12
+7, 459.21562pt x 432.86719pt>
 File: ./Obrazky_praca/clanok2.png Graphic file (type png)
 
 <use ./Obrazky_praca/clanok2.png>
-Package pdftex.def Info: ./Obrazky_praca/clanok2.png used on input line 286.
-(pdftex.def)             Requested size: 367.37299pt x 346.2942pt.
- [17 <./Obrazky_praca/clanok2.png>]
+Package pdftex.def Info: ./Obrazky_praca/clanok2.png used on input line 424.
+(pdftex.def)             Requested size: 413.29024pt x 389.57686pt.
+
+<./Obrazky_praca/CMSppMinBias.png, id=128, 286.06876pt x 253.94875pt>
+File: ./Obrazky_praca/CMSppMinBias.png Graphic file (type png)
+
+<use ./Obrazky_praca/CMSppMinBias.png>
+Package pdftex.def Info: ./Obrazky_praca/CMSppMinBias.png used on input line 43
+7.
+(pdftex.def)             Requested size: 217.66362pt x 193.22778pt.
+
+<./Obrazky_praca/CMSppHigh.png, id=129, 286.06876pt x 247.92625pt>
+File: ./Obrazky_praca/CMSppHigh.png Graphic file (type png)
+
+<use ./Obrazky_praca/CMSppHigh.png>
+Package pdftex.def Info: ./Obrazky_praca/CMSppHigh.png used on input line 442.
+(pdftex.def)             Requested size: 217.66362pt x 188.64532pt.
+
+<./Obrazky_praca/CMSpPb.png, id=130, 659.46375pt x 280.04625pt>
+File: ./Obrazky_praca/CMSpPb.png Graphic file (type png)
+
+<use ./Obrazky_praca/CMSpPb.png>
+Package pdftex.def Info: ./Obrazky_praca/CMSpPb.png used on input line 453.
+(pdftex.def)             Requested size: 435.32724pt x 184.86954pt.
+ [25] [26 <./Obrazky_praca/clanok2.png>]
+[27 <./Obrazky_praca/CMSppMinBias.png> <./Obrazky_praca/CMSppHigh.png> <./Obraz
+ky_praca/CMSpPb.png>]
+<./Obrazky_praca/ALICEpPbPred.png, id=144, 448.67625pt x 296.10625pt>
+File: ./Obrazky_praca/ALICEpPbPred.png Graphic file (type png)
+
+<use ./Obrazky_praca/ALICEpPbPred.png>
+Package pdftex.def Info: ./Obrazky_praca/ALICEpPbPred.png used on input line 46
+4.
+(pdftex.def)             Requested size: 217.66362pt x 143.64749pt.
+
+<./Obrazky_praca/ALICEpPbPo.png, id=145, 446.66875pt x 295.1025pt>
+File: ./Obrazky_praca/ALICEpPbPo.png Graphic file (type png)
+
+<use ./Obrazky_praca/ALICEpPbPo.png>
+Package pdftex.def Info: ./Obrazky_praca/ALICEpPbPo.png used on input line 470.
+
+(pdftex.def)             Requested size: 217.66362pt x 143.80446pt.
+
+<./Obrazky_praca/ALICErozdiel.png, id=146, 329.23pt x 325.215pt>
+File: ./Obrazky_praca/ALICErozdiel.png Graphic file (type png)
+
+<use ./Obrazky_praca/ALICErozdiel.png>
+Package pdftex.def Info: ./Obrazky_praca/ALICErozdiel.png used on input line 47
+9.
+(pdftex.def)             Requested size: 304.72774pt x 301.01765pt.
+ [28 <./Obrazky_praca/ALICEpPbPred.png> <./Obrazky_praca/ALICEpPbPo.png>] [29 <
+./Obrazky_praca/ALICErozdiel.png>]
 Kapitola 3.
-[18
+[30
 
 ]
 Kapitola 4.
-<./Obrazky_praca/ALICE.png, id=97, 965.6075pt x 711.65875pt>
+<./Obrazky_praca/ALICE.png, id=160, 965.6075pt x 711.65875pt>
 File: ./Obrazky_praca/ALICE.png Graphic file (type png)
 
 <use ./Obrazky_praca/ALICE.png>
-Package pdftex.def Info: ./Obrazky_praca/ALICE.png used on input line 315.
+Package pdftex.def Info: ./Obrazky_praca/ALICE.png used on input line 512.
 (pdftex.def)             Requested size: 391.79185pt x 288.7523pt.
- [19
+ [31
 
-] [20 <./Obrazky_praca/ALICE.png>]
-Overfull \hbox (0.36269pt too wide) in paragraph at lines 334--335
+] [32 <./Obrazky_praca/ALICE.png>]
+Overfull \hbox (5.33551pt too wide) in paragraph at lines 531--532
+[]\OT1/cmr/m/n/12 TPC je va-lec na-pl-nen^^Sy ply-no-vou zme-sou ( $\OML/cmm/m/
+it/12 Ne=CO[]=N[]$\OT1/cmr/m/n/12 ) s ob-je-mom $88\OML/cmm/m/it/12 m[]$ \OT1/c
+mr/m/n/12 (obr. 4.19[])
+ []
+
+
+Overfull \hbox (0.36269pt too wide) in paragraph at lines 531--532
 \OT1/cmr/m/n/12 roz-de-len^^Sy centr^^Salnou elektr^^Sodou na dve drif-to-va-ci
 e ^^Tcasti. Pozd[]l^^Tz z-ovej osi je udr^^Tziavan^^Se
  []
 
-<./Obrazky_praca/tpc.png, id=105, 606.265pt x 464.73625pt>
+<./Obrazky_praca/tpc.png, id=168, 606.265pt x 464.73625pt>
 File: ./Obrazky_praca/tpc.png Graphic file (type png)
 
 <use ./Obrazky_praca/tpc.png>
-Package pdftex.def Info: ./Obrazky_praca/tpc.png used on input line 338.
+Package pdftex.def Info: ./Obrazky_praca/tpc.png used on input line 535.
 (pdftex.def)             Requested size: 304.72774pt x 233.59435pt.
- [21 <./Obrazky_praca/tpc.png>] [22]
+ [33 <./Obrazky_praca/tpc.png>] [34] [35]
 Kapitola 5.
-[23
+[36
 
-] <./Obrazky_praca/SchemaV0.png, id=117, 417.81094pt x 327.47343pt>
+] <./Obrazky_praca/SchemaV0.png, id=183, 417.81094pt x 327.47343pt>
 File: ./Obrazky_praca/SchemaV0.png Graphic file (type png)
 
 <use ./Obrazky_praca/SchemaV0.png>
-Package pdftex.def Info: ./Obrazky_praca/SchemaV0.png used on input line 372.
+Package pdftex.def Info: ./Obrazky_praca/SchemaV0.png used on input line 584.
 (pdftex.def)             Requested size: 334.2492pt x 261.97911pt.
-
-Overfull \hbox (15.0153pt too wide) in paragraph at lines 399--400
+ [37 <./Obrazky_praca/SchemaV0.png>]
+Overfull \hbox (15.0153pt too wide) in paragraph at lines 611--612
 []\OT1/cmr/m/n/12 Na z^^Saklade t^^Sychto se-lek^^Tcn^^Sych krit^^Serii sme z r
 oz-de-le-nia in-va-riat-nej hmot-nosti dc^^Serskych
  []
 
-[24 <./Obrazky_praca/SchemaV0.png>]
-<../histogramy/massK0.png, id=122, 700.6175pt x 476.78125pt>
+<../histogramy/massK0.png, id=188, 700.6175pt x 476.78125pt>
 File: ../histogramy/massK0.png Graphic file (type png)
 
 <use ../histogramy/massK0.png>
-Package pdftex.def Info: ../histogramy/massK0.png used on input line 403.
+Package pdftex.def Info: ../histogramy/massK0.png used on input line 615.
 (pdftex.def)             Requested size: 280.24203pt x 190.7091pt.
 
-<../histogramy/massLam.png, id=123, 700.6175pt x 476.78125pt>
+<../histogramy/massLam.png, id=189, 700.6175pt x 476.78125pt>
 File: ../histogramy/massLam.png Graphic file (type png)
 
 <use ../histogramy/massLam.png>
-Package pdftex.def Info: ../histogramy/massLam.png used on input line 411.
+Package pdftex.def Info: ../histogramy/massLam.png used on input line 623.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
 
-<../histogramy/massALam.png, id=124, 700.6175pt x 476.78125pt>
+<../histogramy/massALam.png, id=190, 700.6175pt x 476.78125pt>
 File: ../histogramy/massALam.png Graphic file (type png)
 
 <use ../histogramy/massALam.png>
-Package pdftex.def Info: ../histogramy/massALam.png used on input line 417.
+Package pdftex.def Info: ../histogramy/massALam.png used on input line 629.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
- [25 <../histogramy/massK0.png>]
-<./Obrazky_praca/pozadie.png, id=128, 700.6175pt x 476.78125pt>
+ [38 <../histogramy/massK0.png>]
+<./Obrazky_praca/pozadie.png, id=194, 700.6175pt x 476.78125pt>
 File: ./Obrazky_praca/pozadie.png Graphic file (type png)
 
 <use ./Obrazky_praca/pozadie.png>
-Package pdftex.def Info: ./Obrazky_praca/pozadie.png used on input line 434.
+Package pdftex.def Info: ./Obrazky_praca/pozadie.png used on input line 646.
 (pdftex.def)             Requested size: 350.30789pt x 238.39003pt.
+ [39 <../histogramy/massLam.png> <../histogramy/massALam.png>]
 
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 65
+3.
 
-LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 44
-1.
-
-LaTeX Font Info:    Calculating math sizes for size <> on input line 443.
+LaTeX Font Info:    Calculating math sizes for size <> on input line 655.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 443.
+(Font)              size <5> substituted on input line 655.
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <> on input line 443.
+(Font)              <> on input line 655.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <0.7> on input line 443.
+(Font)              <0.7> on input line 655.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <0.5> on input line 443.
+(Font)              <0.5> on input line 655.
 
-LaTeX Warning: Citation `Jan-Fiete' on page 26 undefined on input line 444.
-
-[26 <../histogramy/massLam.png> <../histogramy/massALam.png>]
-
-LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 44
-6.
+LaTeX Warning: Citation `Jan-Fiete' on page 40 undefined on input line 656.
 
 
-LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 45
-2.
-
-
-LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 45
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 65
 8.
 
-<../histogramy/vytazky/ucinnost.png, id=132, 700.6175pt x 476.78125pt>
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 66
+4.
+
+
+LaTeX Font Warning: Command \footnotesize invalid in math mode on input line 67
+0.
+
+<../histogramy/vytazky/ucinnost.png, id=198, 700.6175pt x 476.78125pt>
 File: ../histogramy/vytazky/ucinnost.png Graphic file (type png)
 
 <use ../histogramy/vytazky/ucinnost.png>
 Package pdftex.def Info: ../histogramy/vytazky/ucinnost.png used on input line 
-464.
+676.
 (pdftex.def)             Requested size: 280.24203pt x 190.7091pt.
- [27 <./Obrazky_praca/pozadie.png>]
+ [40 <./Obrazky_praca/pozadie.png>]
+[41 <../histogramy/vytazky/ucinnost.png>]
+<../histogramy/PorovnanieMC/Projekcie/fitPhi.png, id=207, 700.6175pt x 476.7812
+5pt>
+File: ../histogramy/PorovnanieMC/Projekcie/fitPhi.png Graphic file (type png)
+ <use ../histogramy/PorovnanieMC/Projekcie/fitPhi.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/fitPhi.png used o
+n input line 692.
+(pdftex.def)             Requested size: 239.4313pt x 162.93283pt.
 
-LaTeX Warning: Reference `K0' on page 28 undefined on input line 474.
+Overfull \hbox (21.76768pt too wide) in paragraph at lines 692--693
+ [][] 
+ []
 
 
-LaTeX Warning: Reference `hh' on page 28 undefined on input line 474.
+<../histogramy/PorovnanieMC/Projekcie/fitEta.png, id=208, 700.6175pt x 476.7812
+5pt>
+File: ../histogramy/PorovnanieMC/Projekcie/fitEta.png Graphic file (type png)
+ <use ../histogramy/PorovnanieMC/Projekcie/fitEta.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/fitEta.png used o
+n input line 698.
+(pdftex.def)             Requested size: 239.4313pt x 162.93283pt.
+
+Overfull \hbox (21.76768pt too wide) in paragraph at lines 698--699
+ [][] 
+ []
 
 
-<./Obrazky_praca/vytazky_Kh_prilahly_mult.png, id=137, 700.6175pt x 476.78125pt
+<../histogramy/PorovnanieMC/Projekcie/15a+c_K0_phi.png, id=209, 1282.7925pt x 7
+77.90625pt>
+File: ../histogramy/PorovnanieMC/Projekcie/15a+c_K0_phi.png Graphic file (type 
+png)
+ <use ../histogramy/PorovnanieMC/Projekcie/15a+c_K0_phi.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/15a+c_K0_phi.png 
+used on input line 708.
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<../histogramy/PorovnanieMC/Projekcie/15a+c_K0_eta.png, id=210, 1282.7925pt x 7
+77.90625pt>
+File: ../histogramy/PorovnanieMC/Projekcie/15a+c_K0_eta.png Graphic file (type 
+png)
+ <use ../histogramy/PorovnanieMC/Projekcie/15a+c_K0_eta.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/15a+c_K0_eta.png 
+used on input line 715.
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_phi.png, id=211, 1282.7925pt x 
+777.90625pt>
+File: ../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_phi.png Graphic file (type
+ png)
+ <use ../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_phi.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_phi.png
+ used on input line 721.
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_eta.png, id=212, 1282.7925pt x 
+777.90625pt>
+File: ../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_eta.png Graphic file (type
+ png)
+ <use ../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_eta.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/15a+c_Lam_eta.png
+ used on input line 727.
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<../histogramy/PorovnanieMC/Projekcie/15a+c_hh_phi.png, id=213, 1282.7925pt x 7
+77.90625pt>
+File: ../histogramy/PorovnanieMC/Projekcie/15a+c_hh_phi.png Graphic file (type 
+png)
+ <use ../histogramy/PorovnanieMC/Projekcie/15a+c_hh_phi.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/15a+c_hh_phi.png 
+used on input line 734.
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<../histogramy/PorovnanieMC/Projekcie/15a+c_hh_eta.png, id=214, 1282.7925pt x 7
+77.90625pt>
+File: ../histogramy/PorovnanieMC/Projekcie/15a+c_hh_eta.png Graphic file (type 
+png)
+ <use ../histogramy/PorovnanieMC/Projekcie/15a+c_hh_eta.png>
+Package pdftex.def Info: ../histogramy/PorovnanieMC/Projekcie/15a+c_hh_eta.png 
+used on input line 741.
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<./Obrazky_praca/DeltaPhiKH.png, id=215, 1282.7925pt x 777.90625pt>
+File: ./Obrazky_praca/DeltaPhiKH.png Graphic file (type png)
+
+<use ./Obrazky_praca/DeltaPhiKH.png>
+Package pdftex.def Info: ./Obrazky_praca/DeltaPhiKH.png used on input line 756.
+
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<./Obrazky_praca/DeltaPhiLH.png, id=216, 1282.7925pt x 777.90625pt>
+File: ./Obrazky_praca/DeltaPhiLH.png Graphic file (type png)
+
+<use ./Obrazky_praca/DeltaPhiLH.png>
+Package pdftex.def Info: ./Obrazky_praca/DeltaPhiLH.png used on input line 763.
+
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+
+<./Obrazky_praca/DeltaPhiHH.png, id=217, 1282.7925pt x 777.90625pt>
+File: ./Obrazky_praca/DeltaPhiHH.png Graphic file (type png)
+
+<use ./Obrazky_praca/DeltaPhiHH.png>
+Package pdftex.def Info: ./Obrazky_praca/DeltaPhiHH.png used on input line 770.
+
+(pdftex.def)             Requested size: 435.32724pt x 263.98608pt.
+ [42 <../histogramy/PorovnanieMC/Projekcie/fitPhi.png> <../histogramy/Porovnani
+eMC/Projekcie/fitEta.png>] [43 <../histogramy/PorovnanieMC/Projekcie/15a+c_K0_p
+hi.png> <../histogramy/PorovnanieMC/Projekcie/15a+c_K0_eta.png>] [44 <../histog
+ramy/PorovnanieMC/Projekcie/15a+c_Lam_phi.png> <../histogramy/PorovnanieMC/Proj
+ekcie/15a+c_Lam_eta.png>] [45 <../histogramy/PorovnanieMC/Projekcie/15a+c_hh_ph
+i.png> <../histogramy/PorovnanieMC/Projekcie/15a+c_hh_eta.png>] [46 <./Obrazky_
+praca/DeltaPhiKH.png> <./Obrazky_praca/DeltaPhiLH.png>]
+<./Obrazky_praca/vytazky_minBias_prilahly_mult.png, id=233, 700.6175pt x 476.78
+125pt>
+File: ./Obrazky_praca/vytazky_minBias_prilahly_mult.png Graphic file (type png)
+
+ <use ./Obrazky_praca/vytazky_minBias_prilahly_mult.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazky_minBias_prilahly_mult.png used
+ on input line 780.
+(pdftex.def)             Requested size: 348.2631pt x 237.00049pt.
+
+<./Obrazky_praca/vytazky_minBias_protilahly_mult.png, id=234, 700.6175pt x 476.
+78125pt>
+File: ./Obrazky_praca/vytazky_minBias_protilahly_mult.png Graphic file (type pn
+g)
+ <use ./Obrazky_praca/vytazky_minBias_protilahly_mult.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazky_minBias_protilahly_mult.png us
+ed on input line 787.
+(pdftex.def)             Requested size: 348.2631pt x 237.00049pt.
+
+<./Obrazky_praca/vytazky_Kh_prilahly_mult.png, id=235, 700.6175pt x 476.78125pt
 >
 File: ./Obrazky_praca/vytazky_Kh_prilahly_mult.png Graphic file (type png)
  <use ./Obrazky_praca/vytazky_Kh_prilahly_mult.png>
 Package pdftex.def Info: ./Obrazky_praca/vytazky_Kh_prilahly_mult.png used on i
-nput line 482.
+nput line 798.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
 
-<./Obrazky_praca/vytazky_Kh_protilahly_mult.png, id=138, 700.6175pt x 476.78125
+<./Obrazky_praca/vytazky_Kh_protilahly_mult.png, id=236, 700.6175pt x 476.78125
 pt>
 File: ./Obrazky_praca/vytazky_Kh_protilahly_mult.png Graphic file (type png)
  <use ./Obrazky_praca/vytazky_Kh_protilahly_mult.png>
 Package pdftex.def Info: ./Obrazky_praca/vytazky_Kh_protilahly_mult.png used on
- input line 488.
+ input line 804.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
 
-<./Obrazky_praca/vytazky_Lh_prilahly_mult.png, id=139, 700.6175pt x 476.78125pt
+<./Obrazky_praca/vytazky_Lh_prilahly_mult.png, id=237, 700.6175pt x 476.78125pt
 >
 File: ./Obrazky_praca/vytazky_Lh_prilahly_mult.png Graphic file (type png)
  <use ./Obrazky_praca/vytazky_Lh_prilahly_mult.png>
 Package pdftex.def Info: ./Obrazky_praca/vytazky_Lh_prilahly_mult.png used on i
-nput line 499.
+nput line 815.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
 
-<./Obrazky_praca/vytazky_Lh_protilahly_mult.png, id=140, 700.6175pt x 476.78125
+<./Obrazky_praca/vytazky_Lh_protilahly_mult.png, id=238, 700.6175pt x 476.78125
 pt>
 File: ./Obrazky_praca/vytazky_Lh_protilahly_mult.png Graphic file (type png)
  <use ./Obrazky_praca/vytazky_Lh_protilahly_mult.png>
 Package pdftex.def Info: ./Obrazky_praca/vytazky_Lh_protilahly_mult.png used on
- input line 505.
+ input line 821.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
 
-<./Obrazky_praca/vytazky_hh_prilahly_mult.png, id=141, 700.6175pt x 476.78125pt
+<./Obrazky_praca/vytazky_hh_prilahly_mult.png, id=239, 700.6175pt x 476.78125pt
 >
 File: ./Obrazky_praca/vytazky_hh_prilahly_mult.png Graphic file (type png)
  <use ./Obrazky_praca/vytazky_hh_prilahly_mult.png>
 Package pdftex.def Info: ./Obrazky_praca/vytazky_hh_prilahly_mult.png used on i
-nput line 516.
+nput line 832.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
 
-<./Obrazky_praca/vytazky_hh_protilahly_mult.png, id=142, 700.6175pt x 476.78125
+<./Obrazky_praca/vytazky_hh_protilahly_mult.png, id=240, 700.6175pt x 476.78125
 pt>
 File: ./Obrazky_praca/vytazky_hh_protilahly_mult.png Graphic file (type png)
  <use ./Obrazky_praca/vytazky_hh_protilahly_mult.png>
 Package pdftex.def Info: ./Obrazky_praca/vytazky_hh_protilahly_mult.png used on
- input line 522.
+ input line 838.
 (pdftex.def)             Requested size: 217.66362pt x 148.12076pt.
- [28 <../histogramy/vytazky/ucinnost.png>] [29 <./Obrazky_praca/vytazky_Kh_pril
-ahly_mult.png> <./Obrazky_praca/vytazky_Kh_protilahly_mult.png> <./Obrazky_prac
-a/vytazky_Lh_prilahly_mult.png> <./Obrazky_praca/vytazky_Lh_protilahly_mult.png
-> <./Obrazky_praca/vytazky_hh_prilahly_mult.png> <./Obrazky_praca/vytazky_hh_pr
-otilahly_mult.png>]
-<./Obrazky_praca/odcitane.png, id=150, 1282.7925pt x 777.90625pt>
+ [47 <./Obrazky_praca/DeltaPhiHH.png> <./Obrazky_praca/vytazky_minBias_prilahly
+_mult.png>]
+<./Obrazky_praca/odcitane.png, id=245, 1282.7925pt x 777.90625pt>
 File: ./Obrazky_praca/odcitane.png Graphic file (type png)
 
 <use ./Obrazky_praca/odcitane.png>
-Package pdftex.def Info: ./Obrazky_praca/odcitane.png used on input line 536.
+Package pdftex.def Info: ./Obrazky_praca/odcitane.png used on input line 852.
 (pdftex.def)             Requested size: 348.2631pt x 211.18887pt.
 
-<./Obrazky_praca/ICP.png, id=151, 1282.7925pt x 777.90625pt>
+<./Obrazky_praca/ICP.png, id=246, 1282.7925pt x 777.90625pt>
 File: ./Obrazky_praca/ICP.png Graphic file (type png)
 
 <use ./Obrazky_praca/ICP.png>
-Package pdftex.def Info: ./Obrazky_praca/ICP.png used on input line 543.
+Package pdftex.def Info: ./Obrazky_praca/ICP.png used on input line 859.
 (pdftex.def)             Requested size: 348.2631pt x 211.18887pt.
- [30 <./Obrazky_praca/odcitane.png> <./Obrazky_praca/ICP.png>]
+ [48 <./Obrazky_praca/vytazky_minBias_protilahly_mult.png>] [49 <./Obrazky_prac
+a/vytazky_Kh_prilahly_mult.png> <./Obrazky_praca/vytazky_Kh_protilahly_mult.png
+> <./Obrazky_praca/vytazky_Lh_prilahly_mult.png> <./Obrazky_praca/vytazky_Lh_pr
+otilahly_mult.png> <./Obrazky_praca/vytazky_hh_prilahly_mult.png> <./Obrazky_pr
+aca/vytazky_hh_protilahly_mult.png>] [50 <./Obrazky_praca/odcitane.png> <./Obra
+zky_praca/ICP.png>]
 Kapitola 6.
 
-Overfull \hbox (5.6024pt too wide) in paragraph at lines 551--552
+Overfull \hbox (5.6024pt too wide) in paragraph at lines 868--869
 []\OT1/cmr/m/n/12 V^^Syt[]a^^Tzky pro-til[]ahl^^Sych p^^S^^Pkov s^^Su ni^^Tz^^T
 sie ako pril[]ahl^^Sych. Tento efekt m^o^^Tze byt[] sp^osoben^^Sy
  []
 
-[31
+[51
 
 ]
-Overfull \hbox (21.89543pt too wide) in paragraph at lines 557--558
-[]\OT1/cmr/m/n/12 Na tom is-tom obr^^Sazku je d[]alej vi-di-tel[]n^^Se, ^^Tze a
-j po od^^Tc^^S^^Ptan^^S^^P fun-kcie pre n^^S^^Pzkomultiplicitn^^Se
+
+LaTeX Warning: Reference `ALICEPbPb' on page 52 undefined on input line 879.
+
+[52] <./Obrazky_praca/vytazok_near_K0_MC.png, id=263, 600.2425pt x 732.7375pt>
+File: ./Obrazky_praca/vytazok_near_K0_MC.png Graphic file (type png)
+
+<use ./Obrazky_praca/vytazok_near_K0_MC.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazok_near_K0_MC.png used on input l
+ine 889.
+(pdftex.def)             Requested size: 174.13155pt x 212.5667pt.
+
+<./Obrazky_praca/vytazok_away_K0_MC.png, id=264, 600.2425pt x 732.7375pt>
+File: ./Obrazky_praca/vytazok_away_K0_MC.png Graphic file (type png)
+
+<use ./Obrazky_praca/vytazok_away_K0_MC.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazok_away_K0_MC.png used on input l
+ine 894.
+(pdftex.def)             Requested size: 174.13155pt x 212.5667pt.
+
+<./Obrazky_praca/vytazok_near_Lam_MC.png, id=265, 600.2425pt x 732.7375pt>
+File: ./Obrazky_praca/vytazok_near_Lam_MC.png Graphic file (type png)
+
+<use ./Obrazky_praca/vytazok_near_Lam_MC.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazok_near_Lam_MC.png used on input 
+line 905.
+(pdftex.def)             Requested size: 174.13155pt x 212.5667pt.
+
+<./Obrazky_praca/vytazok_away_Lam_MC.png, id=266, 600.2425pt x 732.7375pt>
+File: ./Obrazky_praca/vytazok_away_Lam_MC.png Graphic file (type png)
+
+<use ./Obrazky_praca/vytazok_away_Lam_MC.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazok_away_Lam_MC.png used on input 
+line 910.
+(pdftex.def)             Requested size: 174.13155pt x 212.5667pt.
+
+<./Obrazky_praca/vytazok_near_hh_MC.png, id=267, 600.2425pt x 732.7375pt>
+File: ./Obrazky_praca/vytazok_near_hh_MC.png Graphic file (type png)
+
+<use ./Obrazky_praca/vytazok_near_hh_MC.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazok_near_hh_MC.png used on input l
+ine 921.
+(pdftex.def)             Requested size: 174.13155pt x 212.5667pt.
+
+<./Obrazky_praca/vytazok_away_hh__MC.png, id=268, 600.2425pt x 732.7375pt>
+File: ./Obrazky_praca/vytazok_away_hh__MC.png Graphic file (type png)
+
+<use ./Obrazky_praca/vytazok_away_hh__MC.png>
+Package pdftex.def Info: ./Obrazky_praca/vytazok_away_hh__MC.png used on input 
+line 926.
+(pdftex.def)             Requested size: 174.13155pt x 212.5667pt.
+ [53 <./Obrazky_praca/vytazok_near_K0_MC.png> <./Obrazky_praca/vytazok_away_K0_
+MC.png> <./Obrazky_praca/vytazok_near_Lam_MC.png> <./Obrazky_praca/vytazok_away
+_Lam_MC.png>]
+<./Obrazky_praca/neistotaZYAM.png, id=273, 1282.7925pt x 777.90625pt>
+File: ./Obrazky_praca/neistotaZYAM.png Graphic file (type png)
+
+<use ./Obrazky_praca/neistotaZYAM.png>
+Package pdftex.def Info: ./Obrazky_praca/neistotaZYAM.png used on input line 94
+1.
+(pdftex.def)             Requested size: 348.2631pt x 211.18887pt.
+
+<./Obrazky_praca/neistotaMix.png, id=274, 1282.7925pt x 777.90625pt>
+File: ./Obrazky_praca/neistotaMix.png Graphic file (type png)
+
+<use ./Obrazky_praca/neistotaMix.png>
+Package pdftex.def Info: ./Obrazky_praca/neistotaMix.png used on input line 948
+.
+(pdftex.def)             Requested size: 348.2631pt x 211.18887pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 958--958
+[]\OT1/cmr/m/n/12 trigrovacie
  []
 
-[32] [33
+
+Underfull \hbox (badness 10000) in paragraph at lines 958--958
+[]\OT1/cmr/m/n/12 trigrovacie
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 958--958
+[]\OT1/cmr/m/n/12 trigrovacie
+ []
+
+
+Overfull \hbox (12.1942pt too wide) in paragraph at lines 955--967
+ [] 
+ []
+
+[54 <./Obrazky_praca/vytazok_near_hh_MC.png> <./Obrazky_praca/vytazok_away_hh__
+MC.png>] [55 <./Obrazky_praca/neistotaZYAM.png> <./Obrazky_praca/neistotaMix.pn
+g>] [56] [57
 
 ]
-Underfull \hbox (badness 4492) in paragraph at lines 584--585
+Underfull \hbox (badness 4492) in paragraph at lines 993--994
 []\OT1/cmr/m/n/12 R. AAIJ, B. ADEVA, M. ADI-NOLFI, et al. Ob-ser-va-tion of $\O
 ML/cmm/m/it/12 J= $ \OT1/cmr/m/n/12 p
  []
 
 
-Underfull \hbox (badness 3354) in paragraph at lines 584--585
+Underfull \hbox (badness 3354) in paragraph at lines 993--994
 \OT1/cmr/m/n/12 Re-so-nan-ces Con-sis-tent with Pen-ta-qu-ark Sta-tes in $^^C[]
  \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 J= K[]p$ \OT1/cmr/m/n/12 De-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 584--585
+Underfull \hbox (badness 10000) in paragraph at lines 993--994
 \OT1/cmr/m/n/12 cays. \OT1/cmr/m/it/12 Phy-si-cal Re-view Let-ters \OT1/cmr/m/n
 /12 [on-line]. 2015, 115(7), ISSN 0031-9007.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--589
+Underfull \hbox (badness 10000) in paragraph at lines 996--998
 []\OT1/cmr/m/n/12 Y. HE, I. VI-TEV, B. ZHANG. $\OML/cmm/m/it/12 O\OT1/cmr/m/n/1
 2 (\OML/cmm/m/it/12 \OT1/cmr/m/n/12 )$ Ana-ly-sis of Inc-lu-sive Jet
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--589
+Underfull \hbox (badness 10000) in paragraph at lines 996--998
 \OT1/cmr/m/n/12 and Di-jet Pro-duc-tion in He-avy Ion Re-ac-ti-ons at the Large
  Had-
  []
 
 
-Underfull \hbox (badness 5050) in paragraph at lines 587--589
+Underfull \hbox (badness 5050) in paragraph at lines 996--998
 \OT1/cmr/m/n/12 ron Col-li-der. \OT1/cmr/m/it/12 Phy-sics Let-ters B \OT1/cmr/m
 /n/12 [on-line]. 2012, 713(3), ISSN 03702693.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 596--597
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1006
 []\OT1/cmr/m/n/12 http://physics.stackexchange.com/questions/155327/zero-net-fo
 rce-on-grass-
  []
 
 
-Overfull \hbox (6.15956pt too wide) in paragraph at lines 598--599
+Overfull \hbox (6.15956pt too wide) in paragraph at lines 1007--1008
 []\OT1/cmr/m/n/12 http://hepg.sdu.edu.cn/THPPC/reports/seminar2009/0316[]lund[]
 string[]model.pdf 
  []
 
-[34
+
+Underfull \hbox (badness 3713) in paragraph at lines 1011--1012
+[]\OT1/cmr/m/n/12 P. AB-REU, W. ADAM, T. ADYE, et al. The scale de-pen-dence of
+
+ []
+
+
+Underfull \hbox (badness 2359) in paragraph at lines 1011--1012
+\OT1/cmr/m/n/12 the had-ron mul-tip-li-city in qu-ark and gluon jets and a pre-
+cise de-ter-mi-
+ []
+
+
+Underfull \hbox (badness 2205) in paragraph at lines 1011--1012
+\OT1/cmr/m/n/12 na-tion of $\OML/cmm/m/it/12 C[]=C[]$ \OT1/cmr/m/it/12 Phy-sics
+ Let-ters B\OT1/cmr/m/n/12 . 1999, extbf449(3-4). ISSN 03702693.
+ []
+
+[58
 
 ]
-Underfull \hbox (badness 4569) in paragraph at lines 604--605
+Underfull \hbox (badness 10000) in paragraph at lines 1017--1018
+[]\OT1/cmr/m/n/12 G. MAR-TI-NEZ GAR-CIA. Ad-van-ces in Qu-ark Gluon Plasma,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1023--1024
+[]\OT1/cmr/m/n/12 P. BRAUN-MUNZINGER, J. STA-CHEL a C. WET-TE-RICH. Che-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1023--1024
+\OT1/cmr/m/n/12 mi-cal freeze-out and the QCD phase trans-i-tion tem-pe-ra-ture
+. \OT1/cmr/m/it/12 Phy-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1023--1024
+\OT1/cmr/m/it/12 sics Let-ters B \OT1/cmr/m/n/12 [on-line]. 2004, 596(1-2), 61-
+69. ISSN 03702693.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1027--1028
+[]\OT1/cmr/m/n/12 https://indico.cern.ch/event/634050/attachments/1477336/23324
+17/ -
+ []
+
+
+Underfull \hbox (badness 1776) in paragraph at lines 1031--1032
+\OT1/cmr/m/it/12 Jour-nal of High Energy Phy-sics \OT1/cmr/m/n/12 [on-line]. 20
+15, 2015(11). ISSN 1029-8479.
+ []
+
+[59]
+Underfull \hbox (badness 10000) in paragraph at lines 1035--1036
+[]\OT1/cmr/m/n/12 X. SNEL-LINGS. El-lip-tic Flow: A Brief Re-view,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1037--1038
+[]\OT1/cmr/m/n/12 J. ADAM, D. ADA-MOV[]A, M. M. AG-GAR-WAL, et al. En-han-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1037--1038
+\OT1/cmr/m/n/12 ced pro-duc-tion of multi-strange had-rons in high-multiplicity
+ pro-
+ []
+
+
+Underfull \hbox (badness 1052) in paragraph at lines 1037--1038
+\OT1/cmr/m/n/12 ton{proton col-li-si-ons. \OT1/cmr/m/it/12 Na-ture Phy-sics \OT
+1/cmr/m/n/12 [on-line]. 2017, 13(6), ISSN 1745-2473.
+ []
+
+
+Underfull \hbox (badness 4569) in paragraph at lines 1041--1042
 []\OT1/cmr/m/n/12 C. AD-LER, Z. AHAM-MED, C. ALL-GO-WER, et al. Cen-tra-lity De
 -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 604--605
+Underfull \hbox (badness 10000) in paragraph at lines 1041--1042
 \OT1/cmr/m/n/12 pen-dence of High-$\OML/cmm/m/it/12 p[]$ \OT1/cmr/m/n/12 Had-ro
 n Supp-res-sion in Au+Au Col-li-si-ons at
  []
 
 
-Underfull \hbox (badness 1038) in paragraph at lines 608--609
+Underfull \hbox (badness 1701) in paragraph at lines 1047--1048
+[]\OT1/cmr/m/n/12 S. CHATR-CHYAN, V. KHA-CHAT-RYAN, A.M. SI-RU-NYAN, et al. Ob-
+
+ []
+
+
+Underfull \hbox (badness 1603) in paragraph at lines 1047--1048
+\OT1/cmr/m/n/12 ser-va-tion of long-range, near-side an-gu-lar cor-re-la-ti-ons
+ in pPb col-li-si-ons at
+ []
+
+
+Underfull \hbox (badness 1038) in paragraph at lines 1049--1050
 []\OT1/cmr/m/n/12 B. ABE-LEV, J. ADAM, D. ADA-MOVA, et al. Long-range an-gu-lar
  cor-
  []
 
 
-Underfull \hbox (badness 3895) in paragraph at lines 608--609
+Underfull \hbox (badness 3895) in paragraph at lines 1049--1050
 \OT1/cmr/m/n/12 re-la-ti-ons on the near and away side in p{Pb col-li-si-ons at
  $[] =
  []
 
 
-Underfull \hbox (badness 6396) in paragraph at lines 608--609
+Underfull \hbox (badness 6396) in paragraph at lines 1049--1050
 \OT1/cmr/m/n/12 5\OML/cmm/m/it/12 :\OT1/cmr/m/n/12 02$ TeV. \OT1/cmr/m/it/12 Ph
 y-sics Let-ters B \OT1/cmr/m/n/12 [on-line]. 2013, 719(1-3). ISSN 03702693.
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 620--621
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 1062--1063
 []\OT1/cmr/m/n/12 http://alice-offline.web.cern.ch/sites/alice-offline.web.cern
 .ch/files/uploads/ -
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 622--623
+Underfull \hbox (badness 1728) in paragraph at lines 1064--1065
+[]\OT1/cmr/m/n/12 M. GY-ULASSY, X. WANG. HI-JING 1.0: A Monte Carlo prog-ram fo
+r
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1072--1073
 []\OT1/cmr/m/n/12 P. SKANDS, Z. Tu-ning. Monte Carlo ge-ne-ra-tors: The Pe-ru-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 622--623
+Underfull \hbox (badness 10000) in paragraph at lines 1072--1073
 \OT1/cmr/m/n/12 gia tu-nes. \OT1/cmr/m/it/12 Phy-si-cal Re-view D \OT1/cmr/m/n/
 12 [on-line]. 2010, 82(7). ISSN 1550-7998.
  []
 
-[35] (./SVOC.aux)
+[61] [62] (./diplomovka.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.5pt have occurred.
@@ -998,13 +1436,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 4259 strings out of 492995
- 63846 string characters out of 6132705
- 135455 words of memory out of 5000000
- 7731 multiletter control sequences out of 15000+600000
+ 4488 strings out of 492995
+ 70720 string characters out of 6132705
+ 137995 words of memory out of 5000000
+ 7926 multiletter control sequences out of 15000+600000
  12169 words of font info for 42 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 39i,9n,39p,1226b,444s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 39i,11n,39p,1470b,444s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
@@ -1021,12 +1459,13 @@ ive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive
 17/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/local/texlive/201
 7/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/20
 17/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/201
-7/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2017/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on SVOC.pdf (37 pages, 3544857 bytes).
+7/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2017/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2017/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on diplomovka.pdf (64 pages, 7839616 bytes).
 PDF statistics:
- 232 PDF objects out of 1000 (max. 8388607)
- 140 compressed objects within 2 object streams
+ 367 PDF objects out of 1000 (max. 8388607)
+ 201 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 286 words of extra memory for PDF output out of 10000 (max. 10000000)
 

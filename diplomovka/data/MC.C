@@ -14,6 +14,9 @@ void MC(){
     
     THnSparseF *fHistGenV0 = (THnSparseF*)list->FindObject("fHistGenV0");
     THnSparseF *fHistRecV0 = (THnSparseF*)list->FindObject("fHistRecV0");
+    
+    const Int_t rebinZ = 2;
+    const Int_t rebinY = 2;
 
     TCanvas *c1 = new TCanvas("c1","",600,800);
 	TPad* pad1 = new TPad("pad1","This is pad1",0.001,0.3,0.999,0.999);
@@ -25,15 +28,15 @@ void MC(){
 	pad1->Draw();
     pad2->Draw();
    
-    fHistMCPtAs->RebinZ(2);
-    fHistMCPtAs->RebinY(2);
-    fHistRCPtAs->RebinZ(2);
-    fHistRCPtAs->RebinY(2);
+    fHistMCPtAs->RebinZ(rebinZ);
+    fHistMCPtAs->RebinY(rebinY);
+    fHistRCPtAs->RebinZ(rebinZ);
+    fHistRCPtAs->RebinY(rebinY);
     
-    fHistMCPtTrigg->RebinZ(2);
-    fHistMCPtTrigg->RebinY(2);
-    fHistRCPtTrigg->RebinZ(2);
-    fHistRCPtTrigg->RebinY(2);
+    fHistMCPtTrigg->RebinZ(rebinZ);
+    fHistMCPtTrigg->RebinY(rebinY);
+    fHistRCPtTrigg->RebinZ(rebinZ);
+    fHistRCPtTrigg->RebinY(rebinY);
     
     //fHistMCPtAs->Sumw2();
     TH1D *fHistMCPtAsPojX = fHistMCPtAs->ProjectionX();
@@ -252,6 +255,10 @@ void MC(){
     
     
     TFile *fNewFile = TFile::Open("EfiiciencyMC15c_07.root","RECREATE");
+    fHistRCPtAsProjX->Write();
+    histV0RecK0->Write();
+    histV0RecLam->Write();
+    histV0RecALam->Write();
     fHistRCPtAs->Divide(fHistMCPtAs);
     TCanvas * cccc = new TCanvas;
     fHistRCPtAs->DrawCopy("colz");
@@ -269,10 +276,10 @@ void MC(){
     TH3D *fHistRecV03DK0 = fHistRecV0->Projection(0,1,3);
     fHistRecV03DK0->SetName("fHistRecV03DK0");
     
-    fHistGenV03DK0->RebinZ(2);
-    fHistGenV03DK0->RebinY(2);
-    fHistRecV03DK0->RebinZ(2);
-    fHistRecV03DK0->RebinY(2);
+    fHistGenV03DK0->RebinZ(rebinZ);
+    fHistGenV03DK0->RebinY(rebinY);
+    fHistRecV03DK0->RebinZ(rebinZ);
+    fHistRecV03DK0->RebinY(rebinY);
     
     fHistRecV03DK0->Divide(fHistGenV03DK0);
     fHistRecV03DK0->Write();
@@ -287,10 +294,10 @@ void MC(){
     TH3D *fHistRecV03DLam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DLam->SetName("fHistRecV03DLam");
     
-    fHistGenV03DLam->RebinZ(4);
-    fHistGenV03DLam->RebinY(2);
-    fHistRecV03DLam->RebinZ(4);
-    fHistRecV03DLam->RebinY(2);
+    fHistGenV03DLam->RebinZ(rebinZ);
+    fHistGenV03DLam->RebinY(rebinY);
+    fHistRecV03DLam->RebinZ(rebinZ);
+    fHistRecV03DLam->RebinY(rebinY);
     
     fHistRecV03DLam->Divide(fHistGenV03DLam);
     fHistRecV03DLam->Write();
@@ -302,10 +309,10 @@ void MC(){
     TH3D *fHistRecV03DALam = fHistRecV0->Projection(0,1,3);
     fHistRecV03DALam->SetName("fHistRecV03DAntiLam");
     
-    fHistGenV03DALam->RebinZ(2);
-    fHistGenV03DALam->RebinY(2);
-    fHistRecV03DALam->RebinZ(2);
-    fHistRecV03DALam->RebinY(2);
+    fHistGenV03DALam->RebinZ(rebinZ);
+    fHistGenV03DALam->RebinY(rebinY);
+    fHistRecV03DALam->RebinZ(rebinZ);
+    fHistRecV03DALam->RebinY(rebinY);
     
     fHistRecV03DALam->Divide(fHistGenV03DALam);
     fHistRecV03DALam->Write();
@@ -328,11 +335,11 @@ void MC(){
             fHistMCKorelGen->GetAxis(5)->SetRange(4,4);
             fHistMCKorelRec->GetAxis(5)->SetRange(4,4);
         }
-        for(Int_t j=0; j<6; j++){ //loop cez pt trigg
-            if (j==0) {
-                fHistMCKorelGen->GetAxis(0)->SetRange(1,1);
-                fHistMCKorelRec->GetAxis(0)->SetRange(1,1);
-            }
+        for(Int_t j=0; j<11; j++){ //loop cez pt trigg
+           // if (j==0) {
+                fHistMCKorelGen->GetAxis(0)->SetRange(j+1,j+1);
+                fHistMCKorelRec->GetAxis(0)->SetRange(j+1,j+1);
+          /*  }
             if (j==1) {
                 fHistMCKorelGen->GetAxis(0)->SetRange(2,2);
                 fHistMCKorelRec->GetAxis(0)->SetRange(2,2);
@@ -353,17 +360,17 @@ void MC(){
                 fHistMCKorelGen->GetAxis(0)->SetRange(8,11);
                 fHistMCKorelRec->GetAxis(0)->SetRange(8,11);
             }
-            
+            */
             sprintf(nameEff,"eff_%d_%d",i,j);
             
-            TH3D * fHistPtPvzEtaGen = fHistMCKorelGen->Projection(1,4,7);
-            TH3D * fHistPtPvzEtaRec = fHistMCKorelRec->Projection(1,4,7);
+            TH1D * fHistPtPvzEtaGen = fHistMCKorelGen->Projection(1);
+            TH1D * fHistPtPvzEtaRec = fHistMCKorelRec->Projection(1);
             
-            fHistPtPvzEtaGen->RebinZ(2);
-            fHistPtPvzEtaGen->RebinY(2);
-            fHistPtPvzEtaRec->RebinZ(2);
-            fHistPtPvzEtaRec->RebinY(2);
-            
+          /*  fHistPtPvzEtaGen->RebinZ(rebinZ);
+            fHistPtPvzEtaGen->RebinY(rebinY);
+            fHistPtPvzEtaRec->RebinZ(rebinZ);
+            fHistPtPvzEtaRec->RebinY(rebinY);
+            */
             fHistPtPvzEtaRec->Divide(fHistPtPvzEtaGen);
             fHistPtPvzEtaRec->SetName(nameEff);
             fHistPtPvzEtaRec->Write();

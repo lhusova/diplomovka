@@ -23,12 +23,20 @@ void Hist(){
     fHistInvMassK0->SetYTitle("#");
     fHistInvMassK0->DrawCopy();
     
-    Double_t integralCeleK0 =fHistInvMassK0->Integral("width");
+    Double_t integralCeleK0 =fHistInvMassK0->Integral("");
     Double_t vyskapozadiaK0 = (fHistInvMassK0->GetBinContent(fHistInvMassK0->FindBin(0.485))+fHistInvMassK0->GetBinContent(fHistInvMassK0->FindBin(0.511)))/2;
-    Double_t integralpozadieK0 = (0.52-0.48)*vyskapozadiaK0;
+   /* Double_t sirkaK0 =fHistInvMassK0->FindBin(0.52)-fHistInvMassK0->FindBin(0.48);
+    Double_t integralpozadieK0 = (sirkaK0)*vyskapozadiaK0;
     Double_t podielPozadiaK0 = (integralpozadieK0/integralCeleK0)*100;
-    Printf("cele %g pozadie %g, vyska pozadia %g K0\n",integralCeleK0,integralpozadieK0,vyskapozadiaK0);
-    Printf("podiel pozadia pre K0 %g \n",podielPozadiaK0);
+    Printf("cele %g pozadie %g, vyska pozadia %g K0, sirka %g \n",integralCeleK0,integralpozadieK0,vyskapozadiaK0,sirkaK0);
+    Printf("podiel pozadia pre K0 %g \n",podielPozadiaK0);*/
+    
+    TF1 *fFuncBackK0 = new TF1("fFuncBackK0"," [0]",0.48, 0.52);
+    fFuncBackK0->SetParameter(0,vyskapozadiaK0);
+    fHistInvMassK0->Add(fFuncBackK0,-1);
+    
+    Double_t integrK0bezPoz = fHistInvMassK0->Integral();
+    Printf("integral K0 cele %g,  po odcitani %g, pozadie %g, percento %g \n", integralCeleK0, integrK0bezPoz, integralCeleK0-integrK0bezPoz, (integralCeleK0-integrK0bezPoz)/integralCeleK0);
     
     fHistLambdaMassPtCut->GetZaxis()->SetRange(6,6);
     TH1F * fHistInvMassLam = (TH1F *)fHistLambdaMassPtCut->Project3D("x");
@@ -39,12 +47,21 @@ void Hist(){
     fHistInvMassLam->SetYTitle("#");
     fHistInvMassLam->DrawCopy();
     
-    Double_t integralCeleLam =fHistInvMassLam->Integral("width");
+    Double_t integralCeleLam =fHistInvMassLam->Integral("");
     Double_t vyskapozadiaLam = (fHistInvMassLam->GetBinContent(fHistInvMassLam->FindBin(1.102))+fHistInvMassLam->GetBinContent(fHistInvMassLam->FindBin(1.127)))/2;
-    Double_t integralpozadieLam = (1.2-1.05)*vyskapozadiaLam;
+   /* Double_t sirkaLam =fHistInvMassLam->FindBin(1.2)-fHistInvMassLam->FindBin(1.05);
+    Double_t integralpozadieLam = (sirkaLam)*vyskapozadiaLam;
     Double_t podielPozadiaLam = (integralpozadieLam/integralCeleLam)*100;
-    Printf("cele %g pozadie %g, vyska pozadia %g K0\n",integralCeleLam,integralpozadieLam,vyskapozadiaLam);
-    Printf("podiel pozadia pre Lambda %g \n",podielPozadiaLam);
+    Printf("cele %g pozadie %g, vyska pozadia %g Lam, sirka %g \n",integralCeleLam,integralpozadieLam,vyskapozadiaLam,sirkaLam);
+    Printf("podiel pozadia pre Lambda %g \n",podielPozadiaLam);*/
+    
+    TF1 *fFuncBack = new TF1("fFuncBack"," [0]",1.1, 1.13);
+    fFuncBack->SetParameter(0,vyskapozadiaLam);
+    fHistInvMassLam->Add(fFuncBack,-1);
+    
+    //fHistInvMassLam->DrawCopy("same");
+    
+    Printf("integral cele %g,  po odcitani %g, pozadie %g, percento %g \n",integralCeleLam, fHistInvMassLam->Integral(),integralCeleLam-fHistInvMassLam->Integral(),(integralCeleLam-fHistInvMassLam->Integral())/integralCeleLam);
     
     fHistAntiLambdaMassPtCut->GetZaxis()->SetRange(6,6);
     TH1F * fHistInvMassALam = (TH1F *)fHistAntiLambdaMassPtCut->Project3D("x");
@@ -55,12 +72,20 @@ void Hist(){
     fHistInvMassALam->SetYTitle("#");
     fHistInvMassALam->DrawCopy();
     
-    Double_t integralCeleALam =fHistInvMassALam->Integral("width");
+    Double_t integralCeleALam =fHistInvMassALam->Integral("");
     Double_t vyskapozadiaALam = (fHistInvMassALam->GetBinContent(fHistInvMassALam->FindBin(1.102))+fHistInvMassALam->GetBinContent(fHistInvMassALam->FindBin(1.127)))/2;
-    Double_t integralpozadieALam = (1.2-1.05)*vyskapozadiaALam;
+  /*  Double_t integralpozadieALam = (1.2-1.05)*vyskapozadiaALam;
     Double_t podielPozadiaALam = (integralpozadieALam/integralCeleALam)*100;
     Printf("cele %g pozadie %g, vyska pozadia %g AntiLambda\n",integralCeleALam,integralpozadieALam,vyskapozadiaALam);
-    Printf("podiel pozadia pre AntiLambda %g \n",podielPozadiaALam);
+    Printf("podiel pozadia pre AntiLambda %g \n",podielPozadiaALam);*/
+    
+    TF1 *fFuncBackALam = new TF1("fFuncBackALam"," [0]",1.1, 1.13);
+    fFuncBackALam->SetParameter(0,vyskapozadiaALam);
+    fHistInvMassALam->Add(fFuncBackALam,-1);
+    
+    Double_t integrAlambezPoz = fHistInvMassALam->Integral();
+    Printf("integral ALam cele %g,  po odcitani %g, pozadie %g, percento %g \n", integralCeleALam, integrAlambezPoz, integralCeleALam-integrAlambezPoz, (integralCeleALam-integrAlambezPoz)/integralCeleALam);
+    
     
 /*	Int_t lPocetCutov = 7;
 	Int_t lPocetPtBinov = 10;

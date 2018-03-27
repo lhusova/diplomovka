@@ -1,3 +1,4 @@
+#include <TLegend.h>
 void GraphMult(){
     gStyle->SetOptStat(0000000000);
     TFile *g =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphData_03_1MultBin_hh_0-2Pt.root");
@@ -28,6 +29,8 @@ void GraphMult(){
     TFile *fL3 =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphData_03_3MultBin_Lh_3-5Pt.root");
     
     TFile *fileK0Mix =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2015c_07_averageMixingK0.root");
+    TFile *fileLamMix =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2015c_07_averageMixingLam.root");
+    TFile *filehhMix =  TFile::Open("/Users/lhusova/git/diplomovka/diplomovka/data/GraphMC_2015c_07_averageMixingHH.root");
     
    TH2D* fHist2DhhHighMultipl = (TH2D*)g->Get("2dproj_0_2_0");
     TH2D* fHist2DhhHighMultiplHighPt = (TH2D*)g->Get("2dproj_0_2_0");
@@ -261,13 +264,20 @@ void GraphMult(){
     fHist2DLhHighMultipl->DrawCopy("lego2z");*/
     
     // ----------- vytazky -------------
-  /*
+/*
     TH1D* fHistYieldNearLow = (TH1D*) g->Get("fHistHadronNear1");
     TH1D* fHistYieldNearHigh = (TH1D*) f->Get("fHistHadronNear1");
     TH1D* fHistYieldNearLow2 = (TH1D*) g2->Get("fHistHadronNear2");
     TH1D* fHistYieldNearHigh2 = (TH1D*) f2->Get("fHistHadronNear2");
     TH1D* fHistYieldNearLow3 = (TH1D*) g3->Get("fHistHadronNear3");
     TH1D* fHistYieldNearHigh3 = (TH1D*) f3->Get("fHistHadronNear3");
+    
+    fHistYieldNearLow->Sumw2();
+    fHistYieldNearHigh->Sumw2();
+    fHistYieldNearLow2->Sumw2();
+    fHistYieldNearHigh2->Sumw2();
+    fHistYieldNearLow3->Sumw2();
+    fHistYieldNearHigh3->Sumw2();
  
     fHistYieldNearLow2->SetBinContent(4,0);
     fHistYieldNearHigh2->SetBinContent(3,0);
@@ -275,7 +285,7 @@ void GraphMult(){
     fHistYieldNearLow2->Add(fHistYieldNearHigh2);
     fHistYieldNearLow3->Add(fHistYieldNearHigh3);
     fHistYieldNearLow->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik pre h-h");
-    fHistYieldNearLow->SetXTitle("p_{T} (GeV/c)");
+    fHistYieldNearLow->SetXTitle("p_{T}^{trig} (GeV/c)");
     fHistYieldNearLow->SetYTitle("Y_{J}^{#Delta#phi}");
     fHistYieldNearLow->GetYaxis()->SetRangeUser(0.,0.35);
     fHistYieldNearLow->SetMarkerStyle(21);
@@ -306,6 +316,13 @@ void GraphMult(){
     TH1D* fHistYieldAwayHigh2 = (TH1D*) f2->Get("fHistHadronAway2");
     TH1D* fHistYieldAwayLow3 = (TH1D*) g3->Get("fHistHadronAway3");
     TH1D* fHistYieldAwayHigh3 = (TH1D*) f3->Get("fHistHadronAway3");
+    
+    fHistYieldAwayLow->Sumw2();
+    fHistYieldAwayHigh->Sumw2();
+    fHistYieldAwayLow2->Sumw2();
+    fHistYieldAwayHigh2->Sumw2();
+    fHistYieldAwayLow3->Sumw2();
+    fHistYieldAwayHigh3->Sumw2();
 
     Double_t error = fHistYieldAwayHigh3->GetBinError(5);
     fHistYieldAwayLow->Add(fHistYieldAwayHigh);
@@ -313,7 +330,7 @@ void GraphMult(){
     fHistYieldAwayLow3->Add(fHistYieldAwayHigh3);
     fHistYieldAwayLow->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik pre h-h");
     fHistYieldAwayLow->GetYaxis()->SetRangeUser(0,0.35);
-    fHistYieldAwayLow->SetXTitle("p_{T} (GeV/c)");
+    fHistYieldAwayLow->SetXTitle("p_{T}^{trig} (GeV/c)");
     fHistYieldAwayLow->SetYTitle("Y_{J}^{#Delta#phi}");
     fHistYieldAwayLow->SetMarkerStyle(21);
     fHistYieldAwayLow->SetMarkerSize(1.5);
@@ -345,13 +362,20 @@ void GraphMult(){
     TH1D* fHistYieldNearKLow3 = (TH1D*) gK3->Get("fHistK0Nea3r");
     TH1D* fHistYieldNearKHigh3 = (TH1D*) fK3->Get("fHistK0Nea3r");
     
+    fHistYieldNearKLow->Sumw2();
+    fHistYieldNearKHigh->Sumw2();
+    fHistYieldNearKLow2->Sumw2();
+    fHistYieldNearKHigh2->Sumw2();
+    fHistYieldNearKLow3->Sumw2();
+    fHistYieldNearKHigh3->Sumw2();
+    
     Double_t errorK0Near = fHistYieldNearKLow2->GetBinError(1);
     fHistYieldNearKLow->Add(fHistYieldNearKHigh);
     fHistYieldNearKLow2->Add(fHistYieldNearKHigh2);
     fHistYieldNearKLow3->Add(fHistYieldNearKHigh3);
     fHistYieldNearKLow->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik pre K^{0}_{S}-h");
     fHistYieldNearKLow->GetYaxis()->SetRangeUser(0,0.35);
-    fHistYieldNearKLow->SetXTitle("p_{T} (GeV/c)");
+    fHistYieldNearKLow->SetXTitle("p_{T}^{trig} (GeV/c)");
     fHistYieldNearKLow->SetYTitle("Y_{J}^{#Delta#phi}");
     fHistYieldNearKLow->SetMarkerStyle(21);
     fHistYieldNearKLow->SetMarkerSize(1.5);
@@ -390,7 +414,7 @@ void GraphMult(){
     fHistYieldAwayKLow3->Add(fHistYieldAwayKHigh3);
     fHistYieldAwayKLow->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik pre K^{0}_{S}-h");
     fHistYieldAwayKLow->GetYaxis()->SetRangeUser(0,0.35);
-    fHistYieldAwayKLow->SetXTitle("p_{T} (GeV/c)");
+    fHistYieldAwayKLow->SetXTitle("p_{T}^{trig} (GeV/c)");
     fHistYieldAwayKLow->SetYTitle("Y_{J}^{#Delta#phi}");
     fHistYieldAwayKLow->SetMarkerStyle(21);
     fHistYieldAwayKLow->SetMarkerSize(1.5);
@@ -469,7 +493,7 @@ void GraphMult(){
     fHistYieldAwayLamLow3->Add(fHistYieldAwayLamHigh3);
     fHistYieldAwayLamLow->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik pre (#Lambda+#bar{#Lambda})-h");
     fHistYieldAwayLamLow->GetYaxis()->SetRangeUser(0,1);
-    fHistYieldAwayLamLow->SetXTitle("p_{T} (GeV/c)");
+    fHistYieldAwayLamLow->SetXTitle("p_{T}^{trig} (GeV/c)");
     fHistYieldAwayLamLow->SetYTitle("Y_{J}^{#Delta#phi}");
     fHistYieldAwayLamLow->SetMarkerStyle(21);
     fHistYieldAwayLamLow->SetMarkerSize(1.5);
@@ -493,6 +517,79 @@ void GraphMult(){
     fHistYieldAwayLamLow2->DrawCopy("same");
     fHistYieldAwayLamLow3->DrawCopy("same");
     lgLamhAway->Draw();
+
+    TCanvas *canIcp = new TCanvas;
+    TPad * pad1 = new TPad("pad1","This is pad1",0.001,0.001,0.5,0.999);
+    TPad * pad2 = new TPad("pad2","This is pad2",0.5,0.001,0.999,0.999);
+    
+    pad1->SetMargin(0.1,0.,0.1,0.05);
+    pad2->SetMargin(0.,0.1,0.1,0.05);
+    
+    pad1->Draw();
+    pad2->Draw();
+    
+   // canIcp->Divide(2,1);
+   // canIcp->cd(1);
+    pad1->cd();
+    fHistYieldNearLow->Divide(fHistYieldNearLow3);
+    fHistYieldNearLamLow->Divide(fHistYieldNearLamLow3);
+    fHistYieldNearKLow->Divide(fHistYieldNearKLow3);
+    fHistYieldNearLow->GetYaxis()->SetRangeUser(0,2.5);
+    
+    fHistYieldNearLamLow->SetMarkerStyle(21);
+    fHistYieldNearLamLow->SetMarkerColor(kGreen);
+    fHistYieldNearLamLow->SetMarkerSize(1.8);
+    fHistYieldNearLamLow->SetLineColor(kGreen);
+    
+    fHistYieldNearLow->SetMarkerStyle(29);
+    fHistYieldNearLow->SetMarkerColor(kRed);
+    fHistYieldNearLow->SetMarkerSize(1.8);
+    fHistYieldNearLow->SetLineColor(kRed);
+    
+    fHistYieldNearKLow->SetMarkerStyle(23);
+    fHistYieldNearKLow->SetMarkerColor(kBlue);
+    fHistYieldNearKLow->SetMarkerSize(1.8);
+    fHistYieldNearKLow->SetLineColor(kBlue);
+    
+    fHistYieldNearLow->SetTitle("Prilahly pik");
+    fHistYieldNearLow->SetYTitle("I_{CP}(0-10% / 50-100%)");
+    fHistYieldNearLow->GetYaxis()->SetTitleOffset(1.2);
+    fHistYieldNearLow->DrawCopy();
+    fHistYieldNearLamLow->DrawCopy("same");
+    fHistYieldNearKLow->DrawCopy("same");
+  //  canIcp->cd(2);
+    pad2->cd();
+    fHistYieldAwayLow->Divide(fHistYieldAwayLow3);
+    fHistYieldAwayLamLow->Divide(fHistYieldAwayLamLow3);
+    fHistYieldAwayKLow->Divide(fHistYieldAwayKLow3);
+    
+    fHistYieldAwayLamLow->SetMarkerStyle(21);
+    fHistYieldAwayLamLow->SetMarkerColor(kGreen);
+    fHistYieldAwayLamLow->SetMarkerSize(1.8);
+    fHistYieldAwayLamLow->SetLineColor(kGreen);
+
+    fHistYieldAwayLow->SetMarkerStyle(29);
+    fHistYieldAwayLow->SetMarkerColor(kRed);
+    fHistYieldAwayLow->SetMarkerSize(1.8);
+    fHistYieldAwayLow->SetLineColor(kRed);
+    
+    fHistYieldAwayKLow->SetMarkerStyle(23);
+    fHistYieldAwayKLow->SetMarkerColor(kBlue);
+    fHistYieldAwayKLow->SetMarkerSize(1.8);
+    fHistYieldAwayKLow->SetLineColor(kBlue);
+    
+    fHistYieldAwayLow->GetYaxis()->SetRangeUser(0,2.5);
+    fHistYieldAwayLow->SetTitle("Protilahly pik");
+    fHistYieldAwayLow->SetYTitle("");
+    
+    TLegend *legIcp = new TLegend;
+    legIcp->AddEntry(fHistYieldAwayLow,"h-h","pl");
+    legIcp->AddEntry(fHistYieldAwayLamLow,"(#Lambda+#bar{#Lambda})-h","pl");
+    legIcp->AddEntry(fHistYieldAwayKLow,"K^{0}_{S}-h","pl");
+    fHistYieldAwayLow->DrawCopy();
+    fHistYieldAwayLamLow->DrawCopy("same");
+    fHistYieldAwayKLow->DrawCopy("same");
+    legIcp->Draw();
     
     //------- vytazky v zav od multiplicity -------
     const Double_t multbins[4] = {0,10,50,100};
@@ -716,6 +813,8 @@ void GraphMult(){
     char nameMix[20];
     char nameMixTrig[20];
     char nameprojphiMix[20];
+    char nameMixNew[20];
+    char nameMixTrigNew[20];
     
     Double_t yieldnear[nTig][nPtBins];
     Double_t yieldaway[nTig][nPtBins];
@@ -726,6 +825,11 @@ void GraphMult(){
     Double_t yieldawayZYAM[nTig][nPtBins];
     Double_t yieldnearerrorZYAM[nTig][nPtBins];
     Double_t yieldawayerrorZYAM[nTig][nPtBins];
+    
+    Double_t yieldnearMix[nTig][nPtBins];
+    Double_t yieldawayMix[nTig][nPtBins];
+    Double_t yieldnearerrorMix[nTig][nPtBins];
+    Double_t yieldawayerrorMix[nTig][nPtBins];
     Double_t poz;
     
     TCanvas *e = new TCanvas;
@@ -733,12 +837,41 @@ void GraphMult(){
     TCanvas *canK = new TCanvas;
     canK->Divide(2,3);
     
+    TFile *fFile = TFile::Open("Vytazky_minBias_data.root","RECREATE");
+    
     TCanvas *canLam = new TCanvas;
     canLam->Divide(2,3);
     TCanvas *canH = new TCanvas;
     canH->Divide(2,3);
-    for(Int_t i=0;i<nTig;i++){
+    for(Int_t i=0;i<3;i++){
         for(Int_t j=0;j<nPtBins;j++){
+            sprintf(nameMix,"2dproj_0_%d_%d",i,j);
+            sprintf(nameMixTrig,"1dtrigg_0_%d_%d",i,j);
+            sprintf(nameMixNew,"2dproj_0_%d_%dMix",i,j);
+            sprintf(nameMixTrigNew,"1dtrigg_0_%d_%dMix",i,j);
+            if(i==0){
+                fHistProj2DMix[i*nPtBins+j] = (TH2D*) fileK0Mix->Get(nameMix);
+                fHistProj2DMix[i*nPtBins+j]->SetName(nameMixNew);
+                fHistTriggMix[i*nPtBins+j] = (TH1D*) fileK0Mix->Get(nameMixTrig);
+                 fHistTriggMix[i*nPtBins+j]->SetName(nameMixTrigNew);
+                fHistProj2DMix[i*nPtBins+j]->Scale(1./fHistTriggMix[i*nPtBins+j]->GetBinContent(1));
+            }
+            if(i==1){
+                fHistProj2DMix[i*nPtBins+j] = (TH2D*) fileLamMix->Get(nameMix);
+                fHistProj2DMix[i*nPtBins+j]->SetName(nameMixNew);
+                fHistTriggMix[i*nPtBins+j] = (TH1D*) fileLamMix->Get(nameMixTrig);
+                fHistTriggMix[i*nPtBins+j]->SetName(nameMixTrigNew);
+                fHistProj2DMix[i*nPtBins+j]->Scale(1./(fHistTriggMix[i*nPtBins+j]->GetBinContent(2)+fHistTriggMix[i*nPtBins+j]->GetBinContent(3)));
+                
+            }
+            if(i==2){
+                fHistProj2DMix[i*nPtBins+j] = (TH2D*) filehhMix->Get(nameMix);
+                fHistProj2DMix[i*nPtBins+j]->SetName(nameMixNew);
+                fHistTriggMix[i*nPtBins+j] = (TH1D*) filehhMix->Get(nameMixTrig);
+                fHistTriggMix[i*nPtBins+j]->SetName(nameMixTrigNew);
+                fHistProj2DMix[i*nPtBins+j]->Scale(1./fHistTriggMix[i*nPtBins+j]->GetBinContent(4));
+                
+            }
             for(Int_t iMult=0; iMult<3; iMult++ ){
                 sprintf(nameMinBias,"2dproj_%d_%d_%d;1",iMult,i,j);
                 sprintf(nameprojphi,"1dtrigg_%d_%d_%d;1",iMult,i,j);
@@ -831,6 +964,7 @@ void GraphMult(){
                         }
                     }
                 }
+                
                 if(iMult==0) {
                     fHistProj2D[i*nPtBins+j] = (TH2D*) tmp->Clone();
                     fHistTrigg[i*nPtBins+j] = (TH1D*) tmpTrig->Clone();
@@ -841,16 +975,12 @@ void GraphMult(){
                 delete tmp;
                 delete tmpTrig;
             }
+        
+            if(i==0) Printf("i %d ,j %d, pary %g, trig %g\n", i, j, fHistProj2D[i*nPtBins+j]->Integral(), fHistTrigg[i*nPtBins+j]->GetBinContent(1));
+            if(i==1) Printf("i %d ,j %d, pary %g, trig %g\n", i, j, fHistProj2D[i*nPtBins+j]->Integral(), fHistTrigg[i*nPtBins+j]->GetBinContent(2)+fHistTrigg[i*nPtBins+j]->GetBinContent(3));
+            if(i==2) Printf("i %d ,j %d, pary %g, trig %g\n", i, j, fHistProj2D[i*nPtBins+j]->Integral(), fHistTrigg[i*nPtBins+j]->GetBinContent(4));
             
-            sprintf(nameMix,"2dproj_1_%d_%d",i,j);
-            sprintf(nameMixTrig,"1dtrigg_1_%d_%d",i,j);
-            if(i==0) {
-                fHistProj2D[i*nPtBins+j]->Scale(1./fHistTrigg[i*nPtBins+j]->GetBinContent(1));
-                fHistProj2DMix[i*nPtBins+j] = (TH2D*) fileK0Mix->Get(nameMix);
-                fHistTriggMix[i*nPtBins+j] = (TH1D*) fileK0Mix->Get(nameMixTrig);
-                fHistProj2DMix[i*nPtBins+j]->Scale(1./fHistTriggMix[i*nPtBins+j]->GetBinContent(1));
-                
-            }
+            if(i==0) fHistProj2D[i*nPtBins+j]->Scale(1./fHistTrigg[i*nPtBins+j]->GetBinContent(1));
             if(i==1) fHistProj2D[i*nPtBins+j]->Scale(1./(fHistTrigg[i*nPtBins+j]->GetBinContent(2)+fHistTrigg[i*nPtBins+j]->GetBinContent(3)));
             if(i==2) fHistProj2D[i*nPtBins+j]->Scale(1./fHistTrigg[i*nPtBins+j]->GetBinContent(4));
             
@@ -871,6 +1001,7 @@ void GraphMult(){
             sprintf(nameprojphi,"projPhi_%d_%d",i+1,j+1);
             fHistProjPhi[i*nPtBins+j]->SetName(nameprojphi);
             fHistProjPhiZYAM[i*nPtBins+j] = (TH1D *) fHistProjPhi[i*nPtBins+j]->Clone();
+            //fHistProjPhiZYAM[i*nPtBins+j]->Write();
             e->cd(i*nPtBins+j+1);
             fHistProjPhi[i*nPtBins+j]->DrawCopy();
             
@@ -881,13 +1012,29 @@ void GraphMult(){
             Double_t val5 = fHistProjPhi[i*nPtBins+j] -> GetBinContent((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(-1)+1);
             Double_t val6 = fHistProjPhi[i*nPtBins+j] -> GetBinContent((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(-1)-1);
             
+            Double_t error1 = fHistProjPhi[i*nPtBins+j] -> GetBinError((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(1) );
+            Double_t error2 = fHistProjPhi[i*nPtBins+j] -> GetBinError((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(1) +1);
+            Double_t error3 = fHistProjPhi[i*nPtBins+j] -> GetBinError((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(1) -1);
+            Double_t error4 = fHistProjPhi[i*nPtBins+j] -> GetBinError((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(-1));
+            Double_t error5 = fHistProjPhi[i*nPtBins+j] -> GetBinError((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(-1)+1);
+            Double_t error6 = fHistProjPhi[i*nPtBins+j] -> GetBinError((fHistProjPhi[i*nPtBins+j]->GetXaxis())->FindBin(-1)-1);
+            
             
             poz = (val1+val2+val3+val4+val5+val6)/6;
-            cout << poz<< endl;
+            Double_t errorPoz = TMath::Sqrt(error1*error1+error2*error2+error3*error3+error4*error4+error5*error5+error6*error6)/6;
+            Int_t nBinsPhi = fHistProjPhi[i*nPtBins+j] ->GetNbinsX();
+            //cout << poz<< endl;
             
-            TF1 *fFuncBack = new TF1("fFuncBack"," [0]",-kPi/2, -kPi/2+2*kPi);
-            fFuncBack->SetParameter(0,poz);
-            fHistProjPhi[i*nPtBins+j]->Add(fFuncBack,-1);
+            TH1D *fHistpoz = new TH1D("fHistpoz","fHistpoz",nBinsPhi,-kPi/2, -kPi/2+2*kPi );
+            fHistpoz->Sumw2();
+            for(Int_t l = 0; l<nBinsPhi; l++){
+                fHistpoz->SetBinContent(l+1,poz);
+                fHistpoz->SetBinError(l+1,errorPoz);
+            }
+            
+            //TF1 *fFuncBack = new TF1("fFuncBack"," [0]",-kPi/2, -kPi/2+2*kPi);
+            //fFuncBack->SetParameter(0,poz);
+            fHistProjPhi[i*nPtBins+j]->Add(fHistpoz,-1);
             
             Double_t max = fHistProjPhi[i*nPtBins+j]->GetMaximum();
             fHistProjPhi[i*nPtBins+j]->SetAxisRange(0.,max*1.1,"y");
@@ -945,8 +1092,8 @@ void GraphMult(){
             Double_t errornear =0.;
             
             for(Int_t k=minnear; k<maxnear; k++){
-                integralnear+= fHistProjPhi[+i*nPtBins+j]->GetBinContent(k);
-                errornear+= TMath::Power(fHistProjPhi[+i*nPtBins+j]->GetBinError(k),2);
+                integralnear+= fHistProjPhi[i*nPtBins+j]->GetBinContent(k);
+                errornear+= TMath::Power(fHistProjPhi[i*nPtBins+j]->GetBinError(k),2);
             }
             
             yieldnearerror[i][j] = TMath::Sqrt(errornear);
@@ -972,14 +1119,23 @@ void GraphMult(){
             
             
             cout << "yield near side  = "<< yieldnear[i][j] << "  yield away side = " << yieldaway[i][j] << endl;
-            delete fFuncBack;
+            delete fHistpoz;
             
             
             Double_t minPhi = fHistProjPhiZYAM[i*nPtBins+j]->GetMinimum();
+            Double_t minPhiErr = fHistProjPhiZYAM[i*nPtBins+j]->GetBinError(fHistProjPhiZYAM[i*nPtBins+j]->GetMinimumBin());
+            Int_t nBinsPhiZYAM = fHistProjPhiZYAM[i*nPtBins+j] ->GetNbinsX();
             
-            TF1 *fFuncBackZYAM = new TF1("fFuncBackZYAM"," [0]",-kPi/2, -kPi/2+2*kPi);
-            fFuncBackZYAM->SetParameter(0,minPhi);
-            fHistProjPhiZYAM[i*nPtBins+j]->Add(fFuncBackZYAM,-1);
+            TH1D *fHistpozZYAM = new TH1D ("fHistpozZYAM","fHistpozZYAM",nBinsPhi,-kPi/2, -kPi/2+2*kPi );
+            fHistpozZYAM->Sumw2();
+            for(Int_t l = 0; l<nBinsPhiZYAM; l++){
+                fHistpozZYAM->SetBinContent(l+1,minPhi);
+                fHistpozZYAM->SetBinError(l+1,minPhiErr);
+            }
+            
+            //TF1 *fFuncBackZYAM = new TF1("fFuncBackZYAM"," [0]",-kPi/2, -kPi/2+2*kPi);
+            //fFuncBackZYAM->SetParameter(0,minPhi);
+            fHistProjPhiZYAM[i*nPtBins+j]->Add(fHistpozZYAM,-1);
             
             Double_t integralnearZYAM =0.;
             Double_t errornearZYAM =0.;
@@ -987,8 +1143,8 @@ void GraphMult(){
             Double_t errorawayZYAM =0.;
             
            for(Int_t k=minnear; k<maxnear; k++){
-                integralnearZYAM+= fHistProjPhiZYAM[+i*nPtBins+j]->GetBinContent(k);
-                errornearZYAM+= TMath::Power(fHistProjPhiZYAM[+i*nPtBins+j]->GetBinError(k),2);
+                integralnearZYAM+= fHistProjPhiZYAM[i*nPtBins+j]->GetBinContent(k);
+                errornearZYAM+= TMath::Power(fHistProjPhiZYAM[i*nPtBins+j]->GetBinError(k),2);
             }
             
             yieldnearerrorZYAM[i][j] = TMath::Sqrt(errornearZYAM);
@@ -1004,9 +1160,68 @@ void GraphMult(){
             yieldawayerrorZYAM[i][j] = yieldawayerrorZYAM[i][j] *widthaway;
             yieldawayZYAM[i][j] = integralawayZYAM*widthaway;
             
+            fHistProj2DMix[i*nPtBins+j]->SetAxisRange(-1,1,"x");
             fHistProjPhiMix[i*nPtBins+j]=(TH1D *)fHistProj2DMix[i*nPtBins+j]->ProjectionY();
             sprintf(nameprojphiMix,"projPhiMix_%d_%d",i+1,j+1);
-            fHistProjPhi[i*nPtBins+j]->SetName(nameprojphiMix);
+            fHistProjPhiMix[i*nPtBins+j]->SetName(nameprojphiMix);
+            
+            Double_t valMix1 = fHistProjPhiMix[i*nPtBins+j] -> GetBinContent((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(1) );
+            Double_t valMix2 = fHistProjPhiMix[i*nPtBins+j] -> GetBinContent((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(1) +1);
+            Double_t valMix3 = fHistProjPhiMix[i*nPtBins+j] -> GetBinContent((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(1) -1);
+            Double_t valMix4 = fHistProjPhiMix[i*nPtBins+j] -> GetBinContent((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(-1));
+            Double_t valMix5 = fHistProjPhiMix[i*nPtBins+j] -> GetBinContent((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(-1)+1);
+            Double_t valMix6 = fHistProjPhiMix[i*nPtBins+j] -> GetBinContent((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(-1)-1);
+            
+            Double_t errMix1 = fHistProjPhiMix[i*nPtBins+j] -> GetBinError((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(1) );
+            Double_t errMix2 = fHistProjPhiMix[i*nPtBins+j] -> GetBinError((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(1) +1);
+            Double_t errMix3 = fHistProjPhiMix[i*nPtBins+j] -> GetBinError((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(1) -1);
+            Double_t errMix4 = fHistProjPhiMix[i*nPtBins+j] -> GetBinError((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(-1));
+            Double_t errMix5 = fHistProjPhiMix[i*nPtBins+j] -> GetBinError((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(-1)+1);
+            Double_t errMix6 = fHistProjPhiMix[i*nPtBins+j] -> GetBinError((fHistProjPhiMix[i*nPtBins+j]->GetXaxis())->FindBin(-1)-1);
+            
+            Double_t pozMix = (valMix1+valMix2+valMix3+valMix4+valMix5+valMix6)/6;
+            Double_t errorPozMix = TMath::Sqrt(errMix1*errMix1+errMix2*errMix2+errMix3*errMix3+errMix4*errMix4+errMix5*errMix5+errMix6*errMix6)/6;
+            
+          //  TF1 *fFuncBackMix = new TF1("fFuncBackMix"," [0]",-kPi/2, -kPi/2+2*kPi);
+            //fFuncBackMix->SetParameter(0,pozMix);
+            Int_t nBinsPhiMix = fHistProjPhiZYAM[i*nPtBins+j] ->GetNbinsX();
+            
+            TH1D *fHistpozMix = new TH1D("fHistpozMix","fHistpozMix",nBinsPhi,-kPi/2, -kPi/2+2*kPi );
+            fHistpozMix->Sumw2();
+            for(Int_t l = 0; l<nBinsPhiMix; l++){
+                fHistpozMix->SetBinContent(l+1,minPhi);
+                fHistpozMix->SetBinError(l+1,minPhiErr);
+            }
+            
+            fHistProjPhiMix[i*nPtBins+j]->Add(fHistpozMix,-1);
+            //fHistProjPhiMix[i*nPtBins+j]->Write();
+            
+            Double_t integralnearMix =0.;
+            Double_t errornearMix =0.;
+            
+            for(Int_t k=minnear; k<maxnear; k++){
+                integralnearMix+= fHistProjPhiMix[i*nPtBins+j]->GetBinContent(k);
+                errornearMix+= TMath::Power(fHistProjPhiMix[i*nPtBins+j]->GetBinError(k),2);
+            }
+            
+            yieldnearerrorMix[i][j] = TMath::Sqrt(errornearMix);
+            yieldnearerrorMix[i][j] = yieldnearerrorMix[i][j] *widthnear;
+            yieldnearMix[i][j] = integralnearMix*widthnear;
+            
+            Double_t integralawayMix =0.;
+            Double_t erroralawayMix =0.;
+            
+            for(Int_t k=minaway; k<maxaway; k++){
+                integralawayMix+= fHistProjPhiMix[i*nPtBins+j]->GetBinContent(k);
+                erroralawayMix+= TMath::Power(fHistProjPhiMix[i*nPtBins+j]->GetBinError(k),2);
+            }
+            
+            yieldawayerrorMix[i][j] = TMath::Sqrt(erroralawayMix);
+            yieldawayerrorMix[i][j] = yieldawayerrorMix[i][j] *widthaway;
+            yieldawayMix[i][j] = integralawayMix*widthaway;
+            
+            delete fHistpozZYAM;
+            delete fHistpozMix;
         }
         
     }
@@ -1027,7 +1242,50 @@ void GraphMult(){
     TH1D *fHistK0AwaySyst = new TH1D("fHistK0AwaySyst","fHistK0AwaySyst",nPtBins,PtHist);
     TH1D *fHistLambdaAwaySyst = new TH1D("fHistLambdaAwaySyst","fHistLambdaAwaySyst",nPtBins,PtHist);
     TH1D *fHistHadronAwaySyst = new TH1D("fHistHadronAwaySyst","fHistHadronAwaySyst",nPtBins,PtHist);
-     
+    
+    TH1D *fHistK0NearMixSyst = new TH1D("fHistK0NearMixSyst","fHistK0NearMixSyst",nPtBins,PtHist);
+    TH1D *fHistK0AwayMixSyst = new TH1D("fHistK0AwayMixSyst","fHistK0AwayMixSyst",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearMixSyst = new TH1D("fHistLamNearMixSyst","fHistLamNearMixSyst",nPtBins,PtHist);
+    TH1D *fHistLamAwayMixSyst = new TH1D("fHistLamAwayMixSyst","fHistLamAwayMixSyst",nPtBins,PtHist);
+    
+    TH1D *fHistHadronNearMixSyst = new TH1D("fHistHadronNearMixSyst","fHistHadronNearMixSyst",nPtBins,PtHist);
+    TH1D *fHistHadronAwayMixSyst = new TH1D("fHistHadronAwayMixSyst","fHistHadronAwayMixSyst",nPtBins,PtHist);
+    
+    TH1D *fHistK0NearMix = new TH1D("fHistK0NearMix","fHistK0NearMix",nPtBins,PtHist);
+    TH1D *fHistK0AwayMix = new TH1D("fHistK0AwayMix","fHistK0AwayMix",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearMix = new TH1D("fHistLamNearMix","fHistLamNearMix",nPtBins,PtHist);
+    TH1D *fHistLamAwayMix = new TH1D("fHistLamAwayMix","fHistLamAwayMix",nPtBins,PtHist);
+    TH1D *fHistHadronNearMix = new TH1D("fHistHadronNearMix","fHistHadronNearMix",nPtBins,PtHist);
+    TH1D *fHistHadronAwayMix = new TH1D("fHistHadronAwayMix","fHistHadronAwayMix",nPtBins,PtHist);
+    
+    TH1D *fHistK0NearZYAM = new TH1D("fHistK0NearZYAM","fHistK0NearZYAM",nPtBins,PtHist);
+    TH1D *fHistK0AwayZYAM = new TH1D("fHistK0AwayZYAM","fHistK0AwayZYAM",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearZYAM = new TH1D("fHistLamNearZYAM","fHistLamNearZYAM",nPtBins,PtHist);
+    TH1D *fHistLamAwayZYAM = new TH1D("fHistLamAwayZYAM","fHistLamAwayZYAM",nPtBins,PtHist);
+    
+    TH1D *fHistHadronNearZYAM = new TH1D("fHistHadronNearZYAM","fHistHadronNearZYAM",nPtBins,PtHist);
+    TH1D *fHistHadronAwayZYAM = new TH1D("fHistHadronAwayZYAM","fHistHadronAwayZYAM",nPtBins,PtHist);
+    
+    TH1D *fHistK0NearMixBarlow = new TH1D("fHistK0NearMixBarlow","fHistK0NearMixBarlow",nPtBins,PtHist);
+    TH1D *fHistK0AwayMixBarlow = new TH1D("fHistK0AwayMixBarlow","fHistK0AwayMixBarlow",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearMixBarlow = new TH1D("fHistLamNearMixBarlow","fHistLamNearMixBarlow",nPtBins,PtHist);
+    TH1D *fHistLamAwayMixBarlow = new TH1D("fHistLamAwayMixBarlow","fHistLamAwayMixBarlow",nPtBins,PtHist);
+    TH1D *fHistHadronNearMixBarlow = new TH1D("fHistHadronNearMixBarlow","fHistHadronNearMixBarlow",nPtBins,PtHist);
+    TH1D *fHistHadronAwayMixBarlow = new TH1D("fHistHadronAwayMixBarlow","fHistHadronAwayMixBarlow",nPtBins,PtHist);
+    
+    TH1D *fHistK0NearZYAMBarlow = new TH1D("fHistK0NearZYAM","fHistK0NearZYAMBarlow",nPtBins,PtHist);
+    TH1D *fHistK0AwayZYAMBarlow = new TH1D("fHistK0AwayZYAM","fHistK0AwayZYAMBarlow",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearZYAMBarlow = new TH1D("fHistLamNearZYAMBarlow","fHistLamNearZYAMBarlow",nPtBins,PtHist);
+    TH1D *fHistLamAwayZYAMBarlow = new TH1D("fHistLamAwayZYAMBarlow","fHistLamAwayZYAMBarlow",nPtBins,PtHist);
+    
+    TH1D *fHistHadronNearZYAMBarlow = new TH1D("fHistHadronNearZYAMBarlow","fHistHadronNearZYAMBarlow",nPtBins,PtHist);
+    TH1D *fHistHadronAwayZYAMBarlow = new TH1D("fHistHadronAwayZYAMBarlow","fHistHadronAwayZYAMBarlow",nPtBins,PtHist);
+    
      for(Int_t i=0; i<nPtBins; i++ ){
      
      fHistK0Near->Fill(PtGraph[i], yieldnear[0][i]);
@@ -1048,34 +1306,120 @@ void GraphMult(){
      fHistHadronAway->Fill(PtGraph[i], yieldaway[2][i]);
      fHistHadronAway->SetBinError(i+1,yieldawayerror[2][i]);
          
-         fHistK0NearSyst->Fill(PtGraph[i], yieldnearZYAM[0][i]-yieldnear[0][i]);
+         fHistK0NearSyst->Fill(PtGraph[i], TMath::Abs(yieldnearZYAM[0][i]-yieldnear[0][i])/yieldnear[0][i]);
          fHistK0NearSyst->SetBinError(i+1,0);
          
-         fHistLambdaNearSyst->Fill(PtGraph[i], yieldnearZYAM[1][i]-yieldnear[1][i]);
+         fHistLambdaNearSyst->Fill(PtGraph[i], TMath::Abs(yieldnearZYAM[1][i]-yieldnear[1][i])/yieldnear[1][i]);
          fHistLambdaNearSyst->SetBinError(i+1,0);
          
-         fHistHadronNearSyst->Fill(PtGraph[i], yieldnearZYAM[2][i]-yieldnear[2][i]);
+         fHistHadronNearSyst->Fill(PtGraph[i], TMath::Abs(yieldnearZYAM[2][i]-yieldnear[2][i])/yieldnear[2][i]);
          fHistHadronNearSyst->SetBinError(i+1,0);
          
-         fHistK0AwaySyst->Fill(PtGraph[i], yieldawayZYAM[0][i]-yieldaway[0][i]);
+         fHistK0AwaySyst->Fill(PtGraph[i], TMath::Abs(yieldawayZYAM[0][i]-yieldaway[0][i])/yieldaway[0][i]);
          fHistK0AwaySyst->SetBinError(i+1,0);
          
-         fHistLambdaAwaySyst->Fill(PtGraph[i], yieldawayZYAM[1][i]-yieldaway[1][i]);
+         fHistLambdaAwaySyst->Fill(PtGraph[i], TMath::Abs(yieldawayZYAM[1][i]-yieldaway[1][i])/yieldaway[1][i]);
          fHistLambdaAwaySyst->SetBinError(i+1,0);
          
-         fHistHadronAwaySyst->Fill(PtGraph[i], yieldawayZYAM[2][i]-yieldaway[2][i]);
+         fHistHadronAwaySyst->Fill(PtGraph[i], TMath::Abs(yieldawayZYAM[2][i]-yieldaway[2][i])/yieldaway[2][i]);
          fHistHadronAwaySyst->SetBinError(i+1, 0);
      
+         fHistK0NearMixSyst->Fill(PtGraph[i], TMath::Abs(yieldnearMix[0][i]-yieldnear[0][i])/yieldnear[0][i]);
+         fHistK0NearMixSyst->SetBinError(i+1,0);
+         
+         fHistK0AwayMixSyst->Fill(PtGraph[i], TMath::Abs(yieldawayMix[0][i]-yieldaway[0][i])/yieldaway[0][i]);
+         fHistK0AwayMixSyst->SetBinError(i+1,0);
+         
+         fHistLamNearMixSyst->Fill(PtGraph[i], TMath::Abs(yieldnearMix[1][i]-yieldnear[1][i])/yieldnear[1][i]);
+         fHistLamNearMixSyst->SetBinError(i+1,0);
+         
+         fHistLamAwayMixSyst->Fill(PtGraph[i], TMath::Abs(yieldawayMix[1][i]-yieldaway[1][i])/yieldaway[1][i]);
+         fHistLamAwayMixSyst->SetBinError(i+1,0);
+         
+         fHistHadronNearMixSyst->Fill(PtGraph[i], TMath::Abs(yieldnearMix[2][i]-yieldnear[2][i])/yieldnear[2][i]);
+         fHistHadronNearMixSyst->SetBinError(i+1,0);
+         
+         fHistHadronAwayMixSyst->Fill(PtGraph[i], TMath::Abs(yieldawayMix[2][i]-yieldaway[2][i])/yieldaway[2][i]);
+         fHistHadronAwayMixSyst->SetBinError(i+1,0);
+         
+         fHistK0NearMixBarlow->Fill(PtGraph[i],TMath::Abs(yieldnearMix[0][i]-yieldnear[0][i])/TMath::Sqrt(TMath::Abs(yieldnearerrorMix[0][i]*yieldnearerrorMix[0][i]-yieldnearerror[0][i]*yieldnearerror[0][i])));
+         fHistK0NearMixBarlow->SetBinError(i+1,0);
+         fHistK0AwayMixBarlow->Fill(PtGraph[i],TMath::Abs(yieldawayMix[0][i]-yieldaway[0][i])/TMath::Sqrt(TMath::Abs(yieldawayerrorMix[0][i]*yieldawayerrorMix[0][i]-yieldawayerror[0][i]*yieldawayerror[0][i])));
+         fHistK0AwayMixBarlow->SetBinError(i+1,0);
+         
+         fHistLamNearMixBarlow->Fill(PtGraph[i],TMath::Abs(yieldnearMix[1][i]-yieldnear[1][i])/TMath::Sqrt(TMath::Abs(yieldnearerrorMix[1][i]*yieldnearerrorMix[1][i]-yieldnearerror[1][i]*yieldnearerror[1][i])));
+         fHistLamNearMixBarlow->SetBinError(i+1,0);
+         fHistLamAwayMixBarlow->Fill(PtGraph[i],TMath::Abs(yieldawayMix[1][i]-yieldaway[1][i])/TMath::Sqrt(TMath::Abs(yieldawayerrorMix[1][i]*yieldawayerrorMix[1][i]-yieldawayerror[1][i]*yieldawayerror[1][i])));
+         fHistLamAwayMixBarlow->SetBinError(i+1,0);
+         
+         fHistHadronNearMixBarlow->Fill(PtGraph[i],TMath::Abs(yieldnearMix[2][i]-yieldnear[2][i])/TMath::Sqrt(TMath::Abs(yieldnearerrorMix[2][i]*yieldnearerrorMix[2][i]-yieldnearerror[2][i]*yieldnearerror[2][i])));
+         fHistHadronNearMixBarlow->SetBinError(i+1,0);
+         fHistHadronAwayMixBarlow->Fill(PtGraph[i],TMath::Abs(yieldawayMix[2][i]-yieldaway[2][i])/TMath::Sqrt(TMath::Abs(yieldawayerrorMix[2][i]*yieldawayerrorMix[2][i]-yieldawayerror[2][i]*yieldawayerror[2][i])));
+         fHistHadronAwayMixBarlow->SetBinError(i+1,0);
+         
+         fHistK0NearZYAMBarlow->Fill(PtGraph[i],TMath::Abs(yieldnearZYAM[0][i]-yieldnear[0][i])/TMath::Sqrt(TMath::Abs(yieldnearerrorZYAM[0][i]*yieldnearerrorZYAM[0][i]-yieldnearerror[0][i]*yieldnearerror[0][i])));
+         fHistK0NearZYAMBarlow->SetBinError(i+1,0);
+         fHistK0AwayZYAMBarlow->Fill(PtGraph[i],TMath::Abs(yieldawayZYAM[0][i]-yieldaway[0][i])/TMath::Sqrt(TMath::Abs(yieldawayerrorZYAM[0][i]*yieldawayerrorZYAM[0][i]-yieldawayerror[0][i]*yieldawayerror[0][i])));
+         fHistK0AwayZYAMBarlow->SetBinError(i+1,0);
+         
+         fHistLamNearZYAMBarlow->Fill(PtGraph[i],TMath::Abs(yieldnearZYAM[1][i]-yieldnear[1][i])/TMath::Sqrt(TMath::Abs(yieldnearerrorZYAM[1][i]*yieldnearerrorZYAM[1][i]-yieldnearerror[1][i]*yieldnearerror[1][i])));
+         fHistLamNearZYAMBarlow->SetBinError(i+1,0);
+         fHistLamAwayZYAMBarlow->Fill(PtGraph[i],TMath::Abs(yieldawayZYAM[1][i]-yieldaway[1][i])/TMath::Sqrt(TMath::Abs(yieldawayerrorZYAM[1][i]*yieldawayerrorZYAM[1][i]-yieldawayerror[1][i]*yieldawayerror[1][i])));
+         fHistLamAwayZYAMBarlow->SetBinError(i+1,0);
+         
+         fHistHadronNearZYAMBarlow->Fill(PtGraph[i],TMath::Abs(yieldnearZYAM[2][i]-yieldnear[2][i])/TMath::Sqrt(TMath::Abs(yieldnearerrorZYAM[2][i]*yieldnearerrorZYAM[2][i]-yieldnearerror[2][i]*yieldnearerror[2][i])));
+         fHistHadronNearZYAMBarlow->SetBinError(i+1,0);
+         fHistHadronAwayZYAMBarlow->Fill(PtGraph[i],TMath::Abs(yieldawayZYAM[2][i]-yieldaway[2][i])/TMath::Sqrt(TMath::Abs(yieldawayerrorZYAM[2][i]*yieldawayerrorZYAM[2][i]-yieldawayerror[2][i]*yieldawayerror[2][i])));
+         fHistHadronAwayZYAMBarlow->SetBinError(i+1,0);
+         
+        // Printf("%g %g%g %g \n",yieldnearerrorZYAM[0][i]*yieldnearerrorZYAM[0][i], yieldnearerror[0][i]*yieldnearerror[0][i],yieldawayerrorZYAM[0][i]*yieldawayerrorZYAM[0][i], yieldawayerror[0][i]*yieldawayerror[0][i] );
+         
+         fHistK0NearMix->Fill(PtGraph[i], yieldnearMix[0][i]);
+         fHistK0NearMix->SetBinError(i+1,yieldnearerrorMix[0][i]);
+         
+         fHistK0AwayMix->Fill(PtGraph[i], yieldawayMix[0][i]);
+         fHistK0AwayMix->SetBinError(i+1,yieldawayerrorMix[0][i]);
+         
+         fHistLamNearMix->Fill(PtGraph[i], yieldnearMix[1][i]);
+         fHistLamNearMix->SetBinError(i+1,yieldnearerrorMix[1][i]);
+         
+         fHistLamAwayMix->Fill(PtGraph[i], yieldawayMix[1][i]);
+         fHistLamAwayMix->SetBinError(i+1,yieldawayerrorMix[1][i]);
+         
+         fHistHadronNearMix->Fill(PtGraph[i], yieldnearMix[2][i]);
+         fHistHadronNearMix->SetBinError(i+1,yieldnearerrorMix[2][i]);
+         
+         fHistHadronAwayMix->Fill(PtGraph[i], yieldawayMix[2][i]);
+         fHistHadronAwayMix->SetBinError(i+1,yieldawayerrorMix[2][i]);
+         
+         fHistK0NearZYAM->Fill(PtGraph[i], yieldnearZYAM[0][i]);
+         fHistK0NearZYAM->SetBinError(i+1,yieldnearerrorZYAM[0][i]);
+         
+         fHistK0AwayZYAM->Fill(PtGraph[i], yieldawayZYAM[0][i]);
+         fHistK0AwayZYAM->SetBinError(i+1,yieldawayerrorZYAM[0][i]);
+         
+         fHistLamNearZYAM->Fill(PtGraph[i], yieldnearZYAM[1][i]);
+         fHistLamNearZYAM->SetBinError(i+1,yieldnearerrorZYAM[1][i]);
+         
+         fHistLamAwayZYAM->Fill(PtGraph[i], yieldawayZYAM[1][i]);
+         fHistLamAwayZYAM->SetBinError(i+1,yieldawayerrorZYAM[1][i]);
+         
+         fHistHadronNearZYAM->Fill(PtGraph[i], yieldnearZYAM[2][i]);
+         fHistHadronNearZYAM->SetBinError(i+1,yieldnearerrorZYAM[2][i]);
+         
+         fHistHadronAwayZYAM->Fill(PtGraph[i], yieldawayZYAM[2][i]);
+         fHistHadronAwayZYAM->SetBinError(i+1,yieldawayerrorZYAM[2][i]);
+         
      }
      
      fHistK0Near->SetMarkerStyle(23);
      fHistK0Near->SetMarkerColor(kBlue);
      fHistK0Near->SetMarkerSize(1.8);
      fHistK0Near->SetLineColor(kBlue);
+    fHistK0Near->GetYaxis()->SetRangeUser(0,0.4);
     fHistK0Near->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik, min bias");
      fHistK0Near->GetXaxis()->SetTitle("p_{T} (GeV/c)");
      fHistK0Near->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
-     fHistK0Near->GetYaxis()->SetRangeUser(-0.1,1);
      
      fHistLambdaNear->SetMarkerStyle(21);
      fHistLambdaNear->SetMarkerColor(kGreen);
@@ -1086,26 +1430,70 @@ void GraphMult(){
      fHistHadronNear->SetMarkerColor(kRed);
      fHistHadronNear->SetMarkerSize(1.8);
      fHistHadronNear->SetLineColor(kRed);
-     
-     TLegend *fLegendNear = new TLegend(0.2,0.9,0.75,0.8);
+    
+    fHistK0NearMix->SetMarkerStyle(32);
+    fHistK0NearMix->SetMarkerColor(kBlue);
+    fHistK0NearMix->SetMarkerSize(1.8);
+    fHistK0NearMix->SetLineColor(kBlue);
+    
+    fHistLamNearMix->SetMarkerStyle(25);
+    fHistLamNearMix->SetMarkerColor(kGreen);
+    fHistLamNearMix->SetMarkerSize(1.8);
+    fHistLamNearMix->SetLineColor(kGreen);
+    
+    fHistHadronNearMix->SetMarkerStyle(30);
+    fHistHadronNearMix->SetMarkerColor(kRed);
+    fHistHadronNearMix->SetMarkerSize(1.8);
+    fHistHadronNearMix->SetLineColor(kRed);
+    
+    fHistK0NearZYAM->SetMarkerStyle(35);
+    fHistK0NearZYAM->SetMarkerColor(kBlue);
+    fHistK0NearZYAM->SetMarkerSize(1.8);
+    fHistK0NearZYAM->SetLineColor(kBlue);
+    
+    fHistLamNearZYAM->SetMarkerStyle(27);
+    fHistLamNearZYAM->SetMarkerColor(kGreen);
+    fHistLamNearZYAM->SetMarkerSize(1.8);
+    fHistLamNearZYAM->SetLineColor(kGreen);
+    
+    fHistHadronNearZYAM->SetMarkerStyle(46);
+    fHistHadronNearZYAM->SetMarkerColor(kRed);
+    fHistHadronNearZYAM->SetMarkerSize(1.8);
+    fHistHadronNearZYAM->SetLineColor(kRed);
+    
+   /*  TLegend *fLegendNear = new TLegend(0.2,0.9,0.75,0.8);
      fLegendNear->AddEntry(fHistK0Near,"Triger K^{0}_{S}","pl");
      fLegendNear->AddEntry(fHistLambdaNear,"Triger #Lambda a #bar{#Lambda}","pl");
-     fLegendNear->AddEntry(fHistHadronNear,"Triger nabity hadron","pl");
-     
+     fLegendNear->AddEntry(fHistHadronNear,"Triger nabity hadron","pl");*/
+    
+  /*  fLegendNear->AddEntry(fHistK0NearMix,"Triger K^{0}_{S} , mixing-average","pl");
+     fLegendNear->AddEntry(fHistLamNearMix,"Triger #Lambda a #bar{#Lambda}, mixing-average","pl");
+    fLegendNear->AddEntry(fHistHadronNearMix,"Triger h, mixing-average","pl");
+    fLegendNear->AddEntry(fHistK0NearZYAM,"Triger K^{0}_{S} , pozadie","pl");
+    fLegendNear->AddEntry(fHistLamNearZYAM,"Triger #Lambda a #bar{#Lambda}, pozadie","pl");
+    fLegendNear->AddEntry(fHistHadronNearZYAM,"Triger h, pozadie","pl");*/
+    
      TCanvas * cannear = new TCanvas();
      fHistK0Near->DrawCopy();
      fHistLambdaNear->DrawCopy("same");
      fHistHadronNear->DrawCopy("same");
-     fLegendNear->Draw();
+    fHistK0NearMix->DrawCopy("same");
+    fHistLamNearMix->DrawCopy("same");
+    fHistK0NearZYAM->DrawCopy("same");
+    fHistLamNearZYAM->DrawCopy("Same");
+    fHistHadronNearMix->DrawCopy("same");
+    fHistHadronNearZYAM->DrawCopy("same");
+    // fLegendNear->Draw();
+  cannear  ->BuildLegend();
      
      fHistK0Away->SetMarkerStyle(23);
      fHistK0Away->SetMarkerColor(kBlue);
      fHistK0Away->SetMarkerSize(1.8);
      fHistK0Away->SetLineColor(kBlue);
+    fHistK0Away->GetYaxis()->SetRangeUser(0,0.4);
      fHistK0Away->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik, min. bias");
      fHistK0Away->GetXaxis()->SetTitle("p_{T} (GeV/c)");
      fHistK0Away->GetYaxis()->SetTitle("Y_{J}^{#Delta#phi}");
-     fHistK0Away->GetYaxis()->SetRangeUser(-0.1,1);
      
      fHistLambdaAway->SetMarkerStyle(21);
      fHistLambdaAway->SetMarkerColor(kGreen);
@@ -1116,55 +1504,212 @@ void GraphMult(){
      fHistHadronAway->SetMarkerColor(kRed);
      fHistHadronAway->SetMarkerSize(1.8);
      fHistHadronAway->SetLineColor(kRed);
+    
+    fHistK0AwayMix->SetMarkerStyle(32);
+    fHistK0AwayMix->SetMarkerColor(kBlue);
+    fHistK0AwayMix->SetMarkerSize(1.8);
+    fHistK0AwayMix->SetLineColor(kBlue);
+    
+    fHistLamAwayMix->SetMarkerStyle(25);
+    fHistLamAwayMix->SetMarkerColor(kGreen);
+    fHistLamAwayMix->SetMarkerSize(1.8);
+    fHistLamAwayMix->SetLineColor(kGreen);
+    
+    fHistHadronAwayMix->SetMarkerStyle(30);
+    fHistHadronAwayMix->SetMarkerColor(kRed);
+    fHistHadronAwayMix->SetMarkerSize(1.8);
+    fHistHadronAwayMix->SetLineColor(kRed);
+    
+    fHistK0AwayZYAM->SetMarkerStyle(35);
+    fHistK0AwayZYAM->SetMarkerColor(kBlue);
+    fHistK0AwayZYAM->SetMarkerSize(1.8);
+    fHistK0AwayZYAM->SetLineColor(kBlue);
+    
+    fHistLamAwayZYAM->SetMarkerStyle(27);
+    fHistLamAwayZYAM->SetMarkerColor(kGreen);
+    fHistLamAwayZYAM->SetMarkerSize(1.8);
+    fHistLamAwayZYAM->SetLineColor(kGreen);
+    
+    fHistHadronAwayZYAM->SetMarkerStyle(46);
+    fHistHadronAwayZYAM->SetMarkerColor(kRed);
+    fHistHadronAwayZYAM->SetMarkerSize(1.8);
+    fHistHadronAwayZYAM->SetLineColor(kRed);
      
-     TLegend *fLegendAway = new TLegend(0.2,0.9,0.75,0.8);
+   /*  TLegend *fLegendAway = new TLegend(0.2,0.9,0.75,0.8);
      fLegendAway->AddEntry(fHistK0Away,"Triger K^{0}_{S}","pl");
      fLegendAway->AddEntry(fHistLambdaAway,"Triger #Lambda a #bar{#Lambda}","pl");
-     fLegendAway->AddEntry(fHistHadronAway,"Triger nabity hadron","pl");
+     fLegendAway->AddEntry(fHistHadronAway,"Triger nabity hadron","pl");*/
+    
+  /*  fLegendAway->AddEntry(fHistK0AwayMix,"Triger K^{0}_{S} , mixing-average","pl");
+    fLegendAway->AddEntry(fHistLamAwayMix,"Triger #Lambda a #bar{#Lambda}, mixing-average","pl");
+    fLegendAway->AddEntry(fHistHadronAwayMix,"Triger h, mixing-average","pl");
+   fLegendAway->AddEntry(fHistK0AwayZYAM,"Triger K^{0}_{S} , pozadie","pl");
+    fLegendAway->AddEntry(fHistLamAwayZYAM,"Triger #Lambda a #bar{#Lambda}, pozadie","pl");
+    fLegendAway->AddEntry(fHistHadronAwayZYAM,"Triger h, pozadie","pl");*/
      
      TCanvas * canaway = new TCanvas();
      fHistK0Away->DrawCopy();
      fHistLambdaAway->DrawCopy("same");
      fHistHadronAway->DrawCopy("same");
-     fLegendAway->Draw();
+    fHistK0AwayMix->DrawCopy("same");
+    fHistLamAwayMix->DrawCopy("same");
+    fHistLamAwayZYAM->DrawCopy("same");
+    fHistK0AwayZYAM->DrawCopy("same");
+    fHistHadronAwayMix->DrawCopy("same");
+    fHistHadronAwayZYAM->DrawCopy("same");
+    canaway  ->BuildLegend();
+   //  fLegendAway->Draw();
   
     TCanvas* canSyst = new TCanvas;
     canSyst->Divide(2);
     canSyst->cd(1);
     TLegend *legNe = new TLegend;
-    fHistK0NearSyst->GetYaxis()->SetRangeUser(0,0.15);
+    fHistK0NearSyst->GetYaxis()->SetRangeUser(0,0.4);
     fHistK0NearSyst->SetTitle("Prilahly pik");
     fHistK0NearSyst->SetXTitle("p_{T}^{trig} (GeV)");
     fHistK0NearSyst->SetYTitle("Relativna neistota");
     fHistK0NearSyst->SetLineColor(kBlue);
     fHistLambdaNearSyst->SetLineColor(kGreen);
     fHistHadronNearSyst->SetLineColor(kRed);
-    legNe->AddEntry(fHistK0NearSyst, "K^{0}_{S}-h");
-    legNe->AddEntry(fHistLambdaNearSyst, "(#Lambda+#bar{#Lambda})-h");
-    legNe->AddEntry(fHistHadronNearSyst, "h-h");
-    fHistK0NearSyst->DrawCopy();
-    fHistLambdaNearSyst->DrawCopy("Same");
-    fHistHadronNearSyst->DrawCopy("Same");
+    TH1D *histcloneK0ZYAMnear = (TH1D*)fHistK0NearSyst->DrawCopy();
+    TH1D *histcloneLamZYAMnear = (TH1D*)fHistLambdaNearSyst->DrawCopy("Same");
+    TH1D *histcloneHadrZYAMnear = (TH1D*)fHistHadronNearSyst->DrawCopy("Same");
+    legNe->AddEntry(histcloneK0ZYAMnear, "K^{0}_{S}-h","l");
+    legNe->AddEntry(histcloneLamZYAMnear, "(#Lambda+#bar{#Lambda})-h","l");
+    legNe->AddEntry(histcloneHadrZYAMnear, "h-h","l");
     legNe->Draw();
     
     canSyst->cd(2);
     TLegend *legAw = new TLegend;
-    fHistK0AwaySyst->GetYaxis()->SetRangeUser(0,0.15);
+    fHistK0AwaySyst->GetYaxis()->SetRangeUser(0,2);
     fHistK0AwaySyst->SetTitle("Protilahly pik");
     fHistK0AwaySyst->SetXTitle("p_{T}^{trig} (GeV)");
     fHistK0AwaySyst->SetYTitle("Relativna neistota");
     fHistK0AwaySyst->SetLineColor(kBlue);
     fHistLambdaAwaySyst->SetLineColor(kGreen);
     fHistHadronAwaySyst->SetLineColor(kRed);
-    legAw->AddEntry(fHistK0AwaySyst, "K^{0}_{S}-h");
-    legAw->AddEntry(fHistLambdaAwaySyst, "(#Lambda+#bar{#Lambda})-h");
-    legAw->AddEntry(fHistHadronAwaySyst, "h-h");
-    fHistK0AwaySyst->DrawCopy();
-    fHistLambdaAwaySyst->DrawCopy("Same");
-    fHistHadronAwaySyst->DrawCopy("Same");
+    TH1D *histcloneK0ZYAMaway = (TH1D*) fHistK0AwaySyst->DrawCopy();
+    TH1D *histcloneLamZYAMaway = (TH1D*)fHistLambdaAwaySyst->DrawCopy("Same");
+    TH1D *histcloneHadrZYAMaway = (TH1D*)fHistHadronAwaySyst->DrawCopy("Same");
+    legAw->AddEntry(histcloneK0ZYAMaway, "K^{0}_{S}-h","l");
+    legAw->AddEntry(histcloneLamZYAMaway, "(#Lambda+#bar{#Lambda})-h","l");
+    legAw->AddEntry(histcloneHadrZYAMaway, "h-h","l");
     legAw->Draw();
-     
-     TFile *fFile = TFile::Open("Vytazky_minBias_data.root","RECREATE");
+
+    TCanvas* canSystMix = new TCanvas;
+    canSystMix->Divide(2);
+    canSystMix->cd(1);
+    TLegend *legNeMix = new TLegend;
+    fHistK0NearMixSyst->GetYaxis()->SetRangeUser(0.,0.5);
+    fHistK0NearMixSyst->SetTitle("Prilahly pik");
+    fHistK0NearMixSyst->SetXTitle("p_{T}^{trig} (GeV)");
+    fHistK0NearMixSyst->SetYTitle("Relativna neistota");
+    fHistK0NearMixSyst->SetLineColor(kBlue);
+    fHistLamNearMixSyst->SetLineColor(kGreen);
+    fHistHadronNearMixSyst->SetLineColor(kRed);
+    TH1D *histcloneK0Mixnear = (TH1D*) fHistK0NearMixSyst->DrawCopy();
+    TH1D *histcloneLamMixnear = (TH1D*)fHistLamNearMixSyst->DrawCopy("same");
+    TH1D *histcloneHadrMixnear = (TH1D*)fHistHadronNearMixSyst->DrawCopy("same");
+    legNeMix->AddEntry(histcloneK0Mixnear, "K^{0}_{S}-h","l");
+    legNeMix->AddEntry(histcloneLamMixnear, "(#Lambda+#bar{#Lambda})-h","l");
+    legNeMix->AddEntry(histcloneHadrMixnear, "h-h","l");
+    legNeMix->Draw();
+    
+    canSystMix->cd(2);
+    TLegend *legAwMix = new TLegend();
+    fHistK0AwayMixSyst->GetYaxis()->SetRangeUser(0.,0.5);
+    fHistK0AwayMixSyst->SetTitle("Protilahly pik");
+    fHistK0AwayMixSyst->SetXTitle("p_{T}^{trig} (GeV)");
+    fHistK0AwayMixSyst->SetYTitle("Relativna neistota");
+    fHistK0AwayMixSyst->SetLineColor(kBlue);
+    fHistLamAwayMixSyst->SetLineColor(kGreen);
+    fHistHadronAwayMixSyst->SetLineColor(kRed);
+    TH1D *histcloneK0Mixaway = (TH1D*) fHistK0AwayMixSyst->DrawCopy();
+    legAwMix->AddEntry(histcloneK0Mixaway,"K^{0}_{S}-h","l");
+    TH1D *histcloneLamMixaway = (TH1D*)fHistLamAwayMixSyst->DrawCopy("Same");
+    legAwMix->AddEntry(histcloneLamMixaway,"(#Lambda+#bar{#Lambda})-h","l");
+    TH1D *histcloneHadrMixaway = (TH1D*)fHistHadronAwayMixSyst->DrawCopy("same");
+    legAwMix->AddEntry(histcloneHadrMixaway,"h-h","l");
+    legAwMix->Draw();
+    
+    TCanvas* canBarlowZYAM = new TCanvas;
+    canBarlowZYAM->Divide(2);
+    canBarlowZYAM->cd(1);
+    TLegend *legNeZYAMBarlow = new TLegend;
+    fHistK0NearZYAMBarlow->SetLineColor(kBlue);
+    fHistLamNearZYAMBarlow->SetLineColor(kGreen);
+    fHistHadronNearZYAMBarlow->SetLineColor(kRed);
+    fHistHadronNearZYAMBarlow->SetTitle("Prilahly pik");
+    fHistHadronNearZYAMBarlow->SetXTitle("p_{T}^{trig} (GeV)");
+    fHistHadronNearZYAMBarlow->SetYTitle("Relativna neistota");
+    fHistHadronNearZYAMBarlow->GetYaxis()->SetRangeUser(0,100);
+    TH1D *histcloneHadrZYAMBarlowNear = (TH1D*)fHistHadronNearZYAMBarlow->DrawCopy();
+    legNeZYAMBarlow->AddEntry(histcloneHadrZYAMBarlowNear,"h-h","l");
+    TH1D *histcloneK0ZYAMBarlowNear = (TH1D*) fHistK0NearZYAMBarlow->DrawCopy("same");
+    legNeZYAMBarlow->AddEntry(histcloneK0ZYAMBarlowNear,"K^{0}_{S}-h","l");
+    TH1D *histcloneLamZYAMBarlowNear= (TH1D*)fHistLamNearZYAMBarlow->DrawCopy("Same");
+    legNeZYAMBarlow->AddEntry(histcloneLamZYAMBarlowNear,"(#Lambda+#bar{#Lambda})-h","l");
+    
+    legNeZYAMBarlow->Draw();
+    
+    canBarlowZYAM->cd(2);
+    
+    TLegend *legAwZYAMBarlow = new TLegend;
+    fHistK0AwayZYAMBarlow->SetLineColor(kBlue);
+    fHistLamAwayZYAMBarlow->SetLineColor(kGreen);
+    fHistHadronAwayZYAMBarlow->SetLineColor(kRed);
+    fHistHadronAwayZYAMBarlow->SetTitle("Protilahly pik");
+    fHistHadronAwayZYAMBarlow->SetXTitle("p_{T}^{trig} (GeV)");
+    fHistHadronAwayZYAMBarlow->SetYTitle("Relativna neistota");
+    fHistHadronAwayZYAMBarlow->GetYaxis()->SetRangeUser(0,100);
+    TH1D *histcloneHadrZYAMBarlowAway = (TH1D*)fHistHadronAwayZYAMBarlow->DrawCopy();
+    legAwZYAMBarlow->AddEntry(histcloneHadrZYAMBarlowAway,"h-h","l");
+    TH1D *histcloneK0ZYAMBarlowAway = (TH1D*) fHistK0AwayZYAMBarlow->DrawCopy("same");
+    legAwZYAMBarlow->AddEntry(histcloneK0ZYAMBarlowAway,"K^{0}_{S}-h","l");
+    TH1D *histcloneLamZYAMBarlowAway = (TH1D*)fHistLamAwayZYAMBarlow->DrawCopy("Same");
+    legAwZYAMBarlow->AddEntry(histcloneLamZYAMBarlowAway,"(#Lambda+#bar{#Lambda})-h","l");
+    
+    legAwZYAMBarlow->Draw();
+    
+    TCanvas* canBarlowMix = new TCanvas;
+    canBarlowMix->Divide(2);
+    canBarlowMix->cd(1);
+    TLegend *legNeMixBarlow = new TLegend;
+    fHistK0NearMixBarlow->SetLineColor(kBlue);
+    fHistLamNearMixBarlow->SetLineColor(kGreen);
+    fHistHadronNearMixBarlow->SetLineColor(kRed);
+    fHistK0NearMixBarlow->SetTitle("Prilahly pik");
+    fHistK0NearMixBarlow->SetXTitle("p_{T}^{trig} (GeV)");
+    fHistK0NearMixBarlow->SetYTitle("Relativna neistota");
+    fHistHadronNearMixBarlow->GetYaxis()->SetRangeUser(0,100);
+    TH1D *histcloneHadrBarlowNear = (TH1D*)fHistHadronNearMixBarlow->DrawCopy();
+    legNeMixBarlow->AddEntry(histcloneHadrBarlowNear,"h-h","l");
+    TH1D *histcloneK0MixBarlowNear = (TH1D*) fHistK0NearMixBarlow->DrawCopy("same");
+    legNeMixBarlow->AddEntry(histcloneK0MixBarlowNear,"K^{0}_{S}-h","l");
+    TH1D *histcloneLamMixBarlowNear= (TH1D*)fHistLamNearMixBarlow->DrawCopy("Same");
+    legNeMixBarlow->AddEntry(histcloneLamMixBarlowNear,"(#Lambda+#bar{#Lambda})-h","l");
+    
+    legNeMixBarlow->Draw();
+    
+    canBarlowMix->cd(2);
+    
+    TLegend *legAwMixBarlow = new TLegend;
+    fHistK0AwayMixBarlow->SetLineColor(kBlue);
+    fHistLamAwayMixBarlow->SetLineColor(kGreen);
+    fHistHadronAwayMixBarlow->SetLineColor(kRed);
+    fHistK0AwayMixBarlow->SetTitle("Protilahly pik");
+    fHistK0AwayMixBarlow->SetXTitle("p_{T}^{trig} (GeV)");
+    fHistK0AwayMixBarlow->SetYTitle("Relativna neistota");
+    fHistHadronAwayMixBarlow->GetYaxis()->SetRangeUser(0,100);
+    TH1D *histcloneHadrBarlowAway = (TH1D*)fHistHadronAwayMixBarlow->DrawCopy();
+    legAwMixBarlow->AddEntry(histcloneHadrBarlowAway,"h-h","l");
+    TH1D *histcloneK0MixBarlowAway = (TH1D*) fHistK0AwayMixBarlow->DrawCopy("same");
+    legAwMixBarlow->AddEntry(histcloneK0MixBarlowAway,"K^{0}_{S}-h","l");
+    TH1D *histcloneLamMixBarlowAway = (TH1D*)fHistLamAwayMixBarlow->DrawCopy("Same");
+    legAwMixBarlow->AddEntry(histcloneLamMixBarlowAway,"(#Lambda+#bar{#Lambda})-h","l");
+    
+    legAwMixBarlow->Draw();
+    
      fHistK0Near->Write();
      fHistLambdaNear->Write();
      fHistHadronNear->Write();

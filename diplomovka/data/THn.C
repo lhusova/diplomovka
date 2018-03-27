@@ -147,7 +147,7 @@ void THn(){
        // fHistKorelacie->GetAxis(10)->SetRange(iMultBin+1,iMultBin+1);
        // fHistNumberOfTriggers->GetAxis(6)->SetRange(iMultBin+1,iMultBin+1);
         
-        for(Int_t i=1;i<2;i++){ // loop cez druh triggra
+        for(Int_t i=2;i<3;i++){ // loop cez druh triggra
 
             if(i==0) fHistKorelacie->GetAxis(5)->SetRange(i+1,i+1);
             if(i==1) fHistKorelacie->GetAxis(5)->SetRange(i+1,i+2);
@@ -321,7 +321,7 @@ void THn(){
     for(Int_t iMultBin = 0; iMultBin<1/*nMuliplBins*/;iMultBin++ ){ // loop cez multiplicitne biny
         //fHistdPhidEtaMix->GetAxis(7)->SetRange(iMultBin+1,iMultBin+1);
         
-        for(Int_t i=1;i<2;i++){
+        for(Int_t i=2;i<3;i++){
             //HistMixType[i]=(THnSparse*)fHistdPhidEtaMix->Clone();
             if(i==0) fHistdPhidEtaMix->GetAxis(5)->SetRange(1,1);
             if(i==1) fHistdPhidEtaMix->GetAxis(5)->SetRange(2,3);
@@ -398,10 +398,10 @@ void THn(){
     char triggname[20];
 
 	TH1D **fHistBack = new TH1D*[nTig];
-	TFile *fFile = TFile::Open("GraphMC_2015c_07_averageMixingLam.root","RECREATE");
+	TFile *fFile = TFile::Open("GraphMC_2015c_07_averageMixingHH.root","RECREATE");
 	
     for(Int_t iMultBin = 0; iMultBin<1;iMultBin++ ){ // loop cez multiplicitne biny
-        for(Int_t i=1; i<2;i++){ //i - type of Trigger particle
+        for(Int_t i=2; i<3;i++){ //i - type of Trigger particle
             for(Int_t j=0;j<nPtBins;j++){ //j - pt bin
                 fHistRangePtProjPhiEta[iMultBin*nTig+i*nPtBins+j]->Divide(fHistRangePtProjPhiEtaMix[iMultBin*nTig+i*nPtBins+j]);
                 
