@@ -11,20 +11,20 @@
 void vyslHist(){
     gStyle->SetOptStat(0000000000);
     const Double_t kPi = TMath::Pi();
-    TFile *f1 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure15c_07_K0.root");
-    TFile *f2 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure15c_07_Lam.root");
-    TFile *f3 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure15c_07_hh.root");
+    TFile *f1 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure15c+a_04_Kh_betterBinning_withoutPvz.root");
+   // TFile *f2 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure15c_07_Lam.root");
+   // TFile *f3 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure15c_07_hh.root");
    // TFile *f4 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure10.root");
    // TFile *f5 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure11.root");
    // TFile *f6 = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/McClosure12.root");
     
-    TH1D *fHisthPhi01 = (TH1D *) f3->Get("hnamePom20");
+/*    TH1D *fHisthPhi01 = (TH1D *) f3->Get("hnamePom20");
     TH1D *fHisthPhi02 = (TH1D *) f3->Get("hnamePom21");
     TH1D *fHisthPhi03 = (TH1D *) f3->Get("hnamePom22");
     
     TH1D *fHisthEta01 = (TH1D *) f3->Get("hnameEta20");
     TH1D *fHisthEta02 = (TH1D *) f3->Get("hnameEta21");
-    TH1D *fHisthEta03 = (TH1D *) f3->Get("hnameEta22");
+    TH1D *fHisthEta03 = (TH1D *) f3->Get("hnameEta22");*/
     
     TH1D *fHistK0Phi01 = (TH1D *) f1->Get("hnamePom00");
     TH1D *fHistK0Phi02 = (TH1D *) f1->Get("hnamePom01");
@@ -34,14 +34,14 @@ void vyslHist(){
     TH1D *fHistK0Eta02 = (TH1D *) f1->Get("hnameEta01");
     TH1D *fHistK0Eta03 = (TH1D *) f1->Get("hnameEta02");
     
-    TH1D *fHistLamEta01 = (TH1D *) f2->Get("hnameEta10");
+  /*  TH1D *fHistLamEta01 = (TH1D *) f2->Get("hnameEta10");
     TH1D *fHistLamEta02 = (TH1D *) f2->Get("hnameEta11");
     TH1D *fHistLamEta03 = (TH1D *) f2->Get("hnameEta12");
     
     TH1D *fHistLmaPhi01 = (TH1D *) f2->Get("hnamePom10");
     TH1D *fHistLamPhi02 = (TH1D *) f2->Get("hnamePom11");
     TH1D *fHistLamPhi03 = (TH1D *) f2->Get("hnamePom12");
-    
+    */
     TH1D *fHistK0Phi04 = (TH1D *) f1->Get("hnamePom03");
     TH1D *fHistK0Phi05 = (TH1D *) f1->Get("hnamePom04");
     TH1D *fHistK0Phi06 = (TH1D *) f1->Get("hnamePom05");
@@ -50,7 +50,7 @@ void vyslHist(){
     TH1D *fHistK0Eta05 = (TH1D *) f1->Get("hnameEta04");
     TH1D *fHistK0Eta06 = (TH1D *) f1->Get("hnameEta05");
     
-    TH1D *fHistLamEta04 = (TH1D *) f2->Get("hnameEta13");
+  /*  TH1D *fHistLamEta04 = (TH1D *) f2->Get("hnameEta13");
     TH1D *fHistLamEta05 = (TH1D *) f2->Get("hnameEta14");
     TH1D *fHistLamEta06 = (TH1D *) f2->Get("hnameEta15");
     
@@ -64,7 +64,7 @@ void vyslHist(){
     
     TH1D *fHisthEta04 = (TH1D *) f3->Get("hnameEta23");
     TH1D *fHisthEta05 = (TH1D *) f3->Get("hnameEta24");
-    TH1D *fHisthEta06 = (TH1D *) f3->Get("hnameEta25");
+    TH1D *fHisthEta06 = (TH1D *) f3->Get("hnameEta25");*/
     
     const Int_t nTig = 3;
     const Int_t nPtBins =6;
@@ -76,7 +76,7 @@ void vyslHist(){
     Double_t ptBins[nPtBins]={4.5,5.5,6.5,8,10,13.5};
     Double_t ptBinsChyby[nPtBins]={0.5,0.5,0.5,1,1,2.5};
     TFile *fNewFile = TFile::Open("McClosureVysledky.root","RECREATE");
-    TCanvas *cc = new TCanvas;
+  /*  TCanvas *cc = new TCanvas;
     cc->Divide(2,3);
     cc->cd(1);
     fHisthPhi01->SetTitle("h-h korelacie, 4 < p_{T}^{trig} < 5 GeV/c");
@@ -249,7 +249,7 @@ void vyslHist(){
     hEta->SetLineColor(kRed);
     hEta->SetMarkerSize(1.8);
     hEta->Draw("ap");
-    hEta->Write();
+    hEta->Write();*/
     
     TCanvas *ccK0Phi = new TCanvas;
     ccK0Phi->Divide(2,3);
@@ -423,7 +423,7 @@ void vyslHist(){
     k0Eta->Draw("ap");
     k0Eta->Write();
     
-    TCanvas *ccLamPhi = new TCanvas;
+   /* TCanvas *ccLamPhi = new TCanvas;
     ccLamPhi->Divide(2,3);
     ccLamPhi->cd(1);
     fHistLmaPhi01->SetTitle("(#Lambda+#bar{#Lambda})_{S}-h korelacie, 4 < p_{T}^{trig} < 5 GeV/c");
@@ -597,13 +597,15 @@ void vyslHist(){
     
     TCanvas *deltaphi = new TCanvas;
     TLegend *fLegendhi = new TLegend(0.2,0.9,0.75,0.8);
-    fLegendhi->AddEntry(k0Phi,"Triger K^{0}_{S}","pl");
-    fLegendhi->AddEntry(LamPhi,"Triger #Lambda a #bar{#Lambda}","pl");
-    fLegendhi->AddEntry(hPhi,"Triger nabity hadron","pl");
-    LamPhi->SetTitle("Zavislost hodnoty fitu #phi projekcie od p_{T}^{trig}");
-    LamPhi->Draw("ap");
+    fLegendhi->AddEntry(k0Phi,"Trigger K^{0}_{S}","pl");
+    fLegendhi->AddEntry(LamPhi,"Trigger #Lambda a #bar{#Lambda}","pl");
+    fLegendhi->AddEntry(hPhi,"Trigger charged hadron","pl");
+    hPhi->SetTitle("Fit value of #Delta#phi projection dependance on p_{T}^{trig}");
+    hPhi->GetYaxis()->SetTitle("fit value");
+    hPhi->GetYaxis()->SetRangeUser(0.8,1.4);
+    hPhi->Draw("ap");
     k0Phi->Draw("psame");
-    hPhi->Draw("psame");
+    LamPhi->Draw("psame");
     fLegendhi->Draw();
     
     TCanvas *deltaeta = new TCanvas;
@@ -611,11 +613,13 @@ void vyslHist(){
     fLegendeta->AddEntry(k0Eta,"Triger K^{0}_{S}","pl");
     fLegendeta->AddEntry(LamEta,"Triger #Lambda a #bar{#Lambda}","pl");
     fLegendeta->AddEntry(hEta,"Triger nabity hadron","pl");
-    LamEta->SetTitle("Zavislost hodnoty fitu #eta projekcie od p_{T}^{trig}");
-    LamEta->Draw("ap");
+    hEta->SetTitle("Fit value of #Delta#eta projection dependance on p_{T}^{trig}");
+    hEta->GetYaxis()->SetTitle("fit value");
+    hEta->GetYaxis()->SetRangeUser(0.2,1.4);
+    hEta->Draw("ap");
     k0Eta->Draw("psame");
-    hEta->Draw("psame");
-    fLegendeta->Draw();
+    LamEta->Draw("psame");
+    fLegendeta->Draw();*/
     
     fNewFile->Close();
 }

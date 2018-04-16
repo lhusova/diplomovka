@@ -33,7 +33,7 @@ Na tomto mieste sa chcem poďakovať vedúcemu mojej práce doc. RNDr. Marekovi 
 \abstrakt{
 	
 	Nízkoenergetické jety vzniknuté v zrážkach ťažkých iónov sú ťažko identifikovateľné vzhľadom na vysoké pozadie a možnú deformáciu ich tvaru, preto sa na ich štúdium, najmä v zrážkach ťažkých iónov, využíva metóda dvojčasticových korelácií.\\
-	V tejto práci sú prezentované výsledky metódy dvojčasticových korelácií aplikovanej na dáta z protónovo-protónových zrážok pri energii 13 TeV zozbieraných na experimente ALICE na urýchľovači LHC. Merané boli výťažky pre priľahlý aj protiľahlý pík pre identifikované aj neidentifikované trigrovacie častice v závislosti od priečnej hybnosti trigrovacích častíc a multiplicity zrážok. Skúmané boli aj štruktúry dvojrozmerných korelačných funkcií v závislosti od multiplicity. Za identifikované trigrovacie častice boli zvolené podivné hadróny $K^0_S$, $\Lambda$ a $\bar{\Lambda}$, ktoré sa ľahko identifikujú aj pre vysoké priečne hybnosti vďaka svojej rozpadovej topológii.
+	V tejto práci sú prezentované výsledky metódy dvojčasticových korelácií aplikovanej na dáta z protónovo-protónových zrážok pri energii 13 TeV zozbieraných na experimente ALICE na urýchľovači LHC. Merané boli výťažky pre priľahlý aj protiľahlý pík pre identifikované aj neidentifikované trigrovacie častice v závislosti od priečnej hybnosti trigrovacích častíc a multiplicity zrážok.Za identifikované trigrovacie častice boli zvolené podivné hadróny $K^0_S$, $\Lambda$ a $\bar{\Lambda}$, ktoré sa ľahko identifikujú aj pre vysoké priečne hybnosti vďaka svojej rozpadovej topológii. Skúmané boli aj štruktúry dvojrozmerných korelačných funkcií v závislosti od multiplicity. 
 
 \newpage
 }
@@ -421,7 +421,7 @@ Predpokladá sa, že všetky tri efekty hrajú úlohu a prispievajú k namerané
 
 \begin{figure}[hbtp!]
 	\centering
-	\includegraphics[scale=0.9]{./Obrazky_praca/clanok2.png}
+	\includegraphics[scale=0.7]{./Obrazky_praca/clanok2.png}
 	\caption{ Hore: $I_{AA}$ pre centrálne a periférne zrážky; dole: $I_{CP}$: Výsledky získané pomocou rôznych metód odčítania pozadia~\cite{clanok}}
 	\label{clanok2}
 \end{figure}
@@ -639,7 +639,10 @@ Posledným kritériom potrebným na štúdium dvojčasticových korelácií je p
 \section{Korekcie}
 Okrem jednotlivých selekčných kritérii bolo potrebné pri analýze použiť aj tri typy korekcií. 
 
-Prvou je korekcia na konečnú akceptanciu detektora. Túto korekciu sme urobili pomocou metódy mixing. Trigrovacia častica bola z jedného prípadu a asociovaná častica z iného nezávislého prípadu. Kvôli väčšej štatistike sme jednu trigrovaciu časticu mixovali s minimálne piatimi prípadmi, pričom oba prípady museli mať z-ovú zložku primárneho vertexu rovnakú v rámci 1 cm a mať približne rovnakú multiplicitu. Mixovaním získané rozdelenie tvaru kombinatorického pozadia v rovine ($\Delta \phi \Delta \eta$) je na obrázku~\ref{pozadie}. Toto rozdelenie bolo následne normované na hodnotu najvyššieho binu rozdalenia. Za predpokladu, že účinnosť rekonštrukcie páru v najvyššom bine je 100\%, získame tak rozdelenie účinnosti rekonštrukcie párov v priestore $(\Delta \phi,\Delta\eta)$.
+Prvou je korekcia na konečnú akceptanciu detektora. Túto korekciu sme urobili pomocou metódy mixing. Trigrovacia častica bola z jedného prípadu a asociovaná častica z iného nezávislého prípadu. Kvôli väčšej štatistike sme jednu trigrovaciu časticu mixovali s minimálne piatimi prípadmi, pričom oba prípady museli mať z-ovú zložku primárneho vertexu rovnakú v rámci 1 cm a mať približne rovnakú multiplicitu. Mixovaním získané rozdelenie tvaru kombinatorického pozadia v rovine ($\Delta \phi \Delta \eta$) je na obrázku~\ref{pozadie}. Toto rozdelenie bolo následne normované na hodnotu najvyššieho binu rozdalenia ($\beta$). Za predpokladu, že účinnosť rekonštrukcie páru v najvyššom bine je 100\%, získame tak rozdelenie účinnosti rekonštrukcie párov v priestore $(\Delta \phi,\Delta\eta)$.
+\begin{equation}
+\epsilon_{pair}(\Delta\phi,\Delta\eta) = \frac{d^2N^{mixed}_{pair}}{d\Delta\phi d\Delta\eta}\frac{1}{\beta}
+\end{equation}
 
 \begin{figure}[hbtp!]
 	\centering
@@ -648,33 +651,50 @@ Prvou je korekcia na konečnú akceptanciu detektora. Túto korekciu sme urobili
 	\label{pozadie}
 \end{figure}
 
-Druhou je korekcia na účinnosť rekonštrukcie asociovaných častíc v detektore. Pri tejto korekcii boli použité dáta nasimulované metódou Monte Carlo, ktoré zodpovedajú energii aj druhu zrážok spracovávaných dát. Generované dáta prešli re\-kon\-štruk\-ciou, pri ktorej boli použité rovnaké selekčné kritéria ako pre reálne dáta. Účinnosť re\-kon\-štruk\-cie sa definuje ako podiel počtu zrekonštruovaných častíc ku počtu generovaných v závislosti od priečnej hybnosti, pseudorapidity asociovanej častice a z-ovej súradnice primárneho vertexu, pričom každá rekonštruovaná častica musí byť prepojená s generovanou časticou, t.j. nebolo možné zrekonštruvať časticu, ktorá nebola pre danú zrážku vygenerovaná.  
+Druhou je korekcia na účinnosť rekonštrukcie asociovaných častíc v detektore. Pri tejto korekcii boli použité dáta nasimulované metódou Monte Carlo, ktoré zodpovedajú energii aj druhu zrážok spracovávaných dát. Generované dáta prešli re\-kon\-štruk\-ciou, pri ktorej boli použité rovnaké selekčné kritéria ako pre reálne dáta.  Účinnosť re\-kon\-štruk\-cie sa definuje ako podiel počtu zrekonštruovaných častíc ku počtu generovaných častíc, pričom každá rekonštruovaná častica musí byť prepojená s generovanou časticou, t.j. nebolo možné zrekonštruovať časticu, ktorá nebola pre danú zrážku vygenerovaná. Účinnosť rekoštrukcie sme skúmali v závislosti od $p_T$, $\eta$ a polohy PV ( obr.\ref{uc}). Korekciu na účinnosť v závislosti od z-ovej súradnice primárneho vertexu sme ale nebrali do úvahy, pretože ako je vidieť na obr. \ref{ucpvz}, účinnosť je vzhľadom na polohu PV konštantná.   
 \begin{equation}
 \footnotesize
-\epsilon_{asoc}(p_{T}^{asoc},\eta^{asoc},Pz) = \frac{N_{asoc}^{rek}}{N_{asoc}^{gen}}(p_{T}^{asoc},\eta^{asoc},Pz)
+\epsilon_{asoc}(p_{T}^{asoc},\eta^{asoc}) = \frac{N_{asoc}^{rek}}{N_{asoc}^{gen}}(p_{T}^{asoc},\eta^{asoc})
 \end{equation}
 Poslednou je korekcia na účinnosť rekonštrukcie trigrovacích častíc\footnote{Takáto korekcia na účinnosť rekonštrukce trigrovacích častíc bola robená aj v predchádzajúcich korelačných analýzach \cite{Jan-Fiete}}. Bola robená podobne ako pre asociované častice v závislosti od priečnej hybnosti, pseudorapidity trigrovacej častice a z-ovej súradnice primárneho vertexu. 
 \begin{equation}
 \footnotesize
-\epsilon_{trig}(p_{T}^{trig},\eta^{trig},Pz) = \frac{N_{trig}^{rek}}{N_{trig}^{gen}}(p_{T}^{trig},\eta^{trig},Pz)
+\epsilon_{trig}(p_{T}^{trig},\eta^{trig}) = \frac{N_{trig}^{rek}}{N_{trig}^{gen}}(p_{T}^{trig},\eta^{trig})
 \end{equation}
 \begin{equation}\end{equation}
 Na obrázku \ref{uc} je zobrazená účinnosť rekonštrukcie pre jednotlivé typy častíc v závislosti od ich priečnej hybnosti. Po aplikovaní všetkých korekcií dostávame výsledné dvojrozmerné rozdelenie, ktoré ešte normujeme na počet trigrovacích častíc:
 \begin{equation}
 \footnotesize
 \frac{d^2N^{corrected}_{pair}}{d\Delta\phi d\Delta\eta}(\Delta\phi,\Delta \eta)=
-\frac{1}{N^{corr}_{trig}} \frac{d^2N^{raw}_{pair}}{d\Delta\phi d\Delta\eta} \frac{1}{\epsilon_{asoc}(p_{T}^{asoc},\eta^{asoc},Pz)}\frac{1}{\epsilon_{pair}(\Delta\phi,\Delta\eta)}
-\frac{1}{\epsilon_{trig}(p_{T}^{trig},\eta^{trig},Pz)}
+\frac{1}{N^{corr}_{trig}} \frac{d^2N^{raw}_{pair}}{d\Delta\phi d\Delta\eta} \frac{1}{\epsilon_{asoc}(p_{T}^{asoc},\eta^{asoc})}\frac{1}{\epsilon_{pair}(\Delta\phi,\Delta\eta)}
+\frac{1}{\epsilon_{trig}(p_{T}^{trig},\eta^{trig})}
 \end{equation}
 \begin{equation}
 \footnotesize
-N^{corr}_{trig}=N^{raw}_{trig}\frac{1}{\epsilon_{trig}(p_{T}^{trig},\eta^{trig},Pz)}
+N^{corr}_{trig}=N^{raw}_{trig}\frac{1}{\epsilon_{trig}(p_{T}^{trig},\eta^{trig})}
 \end{equation}
 
 \begin{figure}[hbtp!]
 	\centering
-	\includegraphics[scale=0.4]{../histogramy/vytazky/ucinnost.png}
-	\caption{Účinnosť rekonštrukcie jednotlivých častíc v závislosti od ich priečnej hybnosti}
+	\begin{subfigure}{0.33\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/eff_pt_all.png}
+		\caption{}
+		\label{}
+	\end{subfigure}%
+	\begin{subfigure}{0.33\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/eff_eta_all.png}
+		\caption{}
+		\label{}
+	\end{subfigure}
+	\begin{subfigure}{0.33\textwidth}
+		\centering
+		\includegraphics[width=1.\linewidth]{./Obrazky_praca/eff_pvz_all.png}
+		\caption{}
+		\label{ucpvz}
+	\end{subfigure}
+	\caption{Účinnosť rekonštrukcie nabitých hadrónov v závislosti od ich priečnej hybnosti , pseudorapidity a z-ovej zložky polohy PV.}
 	\label{uc}
 \end{figure}
 
@@ -930,25 +950,34 @@ Výťažky pre priľahlý aj protiľahlý pík pre všetky trigrovacie častice 
 	\label{porovnanieh}
 \end{figure}
 
-\subsection{Niektoré zdroje systematyckých chýb}
+\section{Niektoré zdroje systematyckých chýb}
 
-Okrem štatistických chýb sme v tejto anlýze brali do úvahy aj niektoré zo zdrojov systematických chýb. Prvým z nich je spôsob odčítania pozadia v jednorozmernej projekcii na $\Delta\phi$. Na výpočet systematickej chyby sme použili výpočet výťažku z jednorozmerných rozdelení, kde pozadie bolo odčítané ako koštantná funkcia, ktorej hodnota sa rovnala hodnote najnižšieho binu. Rozdelenie tohto príspevku ku celkovej systemetickej chybe je na obr.\ref{systZYAM}.
+Okrem štatistických chýb sme v tejto anlýze brali do úvahy aj niektoré zo zdrojov systematických chýb. Prvým z nich je spôsob odčítania pozadia v jednorozmernej projekcii na $\Delta\phi$. Na výpočet systematickej chyby sme použili výpočet výťažku z jednorozmerných rozdelení, kde pozadie bolo odčítané ako koštantná funkcia, ktorej hodnota sa rovnala hodnote najnižšieho binu. 
 
 Ďalší zdroj systematickej chyby pochádza z metódy mixing, konkrétne z metódy normovania 2D kombinatorického pozadia na 100\% účinnosť rekonštrukcie páru. Na výpočet systematickej chyby sme použili rozdelenie, ktoré sme nanormovali na aritmetický priemer hodonôt v binoch pre $\Delta \eta = 0$.  
 
  \begin{figure}[hbtp!]
 	\centering
- 	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/neistotaZYAM.png}
- 	\caption{Príspevok k celkovej systamatickej chybe z metódy odčítania pozadia v závislosti od $p_{T}^{trig}$ pre priľahlý a protiľahlý pík.}
- 	\label{systZYAM}
+ 	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/neistotaK0.png}
+ 	\caption{ Veľkosti systematických chýb z jednotlivých zdrojov a celková relatívna systematická a štatistická neistota  merania výťažkov pre $K^0_S-h$ korelácie v závislosti od $p_{T}^{trig}$ pre priľahlý a protiľahlý pík.}
+ 	\label{systK0}
  \end{figure}
 
  \begin{figure}[hbtp!]
 	\centering
-	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/neistotaMix.png}
-	\caption{Príspevok k celkovej systamatickej chybe z metódy mixing pozadia v závislosti od $p_{T}^{trig}$ pre priľahlý a protiľahlý pík.}
-	\label{systMix}
+	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/neistotaLam.png}
+	\caption{Veľkosti systematických chýb z jednotlivých zdrojov a celková relatívna systematická a štatistická neistota  merania výťažkov pre $(\Lambda+\bar{\Lambda})-h$ korelácie v závislosti od $p_{T}^{trig}$ pre priľahlý a protiľahlý pík.}
+	\label{systLam}
 \end{figure}
+
+ \begin{figure}[hbtp!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{./Obrazky_praca/neistotaHH.png}
+	\caption{ Veľkosti systematických chýb z jednotlivých zdrojov a celková relatívna systematická a štatistická neistota  merania výťažkov pre $h-h$ korelácie v závislosti od $p_{T}^{trig}$ pre priľahlý a protiľahlý pík.}
+	\label{systHH}
+\end{figure}
+
+Hodnoty jednotlivých relatívnych systematických chýb, celkovej relatívnej systematickej neistoty a celkovej štatistickej chyby sú zobrazené na obr.\ref{systK0} až \ref{systHH}. Z obrázku \ref{systHH} je zrejmé, že štatistická chyba pre korelácie $h-h$ je minimálna, a teda nie je dôvod na navyšovanie štatistiky. Potrebné by však bolo ďalšie štúdium systematickej chyby pochádzajúcej z metódy odčítania pozadia a jej nasledovné zníženie najmä pre protiľahlý pík. Pri koreláciách s podivnými hadrónmi je systematická neistota merania oveľa vyššia, až 90\% pre $K^0_S-h$  a 140\% $(\Lambda+\bar{\Lambda})-h$ pre korelácie pre protiľahlý pík. Tieto vysoké systematické chyby sú spojené aj s nízkou štatistikou $V^0$ častíc, čo je vidieť aj na náraste štatistických chýb a celkovom porovnaní štatistiky jednotlivých trigrovacích častíc v jednotlivých $p_T$ intervaloch zosumarizovanov v tabuľke \ref{tabulkaPocty}.   
 
 \begin{table}[hbtp!]
 	\begin{center}
@@ -973,6 +1002,9 @@ Okrem štatistických chýb sme v tejto anlýze brali do úvahy aj niektoré zo 
 \addcontentsline{toc}{chapter}{Záver}
 V tejto práci sme vytvorili uviverzálny kód, ktorý je možné použiť na analýzu rôznych typov dát pomocou metódy dvojčasticových korelácií. Ten sme otestovali na dvojhadrónových koreláciách s neidentifikovanou trigrovacou časticou v protónovo-pro\-tó\-no\-vých dátach nameraných pri energii 13 TeV na experimente ALICE na urýchľovači LHC a aplikovali na korelácie s identifikovanými podivnými trigrovacími časticami na rovnakých dátach. Merané boli výťažky asociovaných častíc v jetoch pre piľahlý aj protiľahlý pík v závislosti od priečnej hybnosti trigrovacích častíc a multiplicity zrážok.
 
+Najvyššie výťažky pre priľahlý pík boli namerané z h-h korelácií. Ak sa nejaký rozdiel  spôsobený rozdielom medzi kvarkovými a gluónovými jetmi medzi výťažkami z $K^0_S-h$ a  $(\Lambda+\bar{\Lambda})-h$ korelácií nachádza, nemožno ho pre terajšej štatistike a výške systematickej chyby prozorovať. Veľkosti výťažkov protiľahlých píkov sú nezávislé na druhu trigrovacej častice.
+
+Kvôli veľkým štatistickým fluktáciám a vysokým systematickým neistotám taktiež nemožno pozorovať žiadne rozdiely vo výťažkoch v závislosti od multiplicity pre korelácie s podivnými časticami, zatiaľ čo pre h-h korelácie boli najvyššie výťažky pozorované pre najvyššie multiplicity. Toto pozorovanie bolo overené $I_{CP}$ pomerom, z ktorého je viditeľné približne 20\% zvýšenie pre priľahlý pík a náznak mierneho potlačenia pre protiľahlý pík.  
 
 
 
@@ -1077,6 +1109,8 @@ T. PIEROG, I. KARPENKO, J. M. KATZY, E. YATSENKO a K. WERNER. EPOS LHC: Test of 
  https://link.aps.org/doi/10.1103/PhysRevC.92.034906
  \bibitem{schema}
  https://cds.cern.ch/record/2030272
+ \bibitem{Jan-Fiete}
+ https://aliceinfo.cern.ch/Notes/sites/aliceinfo.cern.ch.Notes/files/notes/analysis/jgrosseo/2016-Sep-09-analysis\_note-nearside10.pdf
 \end{thebibliography}
 %
 \end{document}

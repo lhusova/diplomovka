@@ -160,7 +160,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(225031);
         alienHandler->AddRunNumber(225026);*/
 
-        alienHandler->AddRunNumber(225768); //MC 2015c
+   /*     alienHandler->AddRunNumber(225768); //MC 2015c
         alienHandler->AddRunNumber(225587);
         alienHandler->AddRunNumber(226500);
         alienHandler->AddRunNumber(226495);
@@ -211,9 +211,9 @@ void runAnalysis()
         alienHandler->AddRunNumber(225037);
         alienHandler->AddRunNumber(225035);
         alienHandler->AddRunNumber(225031);
-        alienHandler->AddRunNumber(225026);
+        alienHandler->AddRunNumber(225026);*/
         
-       /* alienHandler->AddRunNumber(225000); //MC 2015a
+        alienHandler->AddRunNumber(225000); //MC 2015a
         alienHandler->AddRunNumber(225011);
         alienHandler->AddRunNumber(225016);
         alienHandler->AddRunNumber(225026);
@@ -269,7 +269,7 @@ void runAnalysis()
         alienHandler->AddRunNumber(226495);
         alienHandler->AddRunNumber(226500);
         
-        alienHandler->AddRunNumber(225000); // MC 2016
+      /*  alienHandler->AddRunNumber(225000); // MC 2016
         alienHandler->AddRunNumber(225011);
         alienHandler->AddRunNumber(225016);
         alienHandler->AddRunNumber(225026);
@@ -343,8 +343,8 @@ void runAnalysis()
         alienHandler->SetMergeViaJDL(kFALSE);
 
         // define the output folders
-        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_014");
-        alienHandler->SetGridOutputDir("myWorkingDirTestMC_014");
+        alienHandler->SetGridWorkingDir("myWorkingDirTestMC_015");
+        alienHandler->SetGridOutputDir("myWorkingDirTestMC_015");
 
         // connect the alien plugin to the manager
         mgr->SetGridHandler(alienHandler);

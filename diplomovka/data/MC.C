@@ -1,10 +1,20 @@
-#include <TH1D.h>
+void SetHist(TH1D *hist, Int_t mstyle, Color_t mcolor, Color_t lcolor, Float_t msize){
+    
+    hist->SetMarkerColor(mcolor);
+    hist->SetLineColor(lcolor);
+    hist->SetMarkerStyle(mstyle);
+    hist->SetMarkerSize(msize);
+    
+};
 
 void MC(){
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid07.root ");  //MC2015c_Grid02.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC15c_10Grid.root ");  //MC2015c_Grid02.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
 	TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
+    
+    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResults2015a_Grid04.root");
+    TList *listg = (TList*)g->Get("MyTask/MyOutputContainer");
 
     TH3D *fHistMCPtAs = (TH3D*)list->FindObject("fHistMCPtAs");
     TH3D *fHistRCPtAs = (TH3D*)list->FindObject("fHistRCPtAs");
@@ -14,6 +24,22 @@ void MC(){
     
     THnSparseF *fHistGenV0 = (THnSparseF*)list->FindObject("fHistGenV0");
     THnSparseF *fHistRecV0 = (THnSparseF*)list->FindObject("fHistRecV0");
+    
+    TH3D *fHistMCPtAs15a = (TH3D*)listg->FindObject("fHistMCPtAs");
+    TH3D *fHistRCPtAs15a = (TH3D*)listg->FindObject("fHistRCPtAs");
+    
+    TH3D *fHistMCPtTrigg15a = (TH3D*)listg->FindObject("fHistMCPtTrigg");
+    TH3D *fHistRCPtTrigg15a = (TH3D*)listg->FindObject("fHistRCPtTrigg");
+    
+    THnSparseF *fHistGenV015a = (THnSparseF*)listg->FindObject("fHistGenV0");
+    THnSparseF *fHistRecV015a = (THnSparseF*)listg->FindObject("fHistRecV0");
+    
+    fHistMCPtAs->Add(fHistMCPtAs15a);
+    fHistRCPtAs->Add(fHistRCPtAs15a);
+    fHistMCPtTrigg->Add(fHistMCPtTrigg15a);
+    fHistRCPtTrigg->Add(fHistRCPtTrigg15a);
+    fHistGenV0->Add(fHistGenV015a);
+    fHistRecV0->Add(fHistRecV015a);
     
     const Int_t rebinZ = 2;
     const Int_t rebinY = 2;
@@ -41,9 +67,7 @@ void MC(){
     //fHistMCPtAs->Sumw2();
     TH1D *fHistMCPtAsPojX = fHistMCPtAs->ProjectionX();
     fHistMCPtAsPojX->SetName("fHistMCPtAsPojX");
-    fHistMCPtAsPojX->SetMarkerStyle(23);
-    fHistMCPtAsPojX->SetMarkerSize(1.5);
-    fHistMCPtAsPojX->SetMarkerColor(kMagenta);
+    SetHist(fHistMCPtAsPojX,23,kMagenta,kMagenta,1.5);
     
     fHistMCPtAsPojX->SetYTitle("#");
     fHistMCPtAsPojX->SetTitle("Rozdelenie p_{T} pre MC a rekostruovane MC drahy");
@@ -51,9 +75,7 @@ void MC(){
     //fHistRCPtAs->Sumw2();
     TH1D* fHistRCPtAsProjX = fHistRCPtAs->ProjectionX();
     fHistRCPtAsProjX->SetName("fHistRCPtAsProjX");
-    fHistRCPtAsProjX->SetMarkerStyle(23);
-    fHistRCPtAsProjX->SetMarkerSize(1.5);
-    fHistRCPtAsProjX->SetMarkerColor(kBlue);
+    SetHist(fHistRCPtAsProjX,23,kBlue,kBlue,1.5);
 
     TLegend *lg1 = new TLegend(0.2,0.9,0.75,0.8);
 	lg1->AddEntry(fHistMCPtAsPojX,"MC generovane drahy","pl");
@@ -94,10 +116,8 @@ void MC(){
     fHistGenV0->GetAxis(2)->SetRange(1,1);
     TH1D *histV0GenK0 = fHistGenV0->Projection(0);
     histV0GenK0->SetName("histV0GenK0");
-    histV0GenK0->SetMarkerStyle(23);
-    histV0GenK0->SetMarkerSize(1.5);
-    histV0GenK0->SetMarkerColor(kMagenta);
-    histV0GenK0->SetLineColor(kMagenta);
+    SetHist(histV0GenK0,23,kMagenta,kMagenta,1.5);
+
     //histV0GenK0->SetAxisRange(0,6000,"y");
     histV0GenK0->SetTitle("ucinnost rekonstrukcie K^0_{S}");
     histV0GenK0->DrawCopy();
@@ -106,10 +126,7 @@ void MC(){
     fHistRecV0->GetAxis(2)->SetRange(1,1);
     TH1D *histV0RecK0 = fHistRecV0->Projection(0);
     histV0RecK0->SetName("histV0RecK0");
-    histV0RecK0->SetMarkerStyle(23);
-    histV0RecK0->SetMarkerSize(1.5);
-    histV0RecK0->SetMarkerColor(kBlue);
-    histV0RecK0->SetLineColor(kBlue);
+    SetHist(histV0RecK0,23,kBlue,kBlue,1.5);
     histV0RecK0->DrawCopy("same");
     
     TLegend *lg2 = new TLegend(0.2,0.9,0.75,0.8);
@@ -144,10 +161,7 @@ void MC(){
     fHistGenV0->GetAxis(2)->SetRange(2,2);
     TH1D *histV0GenLam = fHistGenV0->Projection(0);
     histV0GenLam->SetName("histV0GenLam");
-    histV0GenLam->SetMarkerStyle(23);
-    histV0GenLam->SetMarkerSize(1.5);
-    histV0GenLam->SetMarkerColor(kMagenta);
-    histV0GenLam->SetLineColor(kMagenta);
+    SetHist(histV0GenLam,23,kMagenta,kMagenta,1.5);
     //histV0GenLam->SetAxisRange(0,4000,"y");
     histV0GenLam->SetTitle("ucinnost rekonstrukcie  #Lambda");
     histV0GenLam->DrawCopy();
@@ -156,10 +170,7 @@ void MC(){
     fHistRecV0->GetAxis(2)->SetRange(2,2);
     TH1D *histV0RecLam = fHistRecV0->Projection(0);
     histV0RecLam->SetName("histV0RecLam");
-    histV0RecLam->SetMarkerStyle(23);
-    histV0RecLam->SetMarkerSize(1.5);
-    histV0RecLam->SetMarkerColor(kBlue);
-    histV0RecLam->SetLineColor(kBlue);
+    SetHist(histV0RecLam,23,kBlue,kBlue,1.5);
     histV0RecLam->DrawCopy("same");
     
     TLegend *lg3 = new TLegend(0.2,0.9,0.75,0.8);
@@ -194,10 +205,7 @@ void MC(){
     fHistGenV0->GetAxis(2)->SetRange(3,3);
     TH1D *histV0GenALam = fHistGenV0->Projection(0);
     histV0GenALam->SetName("histV0GenALam");
-    histV0GenALam->SetMarkerStyle(23);
-    histV0GenALam->SetMarkerSize(1.5);
-    histV0GenALam->SetMarkerColor(kMagenta);
-    histV0GenALam->SetLineColor(kMagenta);
+    SetHist(histV0GenALam,23,kMagenta,kMagenta,1.5);
     //histV0GenLam->SetAxisRange(0,4000,"y");
     histV0GenALam->SetTitle("ucinnost rekonstrukcie #bar{#Lambda}");
     histV0GenALam->DrawCopy();
@@ -206,10 +214,7 @@ void MC(){
     fHistRecV0->GetAxis(2)->SetRange(3,3);
     TH1D *histV0RecALam = fHistRecV0->Projection(0);
     histV0RecALam->SetName("histV0RecALam");
-    histV0RecALam->SetMarkerStyle(23);
-    histV0RecALam->SetMarkerSize(1.5);
-    histV0RecALam->SetMarkerColor(kBlue);
-    histV0RecALam->SetLineColor(kBlue);
+    SetHist(histV0RecALam,23,kBlue,kBlue,1.5);
     histV0RecALam->DrawCopy("same");
     
     TLegend *lg4 = new TLegend(0.2,0.9,0.75,0.8);
@@ -228,19 +233,14 @@ void MC(){
     
     TCanvas *canvas = new TCanvas;
     
-    histV0RecK0->SetMarkerColor(kGreen);
-    fHistRCPtAsProjX->GetYaxis()->SetRangeUser(0.,0.9);
-    histV0RecK0->SetMarkerStyle(20);
-    histV0RecK0->SetLineColor(kGreen);
-    histV0RecLam->SetMarkerColor(28);
-    histV0RecLam->SetMarkerStyle(21);
-    histV0RecLam->SetLineColor(28);
-    histV0RecALam->SetMarkerStyle(22);
-    fHistRCPtAsProjX->SetMarkerColor(kRed);
-    fHistRCPtAsProjX->SetLineColor(kRed);
+    SetHist(histV0RecK0,23,kBlue-3,kBlue-3,1.5);
+    SetHist(histV0RecLam,21,kGreen-3,kGreen-3,1.5);
+    SetHist(histV0RecALam,22,kOrange-3,kOrange-3,1.5);
+    SetHist(fHistRCPtAsProjX,29,kRed-3,kRed-3,1.5);
     
-    fHistRCPtAsProjX->SetXTitle("p_T (GeV/c)");
-    fHistRCPtAsProjX->SetTitle("Ucinnost rekonstrukcie");
+    fHistRCPtAsProjX->GetYaxis()->SetRangeUser(0.,0.9);
+    fHistRCPtAsProjX->SetXTitle("p_{T}^{trig} (GeV/c)");
+    fHistRCPtAsProjX->SetTitle("Ucinnost rekonstrukcie v zavislosti od p_{T}^{trig}");
     fHistRCPtAsProjX->DrawCopy();
     histV0RecK0->DrawCopy("same");
     histV0RecLam->DrawCopy("same");
@@ -253,8 +253,124 @@ void MC(){
     lg5->AddEntry(fHistRCPtAsProjX,"nabity hadron","pl");
     lg5->Draw();
     
+    TCanvas *canvasY = new TCanvas;
+    TH1D* fHistRCPtAsProjY = fHistRCPtAs->ProjectionY();
+    fHistRCPtAsProjY->SetName("fHistRCPtAsProjY");
+    fHistGenV0->GetAxis(2)->SetRange(1,1);
+    TH1D *histV0GenK0Vz = fHistGenV0->Projection(1);
+    histV0GenK0Vz->SetName("histV0GenK0Vz");
+    histV0GenK0Vz->RebinX(rebinY);
+    fHistGenV0->GetAxis(2)->SetRange(2,2);
+    TH1D *histV0GenLamVz = fHistGenV0->Projection(1);
+    histV0GenLamVz->SetName("histV0GenLamVz");
+    histV0GenLamVz->RebinX(rebinY);
+    fHistGenV0->GetAxis(2)->SetRange(3,3);
+    TH1D *histV0GenALamVz = fHistGenV0->Projection(1);
+    histV0GenALamVz->SetName("histV0GenALamVz");
+    histV0GenALamVz->RebinX(rebinY);
     
-    TFile *fNewFile = TFile::Open("EfiiciencyMC15c_07.root","RECREATE");
+    TH1D *fHistMCPtAsPojY = fHistMCPtAs->ProjectionY();
+    fHistMCPtAsPojY->SetName("fHistMCPtAsPojY");
+    fHistRecV0->GetAxis(2)->SetRange(1,1);
+    TH1D *histV0RecK0Vz = fHistRecV0->Projection(1);
+    histV0RecK0Vz->SetName("histV0RecK0Vz");
+    histV0RecK0Vz->RebinX(rebinY);
+    fHistRecV0->GetAxis(2)->SetRange(2,2);
+    TH1D *histV0RecLamVz = fHistRecV0->Projection(1);
+    histV0RecLamVz->SetName("histV0RecLamVz");
+    histV0RecLamVz->RebinX(rebinY);
+    fHistRecV0->GetAxis(2)->SetRange(3,3);
+    TH1D *histV0RecALamVz = fHistRecV0->Projection(1);
+    histV0RecALamVz->SetName("histV0RecALamVz");
+    histV0RecALamVz->RebinX(rebinY);
+    
+    fHistRCPtAsProjY->Divide(fHistMCPtAsPojY);
+    histV0RecK0Vz->Divide(histV0GenK0Vz);
+    histV0RecLamVz->Divide(histV0GenLamVz);
+    histV0RecALamVz->Divide(histV0GenALamVz);
+    
+    fHistRCPtAsProjY->SetXTitle("p_{vz} (cm)");
+    fHistRCPtAsProjY->SetTitle("Ucinnost rekonstrukcie v zavislosti od p_{vz}");
+    fHistRCPtAsProjY->GetYaxis()->SetRangeUser(0.,0.9);
+    
+    SetHist(fHistRCPtAsProjY,29,kRed-3,kRed-3,1.5);
+    SetHist(histV0RecK0Vz,23,kBlue-3,kBlue-3,1.5);
+    SetHist(histV0RecLamVz,21,kGreen-3,kGreen-3,1.5);
+    SetHist(histV0RecALamVz,22,kOrange-3,kOrange-3,1.5);
+    
+    TLegend *lgPvz = new TLegend;
+    lgPvz->AddEntry(histV0RecK0Vz,"K^{0}_{S}","pl");
+    lgPvz->AddEntry(histV0RecALamVz," #bar{#Lambda}","pl");
+    lgPvz->AddEntry(histV0RecLamVz,"#Lambda","pl");
+    lgPvz->AddEntry(fHistRCPtAsProjY,"nabity hadron","pl");
+    
+    fHistRCPtAsProjY->SetStats(kFALSE);
+    fHistRCPtAsProjY->DrawCopy();
+    histV0RecK0Vz->DrawCopy("same");
+    histV0RecALamVz->DrawCopy("same");
+    histV0RecLamVz->DrawCopy("same");
+    lgPvz->Draw();
+    
+    TCanvas *canvasZ = new TCanvas;
+    
+    TH1D* fHistRCPtAsProjZ = fHistRCPtAs->ProjectionZ();
+    fHistRCPtAsProjZ->SetName("fHistRCPtAsProjZ");
+    fHistGenV0->GetAxis(2)->SetRange(1,1);
+    TH1D *histV0GenK0Eta = fHistGenV0->Projection(3);
+    histV0GenK0Eta->SetName("histV0GenK0Eta");
+    histV0GenK0Eta->RebinX(rebinZ);
+    fHistGenV0->GetAxis(2)->SetRange(2,2);
+    TH1D *histV0GenLamEta = fHistGenV0->Projection(3);
+    histV0GenLamEta->SetName("histV0GenLamEta");
+    histV0GenLamEta->RebinX(rebinZ);
+    fHistGenV0->GetAxis(2)->SetRange(3,3);
+    TH1D *histV0GenALamEta = fHistGenV0->Projection(3);
+    histV0GenALamEta->SetName("histV0GenALamEta");
+    histV0GenALamEta->RebinX(rebinZ);
+    
+    TH1D *fHistMCPtAsPojZ = fHistMCPtAs->ProjectionZ();
+    fHistMCPtAsPojZ->SetName("fHistMCPtAsPojZ");
+    fHistRecV0->GetAxis(2)->SetRange(1,1);
+    TH1D *histV0RecK0Eta = fHistRecV0->Projection(3);
+    histV0RecK0Eta->SetName("histV0RecK0Eta");
+    histV0RecK0Eta->RebinX(rebinZ);
+    fHistRecV0->GetAxis(2)->SetRange(2,2);
+    TH1D *histV0RecLamEta = fHistRecV0->Projection(3);
+    histV0RecLamEta->SetName("histV0RecLamEta");
+    histV0RecLamEta->RebinX(rebinZ);
+    fHistRecV0->GetAxis(2)->SetRange(3,3);
+    TH1D *histV0RecALamEta = fHistRecV0->Projection(3);
+    histV0RecALamEta->SetName("histV0RecALamEta");
+    histV0RecALamEta->RebinX(rebinZ);
+    
+    fHistRCPtAsProjZ->Divide(fHistMCPtAsPojZ);
+    histV0RecK0Eta->Divide(histV0GenK0Eta);
+    histV0RecLamEta->Divide(histV0GenLamEta);
+    histV0RecALamEta->Divide(histV0GenALamEta);
+    
+    fHistRCPtAsProjZ->SetXTitle("#eta");
+    fHistRCPtAsProjZ->SetTitle("Ucinnost rekonstrukcie v zavislosti od #eta");
+    fHistRCPtAsProjZ->GetYaxis()->SetRangeUser(0.,0.9);
+    
+    SetHist(fHistRCPtAsProjZ,29,kRed-3,kRed-3,1.5);
+    SetHist(histV0RecK0Eta,23,kBlue-3,kBlue-3,1.5);
+    SetHist(histV0RecLamEta,21,kGreen-3,kGreen-3,1.5);
+    SetHist(histV0RecALamEta,22,kOrange-3,kOrange-3,1.5);
+    
+    TLegend *lgEta = new TLegend;
+    lgEta->AddEntry(histV0RecK0Eta,"K^{0}_{S}","pl");
+    lgEta->AddEntry(histV0RecALamEta," #bar{#Lambda}","pl");
+    lgEta->AddEntry(histV0RecLamEta,"#Lambda","pl");
+    lgEta->AddEntry(fHistRCPtAsProjZ,"nabity hadron","pl");
+    
+    fHistRCPtAsProjZ->SetStats(kFALSE);
+    fHistRCPtAsProjZ->DrawCopy();
+    histV0RecK0Eta->DrawCopy("same");
+    histV0RecLamEta->DrawCopy("same");
+    histV0RecALamEta->DrawCopy("same");
+    lgEta->Draw();
+    
+    TFile *fNewFile = TFile::Open("EfiiciencyMC15c+a_04.root","RECREATE");
     fHistRCPtAsProjX->Write();
     histV0RecK0->Write();
     histV0RecLam->Write();
@@ -316,7 +432,7 @@ void MC(){
     
     fHistRecV03DALam->Divide(fHistGenV03DALam);
     fHistRecV03DALam->Write();
-    
+    /*
     THnSparseF *fHistMCKorelGen = (THnSparseF*)list->FindObject("fHistMCKorelacie");
     THnSparseF *fHistMCKorelRec = (THnSparseF*)list->FindObject("fHistKorelacieMCrec");
     
@@ -361,7 +477,7 @@ void MC(){
                 fHistMCKorelRec->GetAxis(0)->SetRange(8,11);
             }
             */
-            sprintf(nameEff,"eff_%d_%d",i,j);
+           /* sprintf(nameEff,"eff_%d_%d",i,j);
             
             TH1D * fHistPtPvzEtaGen = fHistMCKorelGen->Projection(1);
             TH1D * fHistPtPvzEtaRec = fHistMCKorelRec->Projection(1);
@@ -371,7 +487,7 @@ void MC(){
             fHistPtPvzEtaRec->RebinZ(rebinZ);
             fHistPtPvzEtaRec->RebinY(rebinY);
             */
-            fHistPtPvzEtaRec->Divide(fHistPtPvzEtaGen);
+         /*   fHistPtPvzEtaRec->Divide(fHistPtPvzEtaGen);
             fHistPtPvzEtaRec->SetName(nameEff);
             fHistPtPvzEtaRec->Write();
             
@@ -386,7 +502,7 @@ void MC(){
         fHistMCKorelGen->GetAxis(5)->SetRange(0,-1);
         fHistMCKorelRec->GetAxis(5)->SetRange(0,-1);
         
-    }
+    }*/
     
     fNewFile->Close();
 }

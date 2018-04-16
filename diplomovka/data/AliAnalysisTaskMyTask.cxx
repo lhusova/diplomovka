@@ -801,7 +801,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
                        Double_t V0mcPhi = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Phi();
                        Int_t V0Motherlabel = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->GetMother();
                        Int_t V0label = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->GetLabel();
-                       if((massLambda>1.11)&&(massLambda<1.12)) {
+                       if((massLambda>1.1)&&(massLambda<1.13)) {
                            selectedMCV0Triggersrec-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 2,0,myTrackPos->GetID(),myTrackNeg->GetID()));
                            Double_t v0effic[4]={V0mcPt,lPVz,1.5,V0mcEta};
                            fHistRecV0->Fill(v0effic);
@@ -880,7 +880,7 @@ void AliAnalysisTaskMyTask::UserExec(Option_t *)
                        Double_t V0mcPhi = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->Phi();
                        Int_t V0Motherlabel = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->GetMother();
                        Int_t V0label = static_cast<AliAODMCParticle*>(mcArray->At(mcmother0))->GetLabel();
-                       if((massAntilambda>1.11)&&(massAntilambda<1.12)) {
+                       if((massAntilambda>1.1)&&(massAntilambda<1.13)) {
                            selectedMCV0Triggersrec-> Add(new AliV0ChBasicParticle(V0->Eta(), V0->Phi(), V0->Pt(), 3,0,myTrackPos->GetID(),myTrackNeg->GetID()));
                            Double_t v0effic[4]={V0mcPt,lPVz,2.5,V0mcEta};
                            fHistRecV0->Fill(v0effic);

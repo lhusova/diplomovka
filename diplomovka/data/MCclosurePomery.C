@@ -5,20 +5,112 @@
 #include <TFile.h>
 #include "TMath.h"
 
+void MyRebinXY(TH2D* newhist,TH2D* oldhist, Int_t rebinx, Int_t rebiny ){
+    Int_t oldxbins = oldhist->GetXaxis()->GetNbins();
+    Double_t minx = oldhist->GetXaxis()->GetXmin();
+    Double_t maxx = oldhist->GetXaxis()->GetXmax();
+    Int_t oldybins = oldhist->GetYaxis()->GetNbins();
+    Double_t miny = oldhist->GetYaxis()->GetXmin();
+    Double_t maxy = oldhist->GetYaxis()->GetXmax();
+    
+    Double_t oldCont[oldxbins][oldybins];
+    Double_t oldErr[oldxbins][oldybins];
+    
+    for (Int_t i=0; i<oldxbins; i++) {
+        for (Int_t j=0; j<oldybins; j++) {
+            oldCont[i][j]=oldhist->GetBinContent(i,j);
+            oldErr[i][i]=oldhist->GetBinError(i,j);
+        }
+    }
+    
+    Int_t nbinsx = oldxbins/rebinx;
+    if(nbinsx*rebinx!=oldxbins) Warning("Rebin", "rebinx=%d is not an exact divider of nbinsx=%d.",rebinx,nbinsx);
+    Double_t binsx[nbinsx];
+    Double_t sirkaBinux = (maxx-minx)/nbinsx;
+    for(Int_t i=0;i<nbinsx+1; i++){
+        if(i==0) binsx[i]=minx;
+        else binsx[i]= binsx[i-1]+sirkaBinux;
+       // Printf("binsx[i] %g\n",binsx[i]);
+    }
+    newhist->GetXaxis()->Set(nbinsx,binsx);
+    
+    
+    Int_t nbinsy = oldybins/rebiny;
+    if(nbinsy*rebiny!=oldybins) Warning("Rebin", "rebiny=%d is not an exact divider of nbinsy=%d.",rebiny,nbinsy);
+    Double_t binsy[nbinsy];
+    Double_t sirkaBinuy = (maxy-miny)/nbinsy;
+    for(Int_t i=0;i<nbinsy+1; i++){
+        if(i==0) binsy[i]=miny;
+        else binsy[i]= binsy[i-1]+sirkaBinuy;
+      //  Printf("binsy[i] %g\n",binsy[i]);
+    }
+    newhist->GetYaxis()->Set(nbinsy,binsy);
+    
+    //TH2D * newhist = new TH2D(name, title, nbinsx, minx, maxx, nbinsy, miny, maxy);
+    //Printf("nbinsx %d,minx %g, maxx %g, nbinsy %d, miny%g, maxy %g\n", nbinsx, minx, maxx, nbinsy, miny, maxy);
+    
+    for (Int_t i=0;i<nbinsx;i++){
+        for (Int_t j=0; j<nbinsy;j++){
+            Double_t newCont = 0.;
+            Int_t summedBins =0;
+            Double_t newError = 0;
+            for (Int_t k=0;k<rebinx;k++){
+                for(Int_t l=0;l<rebiny;l++){
+                    
+                    if (oldCont[rebinx*i+k][rebiny*j+l]!=0){
+                       // Printf("oldCont %g\n",oldCont);
+                        newCont+=oldCont[rebinx*i+k][rebiny*j+l];
+                        summedBins+=1;
+                        newError+=TMath::Power(oldErr[rebinx*i+k][rebiny*j+l],2);
+                    }
+                }
+                //Printf("summedBins %d\n",summedBins);
+               //if(newCont!=0)
+                if (summedBins!=0) {
+                    //Printf(" newCont %g summedBins %d newCont/summedBins %f \n",newCont, summedBins, newCont/summedBins);
+                    newhist->SetBinContent(i+1,j+1,newCont/summedBins);
+                }
+                else newhist->Fill(i+1,j+1,0);
+                if (summedBins!=0) newError=TMath::Sqrt(newError)/summedBins;
+                else newError=0;
+                newhist->SetBinError(i+1,j+1,newError);
+            }
+            
+            
+        }
+        
+    }
+    
+
+};
+
 void MCclosurePomery(){
 	//gStyle->SetOptStat(0000000000);
 
-    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC2015c_Grid07.root");
+    TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResultsMC15c_10Grid.root");
     //TFile *g = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/AnalysisResults.root");
     TList *list = (TList*)g->Get("MyTask/MyOutputContainer"); //histogramy su v Tliste, musim nacitat najprv ten a z neho vybrat histogramy
     
-    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/EfiiciencyMC15c_07.root");
+    TFile *gg = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/EfiiciencyMC15c+a_04.root");
+    
+    TFile *g15a = new TFile("/Users/lhusova/git/diplomovka/diplomovka/data/vysledky/AnalysisResults2015a_Grid04.root");
+    TList *list15a = (TList*)g->Get("MyTask/MyOutputContainer");
     
     THnSparse *fHistKorelacieRec = (THnSparse*)list->FindObject("fHistKorelacieMCrec");
     THnSparse *fHistMCKorelacie = (THnSparse*)list->FindObject("fHistMCKorelacie");
     THnSparse *fHistNumberOfTriggersGen = (THnSparse*)list->FindObject("fHistNumberOfTriggersGen");
     THnSparse *fHistNumberOfTriggersRec = (THnSparse*)list->FindObject("fHistNumberOfTriggersRec");
+    
+    THnSparse *fHistKorelacieRec15a = (THnSparse*)list15a->FindObject("fHistKorelacieMCrec");
+    THnSparse *fHistMCKorelacie15a = (THnSparse*)list15a->FindObject("fHistMCKorelacie");
+    THnSparse *fHistNumberOfTriggersGen15a = (THnSparse*)list15a->FindObject("fHistNumberOfTriggersGen");
+    THnSparse *fHistNumberOfTriggersRec15a = (THnSparse*)list15a->FindObject("fHistNumberOfTriggersRec");
     //THnSparse *fHistMCMixingRec = (THnSparse*)list->FindObject("fHistMCMixingRec");
+    
+    fHistKorelacieRec->Add(fHistKorelacieRec15a);
+    fHistMCKorelacie->Add(fHistMCKorelacie15a);
+    fHistNumberOfTriggersGen->Add(fHistNumberOfTriggersGen15a);
+    fHistNumberOfTriggersRec->Add(fHistNumberOfTriggersRec15a);
     
     TH3D *fHistRCPtAs = (TH3D*) gg->Get("fHistRCPtAs");
     TH3D *fHistRCPtTrigg = (TH3D*) gg->Get("fHistRCPtTrigg");
@@ -48,6 +140,7 @@ void MCclosurePomery(){
     THnSparse **fHistCorTypeMC=new THnSparse*[nTig];
     THnSparse **fHistRangePtMC=new THnSparse*[nTig*nPtBins];
     TH2D **fHistRangePtProjPhiEtaMC = new TH2D*[nTig*nPtBins];
+    TH2D **fHistRangePtProjPhiEtaMCProj = new TH2D*[nTig*nPtBins];
     char htitle[50];
     char hname[50];
     char hnameMix[50];
@@ -60,6 +153,7 @@ void MCclosurePomery(){
     THnSparse **fHistRangePtrec=new THnSparse*[nTig*nPtBins];
     //THnSparse **fHistRangePtMixrec=new THnSparse*[nTig*nPtBins];
     TH2D **fHistRangePtProjPhiEtarec = new TH2D*[nTig*nPtBins];
+    TH2D **fHistRangePtProjPhiEtarecProj = new TH2D*[nTig*nPtBins];
     TH2D **fHistRangePtProjPhiEtarecTmp = new TH2D*[nTig*11];
     TH2D **fHistRangePtProjPhiEtaMixrec = new TH2D*[nTig*nPtBins];
     TH1D **fHistNumberOfTriggTmp = new TH1D*[nTig*11];
@@ -121,69 +215,43 @@ void MCclosurePomery(){
     Double_t effTrigg[4][11];
     Double_t effAssoc[13];
     
-  /*  Int_t k3D =0;
+    Int_t k3D =0;
     for(Int_t k=0;k<nEtaBins; k++){
         Int_t l3D =0;
-        for (Int_t l=0; l<nVzBins; l++) {
-            Printf("l citanie %d \n",l);*/
+       // for (Int_t l=0; l<nVzBins; l++) {
+         ///   Printf("l citanie %d \n",l);*/
             for (Int_t m=0; m<nPtAssocBins; m++){
                 // Printf("%g %d %d %d \n",fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1),k,l,m);
-               // sclaleAssoc[k3D][l3D][m]=fHistRCPtAs->GetBinContent(m+1,l3D+1,k3D+1);
-                effAssoc[m]=fHistAssocEffPt->GetBinContent(m+1);
+                sclaleAssoc[k3D][l3D][m]=fHistRCPtAs->GetBinContent(m+1,5,k3D+1);
+              //  Printf("scale assoc %g \n",sclaleAssoc[k3D][l3D][m]);
+               // effAssoc[m]=fHistAssocEffPt->GetBinContent(m+1);
             }
             
             for (Int_t m=0; m<11; m++){
-               // sclaleTrigg[k3D][l3D][m]=fHistRCPtTrigg->GetBinContent(m+1,l3D+1,k3D+1);
-               // sclaleK0[k3D][l3D][m]=fHistEff3DK0->GetBinContent(m+1,l3D+1,k3D+1);
-               // sclaleLam[k3D][l3D][m]=fHistEff3DLam->GetBinContent(m+1,l3D+1,k3D+1);
-               // sclaleAntiL[k3D][l3D][m]=fHistEff3DALam->GetBinContent(m+1,l3D+1,k3D+1);
-                
-                //if (m==0||m==1||m==2) {
-                  //  sclaleTrigg[k3D][l3D][m]=fHistRCPtTrigg->GetBinContent(m+1,l3D+1,k3D+1);
-                  //  sclaleK0[k3D][l3D][m]=fHistEff3DK0->GetBinContent(m+1,l3D+1,k3D+1);
-                  //  sclaleLam[k3D][l3D][m]=fHistEff3DLam->GetBinContent(m+1,l3D+1,k3D+1);
-                   // sclaleAntiL[k3D][l3D][m]=fHistEff3DALam->GetBinContent(m+1,l3D+1,k3D+1);
-                
-                effTrigg[0][m] = fHistK0EffPt ->GetBinContent(m+3);
-                effTrigg[1][m] = fHistLamEffPt ->GetBinContent(m+3);
-                effTrigg[2][m] =fHistALamEffPt ->GetBinContent(m+3);
-                effTrigg[3][m] = fHisthadrEffPt ->GetBinContent(m+3);
-                Printf("m citanie %d\n",m);
-                
-             /*   }
-                if (m==3){
-                    sclaleTrigg[k3D][l3D][m] = (fHistRCPtTrigg->GetBinContent(4,l+1,k+1)+fHistRCPtTrigg->GetBinContent(5,l+1,k+1))/2;
-                    sclaleK0[k3D][l3D][m]=(fHistEff3DK0->GetBinContent(4,l+1,k+1)+fHistEff3DK0->GetBinContent(5,l+1,k+1))/2;
-                    sclaleLam[k3D][l3D][m]=(fHistEff3DLam->GetBinContent(4,l+1,k+1)+fHistEff3DLam->GetBinContent(5,l+1,k+1))/2;
-                    sclaleAntiL[k3D][l3D][m]=(fHistEff3DALam->GetBinContent(4,l+1,k+1)+fHistEff3DALam->GetBinContent(5,l+1,k+1))/2;
-                    
-                }
-                if (m==4) {
-                    sclaleTrigg[k3D][l3D][m] = (fHistRCPtTrigg->GetBinContent(6,l+1,k+1)+fHistRCPtTrigg->GetBinContent(7,l+1,k+1))/2;
-                    sclaleK0[k3D][l3D][m]=(fHistEff3DK0->GetBinContent(6,l+1,k+1)+fHistEff3DK0->GetBinContent(7,l+1,k+1))/2;
-                    sclaleLam[k3D][l3D][m]=(fHistEff3DLam->GetBinContent(6,l+1,k+1)+fHistEff3DLam->GetBinContent(7,l+1,k+1))/2;
-                    sclaleAntiL[k3D][l3D][m]=(fHistEff3DALam->GetBinContent(6,l+1,k+1)+fHistEff3DALam->GetBinContent(7,l+1,k+1))/2;
-                    
-                }
-                if (m==5) {
-                    sclaleTrigg[k3D][l3D][m] = (fHistRCPtTrigg->GetBinContent(8,l+1,k+1)+fHistRCPtTrigg->GetBinContent(9,l+1,k+1)+fHistRCPtTrigg->GetBinContent(10,l+1,k+1)+fHistRCPtTrigg->GetBinContent(11,l+1,k+1))/4;
-                    sclaleK0[k3D][l3D][m]=(fHistEff3DK0->GetBinContent(8,l3D+1,k3D+1)+fHistEff3DK0->GetBinContent(9,l3D+1,k3D+1)+fHistEff3DK0->GetBinContent(11,l3D+1,k3D+1)+fHistEff3DK0->GetBinContent(9,l3D+1,k3D+1))/4;
-                    sclaleLam[k3D][l3D][m]=(fHistEff3DLam->GetBinContent(8,l3D+1,k3D+1)+fHistEff3DLam->GetBinContent(9,l3D+1,k3D+1)+fHistEff3DLam->GetBinContent(10,l3D+1,k3D+1)+fHistEff3DLam->GetBinContent(11,l3D+1,k3D+1))/4;
-                    sclaleAntiL[k3D][l3D][m]=(fHistEff3DALam->GetBinContent(8,l3D+1,k3D+1)+fHistEff3DALam->GetBinContent(9,l3D+1,k3D+1)+fHistEff3DALam->GetBinContent(10,l3D+1,k3D+1)+fHistEff3DALam->GetBinContent(11,l3D+1,k3D+1))/4;
-                    
-                }*/
-           }
+                sclaleTrigg[k3D][l3D][m]=fHistRCPtTrigg->GetBinContent(m+1,5,k3D+1);
+                sclaleK0[k3D][l3D][m]=fHistEff3DK0->GetBinContent(m+1,5,k3D+1);
+                sclaleLam[k3D][l3D][m]=fHistEff3DLam->GetBinContent(m+1,5,k3D+1);
+                sclaleAntiL[k3D][l3D][m]=fHistEff3DALam->GetBinContent(m+1,5,k3D+1);
+            }
+        
             
+            //    effTrigg[0][m] = fHistK0EffPt ->GetBinContent(m+3);
+            //    effTrigg[1][m] = fHistLamEffPt ->GetBinContent(m+3);
+            //    effTrigg[2][m] =fHistALamEffPt ->GetBinContent(m+3);
+            //    effTrigg[3][m] = fHisthadrEffPt ->GetBinContent(m+3);
+            //    Printf("m citanie %d\n",m);
+                
+        
       /*
             l3D+=1;
             l+=1;
-        }
+        }*/
         
         
         k+=1;
         k3D+=1;
     }
-    */
+   
     Double_t fitPhiHodnoty[nTig][nPtBins];
     Double_t fitPhiChyby[nTig][nPtBins];
     Double_t fitEtaHodnoty[nTig][nPtBins];
@@ -224,7 +292,7 @@ void MCclosurePomery(){
     char nameEff[20];
 
     
-    TFile *fNewFil = TFile::Open("McClosure15c_07_Kh_betterBinning_4ptBin_onlypt.root","RECREATE");
+    TFile *fNewFil = TFile::Open("McClosure15c+a_04_Kh_betterBinning_withoutPvz.root","RECREATE");
     for(Int_t i=0;i<1;i++){   // loop cez druhy triggra
         
         if(i==0) fHistMCKorelacie->GetAxis(5)->SetRange(i+1,i+1);
@@ -235,7 +303,7 @@ void MCclosurePomery(){
         if(i==1) fHistKorelacieRec->GetAxis(5)->SetRange(i+1,i+2);
         if(i==2) fHistKorelacieRec->GetAxis(5)->SetRange(i+2,i+2);
         
-        for(Int_t j=5;j<7;j++){ // loop cez pt triggra
+        for(Int_t j=0;j<11;j++){ // loop cez pt triggra
             Printf("j %d\n",j);
             if (j==0) fHistMCKorelacie->GetAxis(0)->SetRange(1,1);
             if (j==1) fHistMCKorelacie->GetAxis(0)->SetRange(2,2);
@@ -250,26 +318,36 @@ void MCclosurePomery(){
                 fHistRangePtProjPhiEtaMC[i*nPtBins+j]->SetName(hname);
                 sprintf(htitle,"Gen #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,j);
                 fHistRangePtProjPhiEtaMC[i*nPtBins+j]->SetTitle(htitle);
-              //  fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinX(2);
-              //  fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinY(4);
+          //      fHistRangePtProjPhiEtaMC[i*nPtBins+j] = MyRebinXY(fHistRangePtProjPhiEtaMCProj[i*nPtBins+j],hname,htitle,2,2);
+                fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinX(2);
+                fHistRangePtProjPhiEtaMC[i*nPtBins+j]->RebinY(4);
             }
             if(j==5){
                 fHistRangePtProjPhiEtaMC[i*nPtBins+4] = (TH2D *)fHistMCKorelacie->Projection(2,3);
-            sprintf(hname,"2dproj_%d_pt_%d",i,4);
-            fHistRangePtProjPhiEtaMC[i*nPtBins+4]->SetName(hname);
-            sprintf(htitle,"Gen #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,4);
-            fHistRangePtProjPhiEtaMC[i*nPtBins+4]->SetTitle(htitle);
-          //  fHistRangePtProjPhiEtaMC[i*nPtBins+4]->RebinX(2);
-          //  fHistRangePtProjPhiEtaMC[i*nPtBins+4]->RebinY(4);
+               // fHistRangePtProjPhiEtaMCProj[i*nPtBins+4]->SetName("MC4");
+               // fHistRangePtProjPhiEtaMC[i*nPtBins+4]=(TH2D*)fHistRangePtProjPhiEtaMCProj[i*nPtBins+4]->Clone();
+                sprintf(hname,"2dproj_%d_pt_%d",i,4);
+                fHistRangePtProjPhiEtaMC[i*nPtBins+4]->SetName(hname);
+                sprintf(htitle,"Gen #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,4);
+                fHistRangePtProjPhiEtaMC[i*nPtBins+4]->SetTitle(htitle);
+               // MyRebinXY(fHistRangePtProjPhiEtaMC[i*nPtBins+4],fHistRangePtProjPhiEtaMCProj[i*nPtBins+4],4,6);
+                
+            fHistRangePtProjPhiEtaMC[i*nPtBins+4]->RebinX(2);
+            fHistRangePtProjPhiEtaMC[i*nPtBins+4]->RebinY(4);
+               // fHistRangePtProjPhiEtaMC[i*nPtBins+4]->Write();
         }
             if(j==7){
                 fHistRangePtProjPhiEtaMC[i*nPtBins+5] = (TH2D *)fHistMCKorelacie->Projection(2,3);
+                //fHistRangePtProjPhiEtaMCProj[i*nPtBins+5]->SetName("MC5");
+               // fHistRangePtProjPhiEtaMC[i*nPtBins+5]=(TH2D*)fHistRangePtProjPhiEtaMCProj[i*nPtBins+5]->Clone();
                 sprintf(hname,"2dproj_%d_pt_%d",i,5);
                 fHistRangePtProjPhiEtaMC[i*nPtBins+5]->SetName(hname);
-                sprintf(htitle,"Gen #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,4);
+                sprintf(htitle,"Gen #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,5);
                 fHistRangePtProjPhiEtaMC[i*nPtBins+5]->SetTitle(htitle);
-              //  fHistRangePtProjPhiEtaMC[i*nPtBins+5]->RebinX(2);
-              //  fHistRangePtProjPhiEtaMC[i*nPtBins+5]->RebinY(4);
+               // MyRebinXY(fHistRangePtProjPhiEtaMC[i*nPtBins+5],fHistRangePtProjPhiEtaMCProj[i*nPtBins+5],2,3);
+                //fHistRangePtProjPhiEtaMC[i*nPtBins+5]->Write();
+                fHistRangePtProjPhiEtaMC[i*nPtBins+5]->RebinX(2);
+               fHistRangePtProjPhiEtaMC[i*nPtBins+5]->RebinY(4);
             }
 
             //if (j==0)
@@ -280,10 +358,10 @@ void MCclosurePomery(){
             if (j==4) fHistKorelacieRec->GetAxis(0)->SetRange(6,7);
             if (j==5) fHistKorelacieRec->GetAxis(0)->SetRange(8,11);*/
 
-             sprintf(nameEff,"eff_%d_%d",i,j);
-             TH1D *fHistEff = (TH1D*) gg->Get(nameEff);
+           //  sprintf(nameEff,"eff_%d_%d",i,j);
+           //  TH1D *fHistEff = (TH1D*) gg->Get(nameEff);
 
-            Int_t l3D =0;
+            Int_t l3D = 0;
             Int_t nHist =0;
             Int_t nHistTrig =0;
 
@@ -292,7 +370,7 @@ void MCclosurePomery(){
 
                 fHistKorelacieRec->GetAxis(4)->SetRange(l+1,l+2);
                 
-                fHistPartCloneRec[j]->GetAxis(1)->SetRange(l+1,l+2);
+                fHistPartCloneRec[j]->GetAxis(1)->SetRange(l+1,l+2);*/
                 Int_t k3D =0;
 
                 for (Int_t k=0; k<nEtaBins; k++) {//loop cez eta trigg
@@ -303,55 +381,55 @@ void MCclosurePomery(){
            
            
 
-                    Printf("+++++ k ++++++ \n" );*/
-            TH1D * proj1DTrigg = (TH1D *)fHistPartCloneRec[j]->Projection(3);
-            sprintf(hname1dvela,"1D_%d",j);
-            proj1DTrigg->SetName(hname1dvela);
+                    Printf("+++++ k %d ++++++ \n",k );
+                    TH1D * proj1DTrigg = (TH1D *)fHistPartCloneRec[j]->Projection(3);
+                    sprintf(hname1dvela,"1D_%d_%d",j,k3D);
+                    proj1DTrigg->SetName(hname1dvela);
+                    
+                    Double_t scaleTrigg = fHistRCPtAs->GetBinContent(j+2,5,k3D+1);
                     if(i==0){
-                    //    if(sclaleK0[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(1,proj1DTrigg->GetBinContent(1)/sclaleK0[k3D][l3D][j]);
-                       // else
-                            proj1DTrigg->SetBinContent(1,proj1DTrigg->GetBinContent(1)/effTrigg[0][j]);
+                        if(sclaleK0[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(1,proj1DTrigg->GetBinContent(1)/sclaleK0[k3D][l3D][j]);
+                       // else proj1DTrigg->SetBinContent(1,proj1DTrigg->GetBinContent(1)/effTrigg[0][j]);
                     }
                     
                     if(i==1){
-                       // if(sclaleLam[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(2,proj1DTrigg->GetBinContent(2)/sclaleLam[k3D][l3D][j]);
-                       // else
-                        proj1DTrigg->SetBinContent(2,proj1DTrigg->GetBinContent(2)/effTrigg[1][j]);
+                        if(sclaleLam[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(2,proj1DTrigg->GetBinContent(2)/sclaleLam[k3D][l3D][j]);
+                       // else proj1DTrigg->SetBinContent(2,proj1DTrigg->GetBinContent(2)/effTrigg[1][j]);
                     
-                        //if(sclaleAntiL[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(3,proj1DTrigg->GetBinContent(3)/sclaleAntiL[k3D][l3D][j]);
-                        //else
-                        proj1DTrigg->SetBinContent(3,proj1DTrigg->GetBinContent(3)/effTrigg[2][j]);
+                        if(sclaleAntiL[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(3,proj1DTrigg->GetBinContent(3)/sclaleAntiL[k3D][l3D][j]);
+                        //else  proj1DTrigg->SetBinContent(3,proj1DTrigg->GetBinContent(3)/effTrigg[2][j]);
                     }
-                    
+                   
                     if(i==2){
-                        //if(sclaleTrigg[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(4,proj1DTrigg->GetBinContent(4)/sclaleTrigg[k3D][l3D][j]);
-                        //else
-                        proj1DTrigg->SetBinContent(4,proj1DTrigg->GetBinContent(4)/effTrigg[3][j]);
+                       // if(sclaleTrigg[k3D][l3D][j]!=0) proj1DTrigg->SetBinContent(4,proj1DTrigg->GetBinContent(4)/sclaleTrigg[k3D][l3D][j]);
+                        if(scaleTrigg!=0) proj1DTrigg->SetBinContent(4,proj1DTrigg->GetBinContent(4)/scaleTrigg);
+                        //else proj1DTrigg->SetBinContent(4,proj1DTrigg->GetBinContent(4)/effTrigg[3][j]);
                     }
+                 
                     if (nHistTrig==0) fHistNumberOfTriggTmp[i*11+j] =(TH1D *)proj1DTrigg->Clone();
                     else fHistNumberOfTriggTmp[i*11+j]->Add(proj1DTrigg);
                     nHistTrig+=1;
                     
-                    
-                   /* Int_t n3D =0;
+                  
+                    Int_t n3D =0;
                     for (Int_t n=0; n<nEtaBins; n++) { // loop cez eta assoc
-                       
+                        Printf("n %d\n",n);
                         fHistKorelacieRec->GetAxis(7)->SetRange(n+1,n+2);
                         
-                        //Printf ("n %d eta assoc \n", n);
-                        */
                         for (Int_t m=0; m<j+3; m++){ // loop cez pt assoc
                             
                             fHistKorelacieRec->GetAxis(1)->SetRange(m+1,m+1);
                             
                             TH2D * proj2DRac = (TH2D *)fHistKorelacieRec->Projection(2,3);
-                            sprintf(hname2dvela,"2D_%d",m);
+                            sprintf(hname2dvela,"2D_%d_%d_%d",m,k3D,n3D);
                             proj2DRac->SetName(hname2dvela);
                             
-                            //if (sclaleAssoc[n3D][l3D][m]!=0) proj2DRac->Scale(1./sclaleAssoc[n3D][l3D][m]);
+                            //Printf("max pred kor %g\n", proj2DRac->GetMaximum());
+                            Double_t scaleassoc = fHistRCPtAs->GetBinContent(m+1,5,n3D+1);
+                            if (scaleassoc!=0) proj2DRac->Scale(1./scaleassoc);
                             //else
-                            Double_t  sscl = fHistEff->GetBinContent(m+1);
-                            if (sscl!=0)  proj2DRac->Scale(1./sscl); //effAssoc[m]);
+                          //  Double_t  sscl = fHistEff->GetBinContent(m+1);
+                          //  if (sscl!=0)  proj2DRac->Scale(1./sscl); //effAssoc[m]);
                           /*  if (n==1&&sclaleAssoc[1][l][m]!=0) proj2DRac->Scale(1./sclaleAssoc[1][l3D][m]);
                             if (n==2&&sclaleAssoc[2][l][m]!=0) proj2DRac->Scale(1./sclaleAssoc[2][l3D][m]);
                             if (n==3&&sclaleAssoc[3][l][m]!=0) proj2DRac->Scale(1./sclaleAssoc[3][l3D][m]);
@@ -363,23 +441,23 @@ void MCclosurePomery(){
                             if (n==9&&sclaleAssoc[9][l3D][m]!=0) proj2DRac->Scale(1./sclaleAssoc[9][l3D][m]);*/
 
                             
-                           // if(i==0&&sclaleK0[k3D][l3D][j]!=0) proj2DRac->Scale(1./sclaleK0[k3D][l3D][j]);
+                            if(i==0&&sclaleK0[k3D][l3D][j]!=0) proj2DRac->Scale(1./sclaleK0[k3D][l3D][j]);
                            // if(i==0/*&&sclaleK0[k3D][l3D][j]==0*/) proj2DRac->Scale(1./effTrigg[0][j]);
                             
-                         /*   if(i==1&&sclaleLam[k3D][l3D][j]!=0&&sclaleAntiL[k3D][l3D][j]!=0){
+                            if(i==1&&sclaleLam[k3D][l3D][j]!=0&&sclaleAntiL[k3D][l3D][j]!=0){
                                 Double_t scalelamAntilam = (sclaleLam[k3D][l3D][j]+sclaleAntiL[k3D][l3D][j])/2;
                                 proj2DRac->Scale(1./scalelamAntilam);
-                            }*/
+                            }
                           //  if(i==1/*&&(sclaleLam[k3D][l3D][j]==0||sclaleAntiL[k3D][l3D][j]==0)*/) proj2DRac->Scale(1./((effTrigg[2][j]+effTrigg[1][j])/2));
 
-                           // if(i==2&&sclaleTrigg[k3D][l3D][j]!=0) proj2DRac->Scale(1./sclaleTrigg[k3D][l3D][j]);
+                            if(i==2&&scaleTrigg!=0) proj2DRac->Scale(1./scaleTrigg);
                           //  if(i==2/*&&sclaleTrigg[k3D][l3D][j]==0*/) proj2DRac->Scale(1./effTrigg[3][j]);
                             
                          /*  if(fHistEff->GetBinContent(m+1,l3D+1,n+1)!=0){
                                 proj2DRac->Scale(1./fHistEff->GetBinContent(m+1,l3D+1,n+1));
                                 Printf("%g\n",fHistEff->GetBinContent(m+1,l3D+1,n+1));
                             }*/
-                            
+                          //  Printf("max po kor trigg %g\n", proj2DRac->GetMaximum());
                             if (nHist==0) fHistRangePtProjPhiEtarecTmp[i*11+j] =(TH2D *)proj2DRac->Clone();
                             else fHistRangePtProjPhiEtarecTmp[i*11+j]->Add(proj2DRac);
                             nHist+=1;
@@ -388,8 +466,8 @@ void MCclosurePomery(){
                             fHistKorelacieRec->GetAxis(1)->SetRange(0,-1);
                             
                         }
-            delete fHistEff;
-                     /*   fHistKorelacieRec->GetAxis(7)->SetRange(0,-1);
+            //delete fHistEff;
+                        fHistKorelacieRec->GetAxis(7)->SetRange(0,-1);
                         n+=1;
                         n3D+=1;
                         
@@ -398,13 +476,13 @@ void MCclosurePomery(){
                     delete proj1DTrigg;
 
                     fHistKorelacieRec->GetAxis(6)->SetRange(0,-1);
-                    fHistPartCloneRec[j]->GetAxis(2)->SetRange(0,-1);
+                   fHistPartCloneRec[j]->GetAxis(2)->SetRange(0,-1);
                     
                     k+=1;
                     k3D+=1;
                     
                 }
-                
+             /*
                 fHistKorelacieRec->GetAxis(4)->SetRange(0,-1);
                 fHistPartCloneRec[j]->GetAxis(1)->SetRange(0,-1);
                 l3D+=1;
@@ -413,34 +491,34 @@ void MCclosurePomery(){
             
             if(j==0||j==1||j==2||j==3){
                 fHistNumberOfTrigg[i*nPtBins+j] = (TH1D*) fHistNumberOfTriggTmp[i*11+j] -> Clone();
-                fHistRangePtProjPhiEtarec[i*nPtBins+j] = (TH2D*)fHistRangePtProjPhiEtarecTmp[i*11+j] ->Clone();
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+j] = (TH2D*)fHistRangePtProjPhiEtarecTmp[i*11+j] ->Clone();
                 sprintf(hnamerec,"2dproj_%d_pt_%d",i,j);
-                fHistRangePtProjPhiEtarec[i*nPtBins+j]->SetName(hnamerec);
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+j]->SetName(hnamerec);
             }
             if(j==4){
                 fHistNumberOfTrigg[i*nPtBins+j-1]->Add(fHistNumberOfTriggTmp[i*11+j]);
-                fHistRangePtProjPhiEtarec[i*nPtBins+j-1]->Add(fHistRangePtProjPhiEtarecTmp[i*11+j]);
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+j-1]->Add(fHistRangePtProjPhiEtarecTmp[i*11+j]);
             }
             
             if(j==5){
                 fHistNumberOfTrigg[i*nPtBins+4] = (TH1D*) fHistNumberOfTriggTmp[i*11+j] -> Clone();
-                fHistRangePtProjPhiEtarec[i*nPtBins+4] = (TH2D*)fHistRangePtProjPhiEtarecTmp[i*11+j] ->Clone();
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+4] = (TH2D*)fHistRangePtProjPhiEtarecTmp[i*11+j] ->Clone();
                 sprintf(hnamerec,"2dproj_%d_pt_%d",i,4);
-                fHistRangePtProjPhiEtarec[i*nPtBins+4]->SetName(hnamerec);
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+4]->SetName(hnamerec);
             }
             if(j==6){
                 fHistNumberOfTrigg[i*nPtBins+4]->Add(fHistNumberOfTriggTmp[i*11+j]);
-                fHistRangePtProjPhiEtarec[i*nPtBins+4]->Add(fHistRangePtProjPhiEtarecTmp[i*11+j]);
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+4]->Add(fHistRangePtProjPhiEtarecTmp[i*11+j]);
             }
             if(j==7){
                 fHistNumberOfTrigg[i*nPtBins+5] = (TH1D*) fHistNumberOfTriggTmp[i*11+j] -> Clone();
-                fHistRangePtProjPhiEtarec[i*nPtBins+5] = (TH2D*)fHistRangePtProjPhiEtarecTmp[i*11+j] ->Clone();
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+5] = (TH2D*)fHistRangePtProjPhiEtarecTmp[i*11+j] ->Clone();
                 sprintf(hnamerec,"2dproj_%d_pt_%d",i,5);
-                fHistRangePtProjPhiEtarec[i*nPtBins+5]->SetName(hnamerec);
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+5]->SetName(hnamerec);
             }
             if(j==8||j==9||j==10){
                 fHistNumberOfTrigg[i*nPtBins+5]->Add(fHistNumberOfTriggTmp[i*11+j]);
-                fHistRangePtProjPhiEtarec[i*nPtBins+5]->Add(fHistRangePtProjPhiEtarecTmp[i*11+j]);
+                fHistRangePtProjPhiEtarecProj[i*nPtBins+5]->Add(fHistRangePtProjPhiEtarecTmp[i*11+j]);
             }
             
              Printf("nHist %d\n",nHist);
@@ -453,7 +531,8 @@ void MCclosurePomery(){
     }
     for(Int_t i=0;i<1;i++){   // looop cez druhy triggra
         
-        for(Int_t j=4;j<5;j++){ // loop cez pt triggra
+        for(Int_t j=0;j<6;j++){ // loop cez pt triggra
+            
             
             if(i==0) fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Scale(1./(fHistPartGen[j]->GetBinContent(1)));
             if(i==1) fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Scale(1./(fHistPartGen[j]->GetBinContent(2)+fHistPartGen[j]->GetBinContent(3)));
@@ -461,11 +540,21 @@ void MCclosurePomery(){
             cMC->cd(i*nPtBins+j+1);
             fHistRangePtProjPhiEtaMC[i*nPtBins+j]->DrawCopy("lego2z");
             
-            
             sprintf(htitle,"Rec #Delta #Phi vs. #Delta #eta pre trigger %d pre pt int %d", i,j);
+            sprintf(hnamerec,"2dproj_%d_pt_%d",i,j);
+
+           // Printf("%p\n",fHistRangePtProjPhiEtarecProj[i*nPtBins+j]);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j] = (TH2D*)fHistRangePtProjPhiEtarecProj[i*nPtBins+j]->Clone();
+           // Printf("%p\n",fHistRangePtProjPhiEtarec[i*nPtBins+j]);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j]->SetName(hnamerec);
             fHistRangePtProjPhiEtarec[i*nPtBins+j]->SetTitle(htitle);
-          //  fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinX(2);
-           // fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinY(4);
+            //MyRebinXY(fHistRangePtProjPhiEtarec[i*nPtBins+j],fHistRangePtProjPhiEtarecProj[i*nPtBins+j],4,6);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinX(2);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j]->RebinY(4);
+            fHistRangePtProjPhiEtarec[i*nPtBins+j]->Write();
+            
+           // fHistRangePtProjPhiEtarec[i*nPtBins+j]->SetTitle(htitle);
+           //
             
             if(i==0) fHistRangePtProjPhiEtarec[i*nPtBins+j]->Scale(1./(fHistNumberOfTrigg[i*nPtBins+j]->GetBinContent(1)));
             if(i==1) fHistRangePtProjPhiEtarec[i*nPtBins+j]->Scale(1./(fHistNumberOfTrigg[i*nPtBins+j]->GetBinContent(2)+fHistNumberOfTrigg[i*nPtBins+j]->GetBinContent(3)));
@@ -478,48 +567,19 @@ void MCclosurePomery(){
             fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Write();
             fHistRangePtProjPhiEtarec[i*nPtBins+j]->Write();
             fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Divide(fHistRangePtProjPhiEtarec[i*nPtBins+j]);
+            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Write();
+            Printf("bin cont %g, nbinsX %d, nBinsy %d \n ", fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(25,12),fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetXaxis()->GetNbins(),fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetYaxis()->GetNbins());
             
            // fHistRangePtProjPhiEtaMC[i*nPtBins+j]->SetAxisRange(-1,1,"x");
+            Int_t nBinsEta = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetXaxis()->GetNbins();
+            Int_t minEta = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetXaxis()->GetXmin();
+            Int_t maxEta = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetXaxis()->GetXmax();
+            Int_t nBinsPhi = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetYaxis()->GetNbins();
+            Int_t minPhi = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetYaxis()->GetXmin();
+            Int_t maxPhi = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetYaxis()->GetXmax();
             
-            fHistProjPhi[i*nPtBins+j]=fHistRangePtProjPhiEtaMC[i*nPtBins+j]->ProjectionY();
             sprintf(hnamePom,"hnamePom%d%d",i,j);
-            fHistProjPhi[i*nPtBins+j]->SetName(hnamePom);
-            phiMC->cd(i*nPtBins+j+1);
-
-            fHistProjEta[i*nPtBins+j] =fHistRangePtProjPhiEtaMC[i*nPtBins+j]->ProjectionX();
-            etaMC->cd(i*nPtBins+j+1);
-
-            sprintf(hnameEta,"hnameEta%d%d",i,j);
-            fHistProjEta[i*nPtBins+j]->SetName(hnameEta);
-
-            Int_t nBinsEta = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetNbinsX();
-            Int_t nBinsPhi = fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetNbinsY();
-            Printf("bins eta %d phi %d \n",nBinsEta,nBinsPhi);
-           
-
-            for (Int_t k=0; k<(nBinsEta); k++){
-                Double_t hodnotaEta=0.;
-                Double_t scaleEta=0.;
-                Double_t chybaEta=0.;
-                for(Int_t l=0; l<(nBinsPhi); l++){
-                    //Printf("%g\n",fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(k+1,l+1));
-                    if(fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(k+1,l+1)>0) {
-                        scaleEta++;
-                        chybaEta+=TMath::Power(fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinError(k+1,l+1),2);
-                        hodnotaEta+=fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(k+1,l+1);
-                    }
-
-                }
-              //  Printf("scaleEta %g , hodnotaEta %g \n", scaleEta,hodnotaEta);
-                
-                if(scaleEta>0) fHistProjEta[i*nPtBins+j]->SetBinContent(k+1,(hodnotaEta)/scaleEta);
-                else fHistProjEta[i*nPtBins+j]->SetBinContent(k+1,0);
-                chybaEta=TMath::Sqrt(chybaEta);
-                if (scaleEta>0) chybaEta=chybaEta/scaleEta;
-                else chybaEta=0;
-                fHistProjEta[i*nPtBins+j]->SetBinError(k+1,chybaEta);
-            }
-
+            fHistProjPhi[i*nPtBins+j]= new TH1D (hnamePom,hnamePom,nBinsPhi,minPhi,maxPhi);
             for (Int_t k=0; k<(nBinsPhi); k++){
                 Double_t scalePhi=0.;
                 Double_t chybaPhi=0.;
@@ -539,11 +599,50 @@ void MCclosurePomery(){
                 else chybaPhi=0;
                 fHistProjPhi[i*nPtBins+j]->SetBinError(k+1,chybaPhi);
             }
+            
+            fHistProjPhi[i*nPtBins+j]->Write();
+
+            sprintf(hnameEta,"hnameEta%d%d",i,j);
+            fHistProjEta[i*nPtBins+j] = new TH1D (hnameEta,hnameEta,nBinsEta,minEta,maxEta);
+
+            for (Int_t k=0; k<(nBinsEta); k++){
+                Double_t hodnotaEta=0.;
+                Double_t scaleEta=0.;
+                Double_t chybaEta=0.;
+                for(Int_t l=0; l<(nBinsPhi); l++){
+                    //Printf("%g\n",fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(k+1,l+1));
+                    if(fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(k+1,l+1)>0) {
+                        scaleEta++;
+                        chybaEta+=TMath::Power(fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinError(k+1,l+1),2);
+                        hodnotaEta+=fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetBinContent(k+1,l+1);
+                    }
+                    
+                }
+                //  Printf("scaleEta %g , hodnotaEta %g \n", scaleEta,hodnotaEta);
+                
+                if(scaleEta>0) fHistProjEta[i*nPtBins+j]->SetBinContent(k+1,(hodnotaEta)/scaleEta);
+                else fHistProjEta[i*nPtBins+j]->SetBinContent(k+1,0);
+                chybaEta=TMath::Sqrt(chybaEta);
+                if (scaleEta>0) chybaEta=chybaEta/scaleEta;
+                else chybaEta=0;
+                fHistProjEta[i*nPtBins+j]->SetBinError(k+1,chybaEta);
+            }
+            
+
+            fHistProjEta[i*nPtBins+j]->Write();
+
+            
+            Printf("bins eta %d phi %d \n",nBinsEta,nBinsPhi);
+           
+
+            
+
+            
 
            // fHistProjPhi[i*nPtBins+j]->Scale(1./scalePhi);
             //fHistProjEta[i*nPtBins+j]->Scale(1./scaleEta);
 
-            TF1 *fitPhi = new TF1("fitphi"," [0]",-kPi/2, -kPi/2+2*kPi);
+        /*    TF1 *fitPhi = new TF1("fitphi"," [0]",-kPi/2, -kPi/2+2*kPi);
             fitPhi->SetParameter(0,1);
             cpomeryPhi->cd(i*nPtBins+j+1);
             fHistProjPhi[i*nPtBins+j]->SetAxisRange(0,2,"y");
@@ -567,17 +666,17 @@ void MCclosurePomery(){
             fHistProjEta[i*nPtBins+j]->Write();
             
             delete fitPhi;
-            delete fitEta;
+            delete fitEta;*/
             
-            cpomery->cd(i*nPtBins+j+1);
+           // cpomery->cd(i*nPtBins+j+1);
           //  fHistRangePtProjPhiEtaMC[i*nPtBins+j]->GetXaxis()->SetRangeUser(-1.5,1.5);
-            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->DrawCopy("colz");
-            fHistRangePtProjPhiEtaMC[i*nPtBins+j]->Write();
+            //fHistRangePtProjPhiEtaMC[i*nPtBins+j]->DrawCopy("colz");
+            
         }
         
     }
     Printf("a");
-    TGraphErrors * k0Phi = new TGraphErrors(nPtBins,ptBins,fitPhiHodnoty[0],ptBinsChyby,fitPhiChyby[0]);
+   /* TGraphErrors * k0Phi = new TGraphErrors(nPtBins,ptBins,fitPhiHodnoty[0],ptBinsChyby,fitPhiChyby[0]);
     TGraphErrors * k0Eta = new TGraphErrors(nPtBins,ptBins,fitEtaHodnoty[0],ptBinsChyby,fitEtaChyby[0]);
     
     TGraphErrors * LamPhi = new TGraphErrors(nPtBins,ptBins,fitPhiHodnoty[1],ptBinsChyby,fitPhiChyby[1]);
@@ -651,7 +750,7 @@ void MCclosurePomery(){
     LamEta->Write();
     hPhi->Write();
     hEta->Write();
-    Printf("f");
+    Printf("f");*/
     fNewFil->Close();
 
 }

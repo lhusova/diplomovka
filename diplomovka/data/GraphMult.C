@@ -214,7 +214,7 @@ void GraphMult(){
    // Double_t scale = maxHighMultipl/maxLowMultipl;
    // fHist2DhhLowMultipl->Scale(scale);
     fHist2DhhHighMultipl->Add(fHist2DhhLowMultipl,-1);
-    fHist2DhhHighMultipl->SetTitle("0-10% po odciatni 50-100% pre korelacie h-h");
+    fHist2DhhHighMultipl->SetTitle("0-10% after substraction 50-100% for h-h");
     fHist2DhhHighMultipl->DrawCopy("lego2z");
     
   /*  TCanvas *cHighMulK0 = new TCanvas;
@@ -264,96 +264,8 @@ void GraphMult(){
     fHist2DLhHighMultipl->DrawCopy("lego2z");*/
     
     // ----------- vytazky -------------
-/*
-    TH1D* fHistYieldNearLow = (TH1D*) g->Get("fHistHadronNear1");
-    TH1D* fHistYieldNearHigh = (TH1D*) f->Get("fHistHadronNear1");
-    TH1D* fHistYieldNearLow2 = (TH1D*) g2->Get("fHistHadronNear2");
-    TH1D* fHistYieldNearHigh2 = (TH1D*) f2->Get("fHistHadronNear2");
-    TH1D* fHistYieldNearLow3 = (TH1D*) g3->Get("fHistHadronNear3");
-    TH1D* fHistYieldNearHigh3 = (TH1D*) f3->Get("fHistHadronNear3");
-    
-    fHistYieldNearLow->Sumw2();
-    fHistYieldNearHigh->Sumw2();
-    fHistYieldNearLow2->Sumw2();
-    fHistYieldNearHigh2->Sumw2();
-    fHistYieldNearLow3->Sumw2();
-    fHistYieldNearHigh3->Sumw2();
- 
-    fHistYieldNearLow2->SetBinContent(4,0);
-    fHistYieldNearHigh2->SetBinContent(3,0);
-    fHistYieldNearLow->Add(fHistYieldNearHigh);
-    fHistYieldNearLow2->Add(fHistYieldNearHigh2);
-    fHistYieldNearLow3->Add(fHistYieldNearHigh3);
-    fHistYieldNearLow->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik pre h-h");
-    fHistYieldNearLow->SetXTitle("p_{T}^{trig} (GeV/c)");
-    fHistYieldNearLow->SetYTitle("Y_{J}^{#Delta#phi}");
-    fHistYieldNearLow->GetYaxis()->SetRangeUser(0.,0.35);
-    fHistYieldNearLow->SetMarkerStyle(21);
-    fHistYieldNearLow->SetMarkerSize(1.5);
-    fHistYieldNearLow->SetMarkerColor(kBlue);
-    fHistYieldNearLow->SetLineColor(kBlue);
-    fHistYieldNearLow2->SetMarkerStyle(22);
-    fHistYieldNearLow2->SetMarkerSize(1.5);
-    fHistYieldNearLow2->SetMarkerColor(kRed);
-    fHistYieldNearLow2->SetLineColor(kRed);
-    fHistYieldNearLow3->SetMarkerStyle(23);
-    fHistYieldNearLow3->SetMarkerSize(1.5);
-    fHistYieldNearLow3->SetMarkerColor(kBlack);
-    fHistYieldNearLow3->SetLineColor(kBlack);
-    TLegend * lgHhNear = new TLegend(0.2,0.9,0.75,0.8);
-    lgHhNear->AddEntry(fHistYieldNearLow,"0-10%");
-    lgHhNear->AddEntry(fHistYieldNearLow2,"10-50%");
-    lgHhNear->AddEntry(fHistYieldNearLow3,"50-100%");
-    TCanvas *cYieldNearH = new TCanvas;
-    fHistYieldNearLow->DrawCopy();
-    fHistYieldNearLow2->DrawCopy("same");
-    fHistYieldNearLow3->DrawCopy("same");
-    lgHhNear->Draw();
-    
-    TH1D* fHistYieldAwayLow = (TH1D*) g->Get("fHistHadronAway1");
-    TH1D* fHistYieldAwayHigh = (TH1D*) f->Get("fHistHadronAway1");
-    TH1D* fHistYieldAwayLow2 = (TH1D*) g2->Get("fHistHadronAway2");
-    TH1D* fHistYieldAwayHigh2 = (TH1D*) f2->Get("fHistHadronAway2");
-    TH1D* fHistYieldAwayLow3 = (TH1D*) g3->Get("fHistHadronAway3");
-    TH1D* fHistYieldAwayHigh3 = (TH1D*) f3->Get("fHistHadronAway3");
-    
-    fHistYieldAwayLow->Sumw2();
-    fHistYieldAwayHigh->Sumw2();
-    fHistYieldAwayLow2->Sumw2();
-    fHistYieldAwayHigh2->Sumw2();
-    fHistYieldAwayLow3->Sumw2();
-    fHistYieldAwayHigh3->Sumw2();
 
-    Double_t error = fHistYieldAwayHigh3->GetBinError(5);
-    fHistYieldAwayLow->Add(fHistYieldAwayHigh);
-    fHistYieldAwayLow2->Add(fHistYieldAwayHigh2);
-    fHistYieldAwayLow3->Add(fHistYieldAwayHigh3);
-    fHistYieldAwayLow->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik pre h-h");
-    fHistYieldAwayLow->GetYaxis()->SetRangeUser(0,0.35);
-    fHistYieldAwayLow->SetXTitle("p_{T}^{trig} (GeV/c)");
-    fHistYieldAwayLow->SetYTitle("Y_{J}^{#Delta#phi}");
-    fHistYieldAwayLow->SetMarkerStyle(21);
-    fHistYieldAwayLow->SetMarkerSize(1.5);
-    fHistYieldAwayLow->SetMarkerColor(kBlue);
-    fHistYieldAwayLow->SetLineColor(kBlue);
-    fHistYieldAwayLow2->SetMarkerStyle(22);
-    fHistYieldAwayLow2->SetMarkerSize(1.5);
-    fHistYieldAwayLow2->SetMarkerColor(kRed);
-    fHistYieldAwayLow2->SetLineColor(kRed);
-    fHistYieldAwayLow3->SetMarkerStyle(23);
-    fHistYieldAwayLow3->SetMarkerSize(1.5);
-    fHistYieldAwayLow3->SetMarkerColor(kBlack);
-    fHistYieldAwayLow3->SetLineColor(kBlack);
-    fHistYieldAwayLow3->SetBinError(5,error);
-    TLegend * lgHhAway = new TLegend(0.2,0.9,0.75,0.8);
-    lgHhAway->AddEntry(fHistYieldAwayLow,"0-10%");
-    lgHhAway->AddEntry(fHistYieldAwayLow2,"10-50%");
-    lgHhAway->AddEntry(fHistYieldAwayLow3,"50-100%");
-    TCanvas *cYieldAwayH = new TCanvas;
-    fHistYieldAwayLow->DrawCopy();
-    fHistYieldAwayLow2->DrawCopy("same");
-    fHistYieldAwayLow3->DrawCopy("same");
-    lgHhAway->Draw();
+    
     
     TH1D* fHistYieldNearKLow = (TH1D*) gK->Get("fHistK0Near1");
     TH1D* fHistYieldNearKHigh = (TH1D*) fK->Get("fHistK0Near1");
@@ -361,13 +273,6 @@ void GraphMult(){
     TH1D* fHistYieldNearKHigh2 = (TH1D*) fK2->Get("fHistK0Near2");
     TH1D* fHistYieldNearKLow3 = (TH1D*) gK3->Get("fHistK0Nea3r");
     TH1D* fHistYieldNearKHigh3 = (TH1D*) fK3->Get("fHistK0Nea3r");
-    
-    fHistYieldNearKLow->Sumw2();
-    fHistYieldNearKHigh->Sumw2();
-    fHistYieldNearKLow2->Sumw2();
-    fHistYieldNearKHigh2->Sumw2();
-    fHistYieldNearKLow3->Sumw2();
-    fHistYieldNearKHigh3->Sumw2();
     
     Double_t errorK0Near = fHistYieldNearKLow2->GetBinError(1);
     fHistYieldNearKLow->Add(fHistYieldNearKHigh);
@@ -395,9 +300,9 @@ void GraphMult(){
     lgKhNear->AddEntry(fHistYieldNearKLow2,"10-50%");
     lgKhNear->AddEntry(fHistYieldNearKLow3,"50-100%");
     TCanvas *cYieldNearK = new TCanvas;
-    fHistYieldNearKLow->DrawCopy();
-    fHistYieldNearKLow2->DrawCopy("same");
-    fHistYieldNearKLow3->DrawCopy("same");
+    TH1D* fHistYieldNearKLowLg = (TH1D* ) fHistYieldNearKLow->DrawCopy();
+    TH1D* fHistYieldNearKLow2Lg = (TH1D* )fHistYieldNearKLow2->DrawCopy("same");
+    TH1D* fHistYieldNearKLow3Lg = (TH1D* )fHistYieldNearKLow3->DrawCopy("same");
     lgKhNear->Draw();
     
     TH1D* fHistYieldAwayKLow = (TH1D*) gK->Get("fHistK0Away1");
@@ -434,9 +339,9 @@ void GraphMult(){
     lgKhAway->AddEntry(fHistYieldAwayKLow2,"10-50%");
     lgKhAway->AddEntry(fHistYieldAwayKLow3,"50-100%");
     TCanvas *cYieldAwayK = new TCanvas;
-    fHistYieldAwayKLow->DrawCopy();
-    fHistYieldAwayKLow2->DrawCopy("same");
-    fHistYieldAwayKLow3->DrawCopy("same");
+    TH1D* fHistYieldAwayKLowLg  =(TH1D* ) fHistYieldAwayKLow->DrawCopy();
+    TH1D* fHistYieldAwayKLow2Lg  =(TH1D* ) fHistYieldAwayKLow2->DrawCopy("same");
+    TH1D* fHistYieldAwayKLow3Lg  =(TH1D* ) fHistYieldAwayKLow3->DrawCopy("same");
     lgKhAway->Draw();
  
     TH1D* fHistYieldNearLamLow = (TH1D*) gL->Get("fHistLambdaNear1");
@@ -476,9 +381,9 @@ void GraphMult(){
     lgLamhNear->AddEntry(fHistYieldNearLamLow2,"10-50%");
     lgLamhNear->AddEntry(fHistYieldNearLamLow3,"50-100%");
     TCanvas *cYieldNearLam = new TCanvas;
-    fHistYieldNearLamLow->DrawCopy();
-    fHistYieldNearLamLow2->DrawCopy("same");
-    fHistYieldNearLamLow3->DrawCopy("same");
+    TH1D* fHistYieldNearLamLowLg =(TH1D* ) fHistYieldNearLamLow->DrawCopy();
+    TH1D* fHistYieldNearLamLow2Lg = (TH1D* )fHistYieldNearLamLow2->DrawCopy("same");
+    TH1D* fHistYieldNearLamLow3Lg = (TH1D* )fHistYieldNearLamLow3->DrawCopy("same");
     lgLamhNear->Draw();
     
     TH1D* fHistYieldAwayLamLow = (TH1D*) gL->Get("fHistLambdaAway1");
@@ -513,86 +418,15 @@ void GraphMult(){
     lgLamhAway->AddEntry(fHistYieldAwayLamLow2,"10-50%");
     lgLamhAway->AddEntry(fHistYieldAwayLamLow3,"50-100%");
     TCanvas *cYieldAwayLam = new TCanvas;
-    fHistYieldAwayLamLow->DrawCopy();
-    fHistYieldAwayLamLow2->DrawCopy("same");
-    fHistYieldAwayLamLow3->DrawCopy("same");
+    TH1D* fHistYieldAwayLamLowLg =(TH1D* ) fHistYieldAwayLamLow->DrawCopy();
+    TH1D* fHistYieldAwayLamLow2Lg =(TH1D* )fHistYieldAwayLamLow2->DrawCopy("same");
+    TH1D* fHistYieldAwayLamLow3Lg =(TH1D* )fHistYieldAwayLamLow3->DrawCopy("same");
     lgLamhAway->Draw();
 
-    TCanvas *canIcp = new TCanvas;
-    TPad * pad1 = new TPad("pad1","This is pad1",0.001,0.001,0.5,0.999);
-    TPad * pad2 = new TPad("pad2","This is pad2",0.5,0.001,0.999,0.999);
     
-    pad1->SetMargin(0.1,0.,0.1,0.05);
-    pad2->SetMargin(0.,0.1,0.1,0.05);
-    
-    pad1->Draw();
-    pad2->Draw();
-    
-   // canIcp->Divide(2,1);
-   // canIcp->cd(1);
-    pad1->cd();
-    fHistYieldNearLow->Divide(fHistYieldNearLow3);
-    fHistYieldNearLamLow->Divide(fHistYieldNearLamLow3);
-    fHistYieldNearKLow->Divide(fHistYieldNearKLow3);
-    fHistYieldNearLow->GetYaxis()->SetRangeUser(0,2.5);
-    
-    fHistYieldNearLamLow->SetMarkerStyle(21);
-    fHistYieldNearLamLow->SetMarkerColor(kGreen);
-    fHistYieldNearLamLow->SetMarkerSize(1.8);
-    fHistYieldNearLamLow->SetLineColor(kGreen);
-    
-    fHistYieldNearLow->SetMarkerStyle(29);
-    fHistYieldNearLow->SetMarkerColor(kRed);
-    fHistYieldNearLow->SetMarkerSize(1.8);
-    fHistYieldNearLow->SetLineColor(kRed);
-    
-    fHistYieldNearKLow->SetMarkerStyle(23);
-    fHistYieldNearKLow->SetMarkerColor(kBlue);
-    fHistYieldNearKLow->SetMarkerSize(1.8);
-    fHistYieldNearKLow->SetLineColor(kBlue);
-    
-    fHistYieldNearLow->SetTitle("Prilahly pik");
-    fHistYieldNearLow->SetYTitle("I_{CP}(0-10% / 50-100%)");
-    fHistYieldNearLow->GetYaxis()->SetTitleOffset(1.2);
-    fHistYieldNearLow->DrawCopy();
-    fHistYieldNearLamLow->DrawCopy("same");
-    fHistYieldNearKLow->DrawCopy("same");
-  //  canIcp->cd(2);
-    pad2->cd();
-    fHistYieldAwayLow->Divide(fHistYieldAwayLow3);
-    fHistYieldAwayLamLow->Divide(fHistYieldAwayLamLow3);
-    fHistYieldAwayKLow->Divide(fHistYieldAwayKLow3);
-    
-    fHistYieldAwayLamLow->SetMarkerStyle(21);
-    fHistYieldAwayLamLow->SetMarkerColor(kGreen);
-    fHistYieldAwayLamLow->SetMarkerSize(1.8);
-    fHistYieldAwayLamLow->SetLineColor(kGreen);
-
-    fHistYieldAwayLow->SetMarkerStyle(29);
-    fHistYieldAwayLow->SetMarkerColor(kRed);
-    fHistYieldAwayLow->SetMarkerSize(1.8);
-    fHistYieldAwayLow->SetLineColor(kRed);
-    
-    fHistYieldAwayKLow->SetMarkerStyle(23);
-    fHistYieldAwayKLow->SetMarkerColor(kBlue);
-    fHistYieldAwayKLow->SetMarkerSize(1.8);
-    fHistYieldAwayKLow->SetLineColor(kBlue);
-    
-    fHistYieldAwayLow->GetYaxis()->SetRangeUser(0,2.5);
-    fHistYieldAwayLow->SetTitle("Protilahly pik");
-    fHistYieldAwayLow->SetYTitle("");
-    
-    TLegend *legIcp = new TLegend;
-    legIcp->AddEntry(fHistYieldAwayLow,"h-h","pl");
-    legIcp->AddEntry(fHistYieldAwayLamLow,"(#Lambda+#bar{#Lambda})-h","pl");
-    legIcp->AddEntry(fHistYieldAwayKLow,"K^{0}_{S}-h","pl");
-    fHistYieldAwayLow->DrawCopy();
-    fHistYieldAwayLamLow->DrawCopy("same");
-    fHistYieldAwayKLow->DrawCopy("same");
-    legIcp->Draw();
     
     //------- vytazky v zav od multiplicity -------
-    const Double_t multbins[4] = {0,10,50,100};
+ /*   const Double_t multbins[4] = {0,10,50,100};
     Double_t ptBins[7]={4,5,6,7,9,11,15};
     Int_t color[6]={1,2,3,4,6,49};
     Int_t marker[6]={20,21,22,29,33,34};
@@ -1037,7 +871,8 @@ void GraphMult(){
             fHistProjPhi[i*nPtBins+j]->Add(fHistpoz,-1);
             
             Double_t max = fHistProjPhi[i*nPtBins+j]->GetMaximum();
-            fHistProjPhi[i*nPtBins+j]->SetAxisRange(0.,max*1.1,"y");
+            //fHistProjPhi[i*nPtBins+j]->SetAxisRange(0.,max*1.1,"y");
+            fHistProjPhi[i*nPtBins+j]->SetAxisRange(0.,0.65,"y");
             fHistProjPhi[i*nPtBins+j]->SetXTitle("#Delta #phi");
             fHistProjPhi[i*nPtBins+j]->SetYTitle("pocet parov / pocet trigrovacich castic");
             fHistProjPhi[i*nPtBins+j]->GetXaxis()->SetTitleOffset(0.4);
@@ -1074,12 +909,12 @@ void GraphMult(){
             
             
             if (i==2){
-                if(j==0) sprintf(bezpoz,"Rozdelenie #Delta #phi pre trigger h po odcitani pozadia, 4 GeV/c<p_{T}^{trig}<5 GeV/c");
-                if(j==1) sprintf(bezpoz,"Rozdelenie #Delta #phi pre trigger h po odcitani pozadia, 5 GeV/c<p_{T}^{trig}<6 GeV/c");
-                if(j==2) sprintf(bezpoz,"Rozdelenie #Delta #phi pre trigger h po odcitani pozadia, 6 GeV/c<p_{T}^{trig}<7 GeV/c");
-                if(j==3) sprintf(bezpoz,"Rozdelenie #Delta #phi pre trigger h po odcitani pozadia, 7 GeV/c<p_{T}^{trig}<9 GeV/c");
-                if(j==4) sprintf(bezpoz,"Rozdelenie #Delta #phi pre trigger h po odcitani pozadia, 9 GeV/c<p_{T}^{trig}<11 GeV/c");
-                if(j==5) sprintf(bezpoz,"Rozdelenie #Delta #phi pre trigger h po odcitani pozadia, 11 GeV/c<p_{T}^{trig}<15 GeV/c");
+                if(j==0) sprintf(bezpoz,"Rozdelenie #Delta #phi po odcitani pozadia, 4 GeV/c<p_{T}^{trig}<5 GeV/c");
+                if(j==1) sprintf(bezpoz,"Rozdelenie #Delta #phi po odcitani pozadia, 5 GeV/c<p_{T}^{trig}<6 GeV/c");
+                if(j==2) sprintf(bezpoz,"Rozdelenie #Delta #phi po odcitani pozadia, 6 GeV/c<p_{T}^{trig}<7 GeV/c");
+                if(j==3) sprintf(bezpoz,"Rozdelenie #Delta #phi po odcitani pozadia, 7 GeV/c<p_{T}^{trig}<9 GeV/c");
+                if(j==4) sprintf(bezpoz,"Rozdelenie #Delta #phi po odcitani pozadia, 9 GeV/c<p_{T}^{trig}<11 GeV/c");
+                if(j==5) sprintf(bezpoz,"Rozdelenie #Delta #phi po odcitani pozadia, 11 GeV/c<p_{T}^{trig}<15 GeV/c");
                 fHistProjPhi[i*nPtBins+j]->SetTitle(bezpoz);
                 canH->cd(j+1);
                 fHistProjPhi[i*nPtBins+j]->DrawCopy();
@@ -1136,6 +971,7 @@ void GraphMult(){
             //TF1 *fFuncBackZYAM = new TF1("fFuncBackZYAM"," [0]",-kPi/2, -kPi/2+2*kPi);
             //fFuncBackZYAM->SetParameter(0,minPhi);
             fHistProjPhiZYAM[i*nPtBins+j]->Add(fHistpozZYAM,-1);
+           // fHistProjPhiZYAM[i*nPtBins+j]->Write();
             
             Double_t integralnearZYAM =0.;
             Double_t errornearZYAM =0.;
@@ -1189,8 +1025,8 @@ void GraphMult(){
             TH1D *fHistpozMix = new TH1D("fHistpozMix","fHistpozMix",nBinsPhi,-kPi/2, -kPi/2+2*kPi );
             fHistpozMix->Sumw2();
             for(Int_t l = 0; l<nBinsPhiMix; l++){
-                fHistpozMix->SetBinContent(l+1,minPhi);
-                fHistpozMix->SetBinError(l+1,minPhiErr);
+                fHistpozMix->SetBinContent(l+1,pozMix);
+                fHistpozMix->SetBinError(l+1,errorPozMix);
             }
             
             fHistProjPhiMix[i*nPtBins+j]->Add(fHistpozMix,-1);
@@ -1227,6 +1063,10 @@ void GraphMult(){
     }
     Double_t PtHist[nPtBins+1] = {4, 5, 6, 7, 9, 11, 15};
     Double_t PtGraph[nPtBins] = {4.5, 5.5, 6.5, 8, 10, 13};
+    
+    Double_t completeSystErrorNear[3][6];
+    Double_t completeSystErrorAway[3][6];
+    
     TH1D *fHistK0Near = new TH1D("fHistK0Near","fHistK0Near",nPtBins,PtHist);
       TH1D *fHistLambdaNear = new TH1D("fHistLambdaNear","fHistLambdaNear",nPtBins,PtHist);
      TH1D *fHistHadronNear = new TH1D("fHistHadronNear","fHistHadronNear",nPtBins,PtHist);
@@ -1286,25 +1126,55 @@ void GraphMult(){
     TH1D *fHistHadronNearZYAMBarlow = new TH1D("fHistHadronNearZYAMBarlow","fHistHadronNearZYAMBarlow",nPtBins,PtHist);
     TH1D *fHistHadronAwayZYAMBarlow = new TH1D("fHistHadronAwayZYAMBarlow","fHistHadronAwayZYAMBarlow",nPtBins,PtHist);
     
+    TH1D *fHistHadronNearComplSyst= new TH1D("fHistHadronNearComplSyst","fHistHadronNearComplSyst",nPtBins,PtHist);
+    TH1D *fHistHadronAwayComplSyst = new TH1D("fHistHadronAwayComplSyst","fHistHadronAwayComplSyst",nPtBins,PtHist);
+    
+    TH1D *fHistK0NearComplSyst= new TH1D("fHistK0NearComplSyst","fHistK0NearComplSyst",nPtBins,PtHist);
+    TH1D *fHistK0AwayComplSyst = new TH1D("fHistK0AwayComplSyst","fHistK0AwayComplSyst",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearComplSyst= new TH1D("fHistLamNearComplSyst","fHistLamNearComplSyst",nPtBins,PtHist);
+    TH1D *fHistLamAwayComplSyst = new TH1D("fHistLamAwayComplSyst","fHistLamAwayComplSyst",nPtBins,PtHist);
+    
+    TH1D *fHistLamNearStat= new TH1D("fHistLamNearStat","fHistLamNearStat",nPtBins,PtHist);
+    TH1D *fHistLamAwayStat = new TH1D("fHistLamAwayStat","fHistLamAwayStat",nPtBins,PtHist);
+    
+    TH1D *fHistHadronNearStat= new TH1D("fHistHadronNearStat","fHistHadronNearStat",nPtBins,PtHist);
+    TH1D *fHistHadronAwayStat = new TH1D("fHistHadronAwayStat","fHistHadronAwayStat",nPtBins,PtHist);
+    
+    TH1D *fHistK0NearStat= new TH1D("fHistK0NearStat","fHistK0NearStat",nPtBins,PtHist);
+    TH1D *fHistK0AwayStat = new TH1D("fHistK0AwayStat","fHistK0AwayStat",nPtBins,PtHist);
+    
      for(Int_t i=0; i<nPtBins; i++ ){
      
      fHistK0Near->Fill(PtGraph[i], yieldnear[0][i]);
      fHistK0Near->SetBinError(i+1,yieldnearerror[0][i]);
+         fHistK0NearStat->Fill(PtGraph[i],yieldnearerror[0][i]/yieldnear[0][i]);
+         fHistK0NearStat->SetBinError(i+1,0);
      
      fHistLambdaNear->Fill(PtGraph[i], yieldnear[1][i]);
      fHistLambdaNear->SetBinError(i+1,yieldnearerror[1][i]);
+         fHistLamNearStat->Fill(PtGraph[i],yieldnearerror[1][i]/yieldnear[1][i]);
+         fHistLamNearStat->SetBinError(i+1,0);
      
      fHistHadronNear->Fill(PtGraph[i], yieldnear[2][i]);
      fHistHadronNear->SetBinError(i+1,yieldnearerror[2][i]);
+         fHistHadronNearStat->Fill(PtGraph[i],yieldnearerror[2][i]/yieldnear[2][i]);
+         fHistHadronNearStat->SetBinError(1+i,0);
      
      fHistK0Away->Fill(PtGraph[i], yieldaway[0][i]);
      fHistK0Away->SetBinError(i+1,yieldawayerror[0][i]);
+         fHistK0AwayStat->Fill(PtGraph[i],yieldawayerror[0][i]/yieldaway[0][i]);
+         fHistK0AwayStat->SetBinError(i+1,0);
      
      fHistLambdaAway->Fill(PtGraph[i], yieldaway[1][i]);
      fHistLambdaAway->SetBinError(i+1,yieldawayerror[1][i]);
+         fHistLamAwayStat->Fill(PtGraph[i],yieldawayerror[1][i]/yieldaway[1][i]);
+         fHistLamAwayStat->SetBinError(i+1,0);
      
      fHistHadronAway->Fill(PtGraph[i], yieldaway[2][i]);
      fHistHadronAway->SetBinError(i+1,yieldawayerror[2][i]);
+         fHistHadronAwayStat->Fill(PtGraph[i],yieldawayerror[2][i]/yieldaway[2][i]);
+         fHistHadronAwayStat->SetBinError(i+1,0);
          
          fHistK0NearSyst->Fill(PtGraph[i], TMath::Abs(yieldnearZYAM[0][i]-yieldnear[0][i])/yieldnear[0][i]);
          fHistK0NearSyst->SetBinError(i+1,0);
@@ -1409,6 +1279,36 @@ void GraphMult(){
          
          fHistHadronAwayZYAM->Fill(PtGraph[i], yieldawayZYAM[2][i]);
          fHistHadronAwayZYAM->SetBinError(i+1,yieldawayerrorZYAM[2][i]);
+         
+         Double_t relativUncerNear = TMath::Sqrt(TMath::Power(TMath::Abs(yieldnearMix[2][i]-yieldnear[2][i])/yieldnear[2][i],2)+TMath::Power(TMath::Abs(yieldnearZYAM[2][i]-yieldnear[2][i])/yieldnear[2][i],2));
+         fHistHadronNearComplSyst->Fill(PtGraph[i], relativUncerNear);
+         fHistHadronNearComplSyst->SetBinError(i+1,0);
+         completeSystErrorNear[2][i]=relativUncerNear*yieldnear[2][i];
+         
+         relativUncerNear = TMath::Sqrt(TMath::Power(TMath::Abs(yieldnearMix[0][i]-yieldnear[0][i])/yieldnear[0][i],2)+TMath::Power(TMath::Abs(yieldnearZYAM[0][i]-yieldnear[0][i])/yieldnear[0][i],2));
+         fHistK0NearComplSyst->Fill(PtGraph[i], relativUncerNear);
+         fHistK0NearComplSyst->SetBinError(i+1,0);
+         completeSystErrorNear[0][i]=relativUncerNear*yieldnear[0][i];
+         
+         relativUncerNear = TMath::Sqrt(TMath::Power(TMath::Abs(yieldnearMix[1][i]-yieldnear[1][i])/yieldnear[1][i],2)+TMath::Power(TMath::Abs(yieldnearZYAM[1][i]-yieldnear[1][i])/yieldnear[1][i],2));
+         fHistLamNearComplSyst->Fill(PtGraph[i], relativUncerNear);
+         fHistLamNearComplSyst->SetBinError(i+1,0);
+         completeSystErrorNear[1][i]=relativUncerNear*yieldnear[1][i];
+         
+         Double_t relativUncerAway = TMath::Sqrt(TMath::Power(TMath::Abs(yieldawayMix[2][i]-yieldaway[2][i])/yieldaway[2][i],2)+TMath::Power(TMath::Abs(yieldawayZYAM[2][i]-yieldaway[2][i])/yieldaway[2][i],2));
+         fHistHadronAwayComplSyst->Fill(PtGraph[i], relativUncerAway);
+         fHistHadronAwayComplSyst->SetBinError(i+1,0);
+         completeSystErrorAway[2][i]=relativUncerAway*yieldnear[2][i];
+         
+         relativUncerAway = TMath::Sqrt(TMath::Power(TMath::Abs(yieldawayMix[0][i]-yieldaway[0][i])/yieldaway[0][i],2)+TMath::Power(TMath::Abs(yieldawayZYAM[0][i]-yieldaway[0][i])/yieldaway[0][i],2));
+         fHistK0AwayComplSyst->Fill(PtGraph[i], relativUncerAway);
+         fHistK0AwayComplSyst->SetBinError(i+1,0);
+         completeSystErrorAway[0][i]=relativUncerAway*yieldnear[0][i];
+         
+         relativUncerAway = TMath::Sqrt(TMath::Power(TMath::Abs(yieldawayMix[1][i]-yieldaway[1][i])/yieldaway[1][i],2)+TMath::Power(TMath::Abs(yieldawayZYAM[1][i]-yieldaway[1][i])/yieldaway[1][i],2));
+         fHistLamAwayComplSyst->Fill(PtGraph[i], relativUncerAway);
+         fHistLamAwayComplSyst->SetBinError(i+1,0);
+         completeSystErrorAway[1][i]=relativUncerAway*yieldnear[1][i];
          
      }
      
@@ -1549,90 +1449,170 @@ void GraphMult(){
      
      TCanvas * canaway = new TCanvas();
      fHistK0Away->DrawCopy();
-     fHistLambdaAway->DrawCopy("same");
+     //fHistLambdaAway->DrawCopy("same");
      fHistHadronAway->DrawCopy("same");
-    fHistK0AwayMix->DrawCopy("same");
-    fHistLamAwayMix->DrawCopy("same");
-    fHistLamAwayZYAM->DrawCopy("same");
-    fHistK0AwayZYAM->DrawCopy("same");
+   // fHistK0AwayMix->DrawCopy("same");
+   // fHistLamAwayMix->DrawCopy("same");
+   // fHistLamAwayZYAM->DrawCopy("same");
+    //fHistK0AwayZYAM->DrawCopy("same");
     fHistHadronAwayMix->DrawCopy("same");
     fHistHadronAwayZYAM->DrawCopy("same");
     canaway  ->BuildLegend();
    //  fLegendAway->Draw();
-  
-    TCanvas* canSyst = new TCanvas;
-    canSyst->Divide(2);
-    canSyst->cd(1);
-    TLegend *legNe = new TLegend;
-    fHistK0NearSyst->GetYaxis()->SetRangeUser(0,0.4);
-    fHistK0NearSyst->SetTitle("Prilahly pik");
-    fHistK0NearSyst->SetXTitle("p_{T}^{trig} (GeV)");
-    fHistK0NearSyst->SetYTitle("Relativna neistota");
+    
+    TCanvas *canSystK0h = new TCanvas;
+    TPad * padSystkh1 = new TPad("padSystkh1","This is padSystkh1",0.001,0.001,0.5,0.999);
+    TPad * padSystkh2 = new TPad("padSystkh2","This is padSystkh2",0.5,0.001,0.999,0.999);
+    
+    padSystkh1->SetMargin(0.1,0.1,0.1,0.05);
+    padSystkh2->SetMargin(0.1,0.1,0.1,0.05);
+    
+    padSystkh1->Draw();
+    padSystkh2->Draw();
+    
+    padSystkh1->cd();
+    fHistK0NearMixSyst->SetLineColor(kRed);
+    fHistK0NearMixSyst->SetLineStyle(7);
     fHistK0NearSyst->SetLineColor(kBlue);
-    fHistLambdaNearSyst->SetLineColor(kGreen);
-    fHistHadronNearSyst->SetLineColor(kRed);
-    TH1D *histcloneK0ZYAMnear = (TH1D*)fHistK0NearSyst->DrawCopy();
-    TH1D *histcloneLamZYAMnear = (TH1D*)fHistLambdaNearSyst->DrawCopy("Same");
-    TH1D *histcloneHadrZYAMnear = (TH1D*)fHistHadronNearSyst->DrawCopy("Same");
-    legNe->AddEntry(histcloneK0ZYAMnear, "K^{0}_{S}-h","l");
-    legNe->AddEntry(histcloneLamZYAMnear, "(#Lambda+#bar{#Lambda})-h","l");
-    legNe->AddEntry(histcloneHadrZYAMnear, "h-h","l");
-    legNe->Draw();
+    fHistK0NearSyst->SetLineStyle(7);
+    fHistK0NearComplSyst->SetLineStyle(1);
+    fHistK0NearComplSyst->SetLineColor(kBlack);
+    fHistK0NearStat->SetLineColor(kMagenta-3);
+    fHistK0NearComplSyst->SetTitle("Nearside peak");
+    fHistK0NearComplSyst->SetXTitle("p_{T}^{trig}");
+    fHistK0NearComplSyst->SetYTitle("Relative uncertainty");
+    fHistK0NearComplSyst->GetYaxis()->SetRangeUser(0,1);
+    TLegend * lgNeistotaK0h = new TLegend();
+    TH1D* fHistK0NearComplSystClone = (TH1D*) fHistK0NearComplSyst->DrawCopy();
+    TH1D* fHistK0NearMixSystClone = (TH1D*) fHistK0NearMixSyst->DrawCopy("SAME");
+    TH1D* fHistK0NearSystClone = (TH1D*) fHistK0NearSyst->DrawCopy("SAME");
+    TH1D* fHistK0NearStatClone = (TH1D*) fHistK0NearStat->DrawCopy("SAME");
+    lgNeistotaK0h->SetHeader("K^{0}_{S}-h","C"); // option "C" allows to center the header
+    lgNeistotaK0h->AddEntry(fHistK0NearMixSystClone,"Mixing","l");
+    lgNeistotaK0h->AddEntry(fHistK0NearSystClone,"Backround subtraction","l");
+    lgNeistotaK0h->AddEntry(fHistK0NearComplSystClone,"Total systematic uncertainty","l");
+    lgNeistotaK0h->AddEntry(fHistK0NearStatClone,"Statistical uncertainty","l");
+    lgNeistotaK0h->Draw();
     
-    canSyst->cd(2);
-    TLegend *legAw = new TLegend;
-    fHistK0AwaySyst->GetYaxis()->SetRangeUser(0,2);
-    fHistK0AwaySyst->SetTitle("Protilahly pik");
-    fHistK0AwaySyst->SetXTitle("p_{T}^{trig} (GeV)");
-    fHistK0AwaySyst->SetYTitle("Relativna neistota");
+    padSystkh2->cd();
+    fHistK0AwayMixSyst->SetLineColor(kRed);
+    fHistK0AwayMixSyst->SetLineStyle(7);
     fHistK0AwaySyst->SetLineColor(kBlue);
-    fHistLambdaAwaySyst->SetLineColor(kGreen);
-    fHistHadronAwaySyst->SetLineColor(kRed);
-    TH1D *histcloneK0ZYAMaway = (TH1D*) fHistK0AwaySyst->DrawCopy();
-    TH1D *histcloneLamZYAMaway = (TH1D*)fHistLambdaAwaySyst->DrawCopy("Same");
-    TH1D *histcloneHadrZYAMaway = (TH1D*)fHistHadronAwaySyst->DrawCopy("Same");
-    legAw->AddEntry(histcloneK0ZYAMaway, "K^{0}_{S}-h","l");
-    legAw->AddEntry(histcloneLamZYAMaway, "(#Lambda+#bar{#Lambda})-h","l");
-    legAw->AddEntry(histcloneHadrZYAMaway, "h-h","l");
-    legAw->Draw();
-
-    TCanvas* canSystMix = new TCanvas;
-    canSystMix->Divide(2);
-    canSystMix->cd(1);
-    TLegend *legNeMix = new TLegend;
-    fHistK0NearMixSyst->GetYaxis()->SetRangeUser(0.,0.5);
-    fHistK0NearMixSyst->SetTitle("Prilahly pik");
-    fHistK0NearMixSyst->SetXTitle("p_{T}^{trig} (GeV)");
-    fHistK0NearMixSyst->SetYTitle("Relativna neistota");
-    fHistK0NearMixSyst->SetLineColor(kBlue);
-    fHistLamNearMixSyst->SetLineColor(kGreen);
+    fHistK0AwaySyst->SetLineStyle(7);
+    fHistK0AwayComplSyst->SetLineStyle(1);
+    fHistK0AwayComplSyst->SetLineColor(kBlack);
+    fHistK0AwayStat->SetLineColor(kMagenta-3);
+    fHistK0AwayComplSyst->SetTitle("Awayside peak");
+    fHistK0AwayComplSyst->SetXTitle("p_{T}^{trig}");
+    fHistK0AwayComplSyst->GetYaxis()->SetRangeUser(0,1);
+    
+    fHistK0AwayComplSyst->DrawCopy();
+    fHistK0AwaySyst->DrawCopy("Same");
+    fHistK0AwayMixSyst->DrawCopy("Same");
+    fHistK0AwayStat->DrawCopy("Same");
+    
+    TCanvas *canSystLh = new TCanvas;
+    TPad * padSystlh1 = new TPad("padSystlh1","This is padSystlh1",0.001,0.001,0.5,0.999);
+    TPad * padSystlh2 = new TPad("padSystlh2","This is padSystlh2",0.5,0.001,0.999,0.999);
+    
+    padSystlh1->SetMargin(0.1,0.1,0.1,0.05);
+    padSystlh2->SetMargin(0.1,0.1,0.1,0.05);
+    
+    padSystlh1->Draw();
+    padSystlh2->Draw();
+    
+    padSystlh1->cd();
+    fHistLamNearMixSyst->SetLineColor(kRed);
+    fHistLamNearMixSyst->SetLineStyle(7);
+    fHistLambdaNearSyst->SetLineColor(kBlue);
+    fHistLambdaNearSyst->SetLineStyle(7);
+    fHistLamNearComplSyst->SetLineStyle(1);
+    fHistLamNearComplSyst->SetLineColor(kBlack);
+    fHistLamNearStat->SetLineColor(kMagenta-3);
+    fHistLamNearComplSyst->SetTitle("Nearside peak");
+    fHistLamNearComplSyst->SetXTitle("p_{T}^{trig}");
+    fHistLamNearComplSyst->SetYTitle("Relative uncertainty");
+    fHistLamNearComplSyst->GetYaxis()->SetRangeUser(0,1);
+    fHistLamNearComplSyst->DrawCopy();
+    fHistLambdaNearSyst->DrawCopy("Same");
+    fHistLamNearMixSyst->DrawCopy("Same");
+    fHistLamNearStat->DrawCopy("same");
+    
+    padSystlh2->cd();
+    fHistLamAwayMixSyst->SetLineColor(kRed);
+    fHistLamAwayMixSyst->SetLineStyle(7);
+    fHistLambdaAwaySyst->SetLineColor(kBlue);
+    fHistLambdaAwaySyst->SetLineStyle(7);
+    fHistLamAwayComplSyst->SetLineStyle(1);
+    fHistLamAwayComplSyst->SetLineColor(kBlack);
+    fHistLamAwayStat->SetLineColor(kMagenta-3);
+    fHistLamAwayComplSyst->SetTitle("Awayside peak");
+    fHistLamAwayComplSyst->SetXTitle("p_{T}^{trig}");
+    fHistLamAwayComplSyst->GetYaxis()->SetRangeUser(0,2);
+    TLegend * lgNeistotaLamh = new TLegend();
+    TH1D* fHistLamAwayComplSystClone = (TH1D*) fHistLamAwayComplSyst->DrawCopy();
+    TH1D* fHistLamAwayMixSystClone = (TH1D*) fHistLamAwayMixSyst->DrawCopy("SAME");
+    TH1D* fHistLamAwaySystClone = (TH1D*) fHistLambdaAwaySyst->DrawCopy("SAME");
+    TH1D* fHistLamAwayStatClone = (TH1D*) fHistLamAwayStat->DrawCopy("SAME");
+    lgNeistotaLamh->SetHeader("(#Lambda+#bar{#Lambda})-h","C"); // option "C" allows to center the header
+    lgNeistotaLamh->AddEntry(fHistLamAwayMixSystClone,"Mixing","l");
+    lgNeistotaLamh->AddEntry(fHistLamAwaySystClone,"Backround subtraction","l");
+    lgNeistotaLamh->AddEntry(fHistLamAwayComplSystClone,"Total systematic uncertainty","l");
+    lgNeistotaLamh->AddEntry(fHistLamAwayStatClone,"Statistic uncertainty","l");
+    lgNeistotaLamh->Draw();
+    
+    
+    TCanvas *canSystHH = new TCanvas;
+    TPad * padSysthh1 = new TPad("padSysthh1","This is padSysthh1",0.001,0.001,0.5,0.999);
+    TPad * padSysthh2 = new TPad("padSysthh2","This is padSysthh2",0.5,0.001,0.999,0.999);
+    
+    padSysthh1->SetMargin(0.1,0.1,0.1,0.05);
+    padSysthh2->SetMargin(0.1,0.1,0.1,0.05);
+    
+    padSysthh1->Draw();
+    padSysthh2->Draw();
+    
+    padSysthh1->cd();
     fHistHadronNearMixSyst->SetLineColor(kRed);
-    TH1D *histcloneK0Mixnear = (TH1D*) fHistK0NearMixSyst->DrawCopy();
-    TH1D *histcloneLamMixnear = (TH1D*)fHistLamNearMixSyst->DrawCopy("same");
-    TH1D *histcloneHadrMixnear = (TH1D*)fHistHadronNearMixSyst->DrawCopy("same");
-    legNeMix->AddEntry(histcloneK0Mixnear, "K^{0}_{S}-h","l");
-    legNeMix->AddEntry(histcloneLamMixnear, "(#Lambda+#bar{#Lambda})-h","l");
-    legNeMix->AddEntry(histcloneHadrMixnear, "h-h","l");
-    legNeMix->Draw();
+    fHistHadronNearMixSyst->SetLineStyle(7);
+    fHistHadronNearSyst->SetLineColor(kBlue);
+    fHistHadronNearSyst->SetLineStyle(7);
+    fHistHadronNearComplSyst->SetLineStyle(1);
+    fHistHadronNearComplSyst->SetLineColor(kBlack);
+    fHistHadronNearComplSyst->SetTitle("Prilahly pik");
+    fHistHadronNearComplSyst->SetXTitle("p_{T}^{trig}");
+    fHistHadronNearComplSyst->SetYTitle("Relativna chyba");
+    fHistHadronNearStat->SetLineColor(kMagenta-3);
+    fHistHadronNearComplSyst->DrawCopy();
+    fHistHadronNearSyst->DrawCopy("Same");
+    fHistHadronNearMixSyst->DrawCopy("Same");
+    fHistHadronNearStat->DrawCopy("same");
     
-    canSystMix->cd(2);
-    TLegend *legAwMix = new TLegend();
-    fHistK0AwayMixSyst->GetYaxis()->SetRangeUser(0.,0.5);
-    fHistK0AwayMixSyst->SetTitle("Protilahly pik");
-    fHistK0AwayMixSyst->SetXTitle("p_{T}^{trig} (GeV)");
-    fHistK0AwayMixSyst->SetYTitle("Relativna neistota");
-    fHistK0AwayMixSyst->SetLineColor(kBlue);
-    fHistLamAwayMixSyst->SetLineColor(kGreen);
+    padSysthh2->cd();
     fHistHadronAwayMixSyst->SetLineColor(kRed);
-    TH1D *histcloneK0Mixaway = (TH1D*) fHistK0AwayMixSyst->DrawCopy();
-    legAwMix->AddEntry(histcloneK0Mixaway,"K^{0}_{S}-h","l");
-    TH1D *histcloneLamMixaway = (TH1D*)fHistLamAwayMixSyst->DrawCopy("Same");
-    legAwMix->AddEntry(histcloneLamMixaway,"(#Lambda+#bar{#Lambda})-h","l");
-    TH1D *histcloneHadrMixaway = (TH1D*)fHistHadronAwayMixSyst->DrawCopy("same");
-    legAwMix->AddEntry(histcloneHadrMixaway,"h-h","l");
-    legAwMix->Draw();
+    fHistHadronAwayMixSyst->SetLineStyle(7);
+    fHistHadronAwaySyst->SetLineColor(kBlue);
+    fHistHadronAwaySyst->SetLineStyle(7);
+    fHistHadronAwayComplSyst->SetLineStyle(1);
+    fHistHadronAwayComplSyst->SetLineColor(kBlack);
+    fHistHadronAwayComplSyst->SetTitle("Protilahly pik");
+    fHistHadronAwayComplSyst->SetXTitle("p_{T}^{trig}");
+    fHistHadronAwayStat->SetLineColor(kMagenta-3);
+    TLegend * lgNeistota = new TLegend();
+    TH1D* fHistHadronAwayComplSystClone = (TH1D*) fHistHadronAwayComplSyst->DrawCopy();
+    TH1D* fHistHadronAwayMixSystClone = (TH1D*) fHistHadronAwayMixSyst->DrawCopy("SAME");
+    TH1D* fHistHadronAwaySystClone = (TH1D*) fHistHadronAwaySyst->DrawCopy("SAME");
+    TH1D* fHistHadronAwayStatClone = (TH1D*) fHistHadronAwayStat->DrawCopy("SAME");
+    lgNeistota->SetHeader("h-h","C"); // option "C" allows to center the header
+    lgNeistota->AddEntry(fHistHadronAwayMixSystClone,"Mixing","l");
+    lgNeistota->AddEntry(fHistHadronAwaySystClone,"Odcitanie pozadia","l");
+    lgNeistota->AddEntry(fHistHadronAwayComplSystClone,"Celkova systematicka chyba","l");
+    lgNeistota->AddEntry(fHistHadronAwayStatClone,"Statisticka chyba","l");
+    lgNeistota->Draw();
     
-    TCanvas* canBarlowZYAM = new TCanvas;
+    // ===== Barlow check  =========
+   
+ /*   TCanvas* canBarlowZYAM = new TCanvas;
     canBarlowZYAM->Divide(2);
     canBarlowZYAM->cd(1);
     TLegend *legNeZYAMBarlow = new TLegend;
@@ -1708,8 +1688,451 @@ void GraphMult(){
     TH1D *histcloneLamMixBarlowAway = (TH1D*)fHistLamAwayMixBarlow->DrawCopy("Same");
     legAwMixBarlow->AddEntry(histcloneLamMixBarlowAway,"(#Lambda+#bar{#Lambda})-h","l");
     
-    legAwMixBarlow->Draw();
+    legAwMixBarlow->Draw();*/
     
+    //======== vytazky v zav od mult ===
+    TH1D* fHistYieldNearLow = (TH1D*) g->Get("fHistHadronNear1");
+    TH1D* fHistYieldNearHigh = (TH1D*) f->Get("fHistHadronNear1");
+    TH1D* fHistYieldNearLow2 = (TH1D*) g2->Get("fHistHadronNear2");
+    TH1D* fHistYieldNearHigh2 = (TH1D*) f2->Get("fHistHadronNear2");
+    TH1D* fHistYieldNearLow3 = (TH1D*) g3->Get("fHistHadronNear3");
+    TH1D* fHistYieldNearHigh3 = (TH1D*) f3->Get("fHistHadronNear3");
+    
+    fHistYieldNearLow->Sumw2();
+    fHistYieldNearHigh->Sumw2();
+    fHistYieldNearLow2->Sumw2();
+    fHistYieldNearHigh2->Sumw2();
+    fHistYieldNearLow3->Sumw2();
+    fHistYieldNearHigh3->Sumw2();
+    
+    fHistYieldNearLow2->SetBinContent(4,0);
+    fHistYieldNearHigh2->SetBinContent(3,0);
+    fHistYieldNearLow->Add(fHistYieldNearHigh);
+    fHistYieldNearLow2->Add(fHistYieldNearHigh2);
+    fHistYieldNearLow3->Add(fHistYieldNearHigh3);
+    fHistYieldNearLow->SetTitle("Zavislost vytazkov od p_{T} pre prilahly pik pre h-h");
+    fHistYieldNearLow->SetXTitle("p_{T}^{trig} (GeV/c)");
+    fHistYieldNearLow->SetYTitle("Y_{J}^{#Delta#phi}");
+    fHistYieldNearLow->GetYaxis()->SetRangeUser(0.,0.35);
+    fHistYieldNearLow->SetMarkerStyle(21);
+    fHistYieldNearLow->SetMarkerSize(1.5);
+    fHistYieldNearLow->SetMarkerColor(kBlue);
+    fHistYieldNearLow->SetLineColor(kBlue);
+    fHistYieldNearLow2->SetMarkerStyle(22);
+    fHistYieldNearLow2->SetMarkerSize(1.5);
+    fHistYieldNearLow2->SetMarkerColor(kRed);
+    fHistYieldNearLow2->SetLineColor(kRed);
+    fHistYieldNearLow3->SetMarkerStyle(23);
+    fHistYieldNearLow3->SetMarkerSize(1.5);
+    fHistYieldNearLow3->SetMarkerColor(kGreen);
+    fHistYieldNearLow3->SetLineColor(kGreen);
+    fHistHadronNear->SetMarkerSize(1.5);
+    fHistHadronNear->SetMarkerStyle(29);
+    fHistHadronNear->SetLineColor(kBlack);
+    fHistHadronNear->SetMarkerColor(kBlack);
+    
+    TCanvas *cYieldNearH = new TCanvas;
+    TLegend * lgHhNear = new TLegend(0.2,0.9,0.75,0.8);
+    TH1D* fHistYieldNearLowLg =(TH1D*)fHistYieldNearLow->DrawCopy();
+    lgHhNear->AddEntry(fHistYieldNearLowLg,"0-10%");
+    TH1D* fHistYieldNearLow2Lg =(TH1D*)fHistYieldNearLow2->DrawCopy("same");
+    lgHhNear->AddEntry(fHistYieldNearLow2Lg,"10-50%");
+    TH1D *fHistYieldNearLow3Lg = (TH1D*)fHistYieldNearLow3->DrawCopy("same");
+    lgHhNear->AddEntry(fHistYieldNearLow3,"50-100%");
+    TH1D *fHistHadronNearLg = (TH1D*)fHistHadronNear->DrawCopy("same");
+    lgHhNear->AddEntry(fHistHadronNear,"min bias");
+    lgHhNear->Draw();
+    
+    TH1D* fHistYieldAwayLow = (TH1D*) g->Get("fHistHadronAway1");
+    TH1D* fHistYieldAwayHigh = (TH1D*) f->Get("fHistHadronAway1");
+    TH1D* fHistYieldAwayLow2 = (TH1D*) g2->Get("fHistHadronAway2");
+    TH1D* fHistYieldAwayHigh2 = (TH1D*) f2->Get("fHistHadronAway2");
+    TH1D* fHistYieldAwayLow3 = (TH1D*) g3->Get("fHistHadronAway3");
+    TH1D* fHistYieldAwayHigh3 = (TH1D*) f3->Get("fHistHadronAway3");
+    
+    fHistYieldAwayLow->Sumw2();
+    fHistYieldAwayHigh->Sumw2();
+    fHistYieldAwayLow2->Sumw2();
+    fHistYieldAwayHigh2->Sumw2();
+    fHistYieldAwayLow3->Sumw2();
+    fHistYieldAwayHigh3->Sumw2();
+    
+    Double_t error = fHistYieldAwayHigh3->GetBinError(5);
+    fHistYieldAwayLow->Add(fHistYieldAwayHigh);
+    fHistYieldAwayLow2->Add(fHistYieldAwayHigh2);
+    fHistYieldAwayLow3->Add(fHistYieldAwayHigh3);
+    fHistYieldAwayLow->SetTitle("Zavislost vytazkov od p_{T} pre protilahly pik pre h-h");
+    fHistYieldAwayLow->GetYaxis()->SetRangeUser(0,0.5);
+    fHistYieldAwayLow->SetXTitle("p_{T}^{trig} (GeV/c)");
+    fHistYieldAwayLow->SetYTitle("Y_{J}^{#Delta#phi}");
+    fHistYieldAwayLow->SetMarkerStyle(21);
+    fHistYieldAwayLow->SetMarkerSize(1.5);
+    fHistYieldAwayLow->SetMarkerColor(kBlue);
+    fHistYieldAwayLow->SetLineColor(kBlue);
+    fHistYieldAwayLow2->SetMarkerStyle(22);
+    fHistYieldAwayLow2->SetMarkerSize(1.5);
+    fHistYieldAwayLow2->SetMarkerColor(kRed);
+    fHistYieldAwayLow2->SetLineColor(kRed);
+    fHistYieldAwayLow3->SetMarkerStyle(23);
+    fHistYieldAwayLow3->SetMarkerSize(1.5);
+    fHistYieldAwayLow3->SetMarkerColor(kGreen);
+    fHistYieldAwayLow3->SetLineColor(kGreen);
+    fHistYieldAwayLow3->SetBinError(5,error);
+    fHistHadronAway->SetMarkerColor(kBlack);
+    fHistHadronAway->SetMarkerStyle(29);
+    fHistHadronAway->SetLineColor(kBlack);
+    fHistHadronAway->SetMarkerSize(1.5);
+    TCanvas *cYieldAwayH = new TCanvas;
+    TLegend * lgHhAway = new TLegend(0.2,0.9,0.75,0.8);
+    TH1D * fHistYieldAwayLowLg =(TH1D*)fHistYieldAwayLow->DrawCopy();
+    lgHhAway->AddEntry(fHistYieldAwayLowLg,"0-10%");
+    TH1D* fHistYieldAwayLow2Lg = (TH1D*)fHistYieldAwayLow2->DrawCopy("same");
+    lgHhAway->AddEntry(fHistYieldAwayLow2Lg,"10-50%");
+    TH1D *fHistYieldAwayLow3Lg =(TH1D*) fHistYieldAwayLow3->DrawCopy("same");
+    lgHhAway->AddEntry(fHistYieldAwayLow3Lg,"50-100%");
+    TH1D *fHistHadronAwayLg = (TH1D*)fHistHadronAway->DrawCopy("same");
+    lgHhAway->AddEntry(fHistHadronAwayLg,"min bias");
+    lgHhAway->Draw();
+    
+    //======= Icp ============
+
+    fHistYieldNearLow->Divide(fHistYieldNearLow3);
+    fHistYieldNearLamLow->Divide(fHistYieldNearLamLow3);
+    fHistYieldNearKLow->Divide(fHistYieldNearKLow3);
+    
+    fHistYieldAwayLow->Divide(fHistYieldAwayLow3);
+    fHistYieldAwayLamLow->Divide(fHistYieldAwayLamLow3);
+    fHistYieldAwayKLow->Divide(fHistYieldAwayKLow3);
+    
+    //====== ukladanie do grafov =======
+    
+    Double_t PtError[nPtBins] = {0.5, 0.5, 0.5, 1, 1, 2};
+    TGraphErrors *fGraphHHAway = new TGraphErrors(nPtBins,PtGraph,yieldaway[2],PtError,yieldawayerror[2]);
+    fGraphHHAway->SetName("fGraphHHAway");
+    TGraphErrors *fGraphHHNear = new TGraphErrors(nPtBins,PtGraph,yieldnear[2],PtError,yieldnearerror[2]);
+    fGraphHHNear->SetName("fGraphHHNear");
+    TGraphErrors *fGraphHHAwaySyst = new TGraphErrors(nPtBins,PtGraph,yieldaway[2],PtError,completeSystErrorAway[2]);
+    fGraphHHAwaySyst->SetName("fGraphHHAwaySyst");
+    TGraphErrors *fGraphHHNearSyst = new TGraphErrors(nPtBins,PtGraph,yieldnear[2],PtError,completeSystErrorNear[2]);
+    fGraphHHNearSyst->SetName("fGraphHHNearSyst");
+    
+    TGraphErrors *fGraphK0Away = new TGraphErrors(nPtBins,PtGraph,yieldaway[0],PtError,yieldawayerror[0]);
+    fGraphK0Away->SetName("fGraphK0Away");
+    TGraphErrors *fGraphK0Near = new TGraphErrors(nPtBins,PtGraph,yieldnear[0],PtError,yieldnearerror[0]);
+    fGraphK0Near->SetName("fGraphK0Near");
+    TGraphErrors *fGraphK0AwaySyst = new TGraphErrors(nPtBins,PtGraph,yieldaway[0],PtError,completeSystErrorAway[0]);
+    fGraphK0AwaySyst->SetName("fGraphK0AwaySyst");
+    TGraphErrors *fGraphK0NearSyst = new TGraphErrors(nPtBins,PtGraph,yieldnear[0],PtError,completeSystErrorNear[0]);
+    fGraphK0NearSyst->SetName("fGraphK0NearSyst");
+    
+    TGraphErrors *fGraphLamAway = new TGraphErrors(nPtBins,PtGraph,yieldaway[1],PtError,yieldawayerror[1]);
+    fGraphLamAway->SetName("fGraphLamAway");
+    TGraphErrors *fGraphLamNear = new TGraphErrors(nPtBins,PtGraph,yieldnear[1],PtError,yieldnearerror[1]);
+    fGraphLamNear->SetName("fGraphLamNear");
+    TGraphErrors *fGraphLamAwaySyst = new TGraphErrors(nPtBins,PtGraph,yieldaway[1],PtError,completeSystErrorAway[1]);
+    fGraphLamAwaySyst->SetName("fGraphLamAwaySyst");
+    TGraphErrors *fGraphLamNearSyst = new TGraphErrors(nPtBins,PtGraph,yieldnear[1],PtError,completeSystErrorNear[1]);
+    fGraphLamNearSyst->SetName("fGraphLamNearSyst");
+    
+    Double_t yieldNear010[3][6];
+     Double_t yieldAway010[3][6];
+    Double_t yieldNear010error[3][6];
+    Double_t yieldAway010error[3][6];
+    
+    Double_t yieldNear1050[3][6];
+    Double_t yieldAway1050[3][6];
+    Double_t yieldNear1050error[3][6];
+    Double_t yieldAway1050error[3][6];
+    
+    
+    Double_t yieldNear50100[3][6];
+    Double_t yieldAway50100[3][6];
+    Double_t yieldNear50100error[3][6];
+    Double_t yieldAway50100error[3][6];
+    
+    Double_t icpNear[3][6];
+    Double_t icpAway[3][6];
+    
+    Double_t icpNearErr[3][6];
+    Double_t icpAwayErr[3][6];
+    Double_t icpNearErrSyst[3][6];
+    Double_t icpAwayErrSyst[3][6];
+    
+    Double_t completeSystErrorNearMult[3][3][6];
+    Double_t completeSystErrorAwayMult[3][3][6];
+    
+    for(Int_t i=0; i<6; i++){
+        yieldNear010[2][i]=fHistYieldNearLowLg->GetBinContent(i+1);
+        yieldNear010error[2][i]=fHistYieldNearLowLg->GetBinError(i+1);
+        completeSystErrorNearMult[2][0][i]=fHistHadronNearComplSyst->GetBinContent(i+1)*yieldNear010[2][i];
+        yieldAway010[2][i]=fHistYieldAwayLowLg->GetBinContent(i+1);
+        yieldAway010error[2][i]=fHistYieldNearLowLg->GetBinError(i+1);
+        completeSystErrorAwayMult[2][0][i]=fHistHadronAwayComplSyst->GetBinContent(i+1)*yieldAway010[2][i];
+        //Printf("near rel err %g, away rel error %g\n",fHistHadronNearComplSyst->GetBinContent(i+1),fHistHadronAwayComplSyst->GetBinContent(i+1));
+        
+        yieldNear1050[2][i]=fHistYieldNearLow2Lg->GetBinContent(i+1);
+        yieldNear1050error[2][i]=fHistYieldNearLow2Lg->GetBinError(i+1);
+        completeSystErrorNearMult[2][1][i]=fHistHadronNearComplSyst->GetBinContent(i+1)*yieldNear1050[2][i];
+        yieldAway1050[2][i]=fHistYieldAwayLow2Lg->GetBinContent(i+1);
+        yieldAway1050error[2][i]=fHistYieldNearLow2Lg->GetBinError(i+1);
+        completeSystErrorAwayMult[2][1][i]=fHistHadronAwayComplSyst->GetBinContent(i+1)*yieldAway1050[2][i];
+        
+        yieldNear50100[2][i]=fHistYieldNearLow3Lg->GetBinContent(i+1);
+        yieldNear50100error[2][i]=fHistYieldNearLow3Lg->GetBinError(i+1);
+        completeSystErrorNearMult[2][2][i]=fHistHadronNearComplSyst->GetBinContent(i+1)*yieldNear50100[2][i];
+        yieldAway50100[2][i]=fHistYieldAwayLow3Lg->GetBinContent(i+1);
+        yieldAway50100error[2][i]=fHistYieldNearLow3Lg->GetBinError(i+1);
+        completeSystErrorAwayMult[2][2][i]=fHistHadronAwayComplSyst->GetBinContent(i+1)*yieldAway50100[2][i];
+        
+        icpNear[2][i]=fHistYieldNearLow->GetBinContent(i+1);
+        icpNearErr[2][i]=fHistYieldNearLow->GetBinError(i+1);
+        icpAway[2][i]=fHistYieldAwayLow->GetBinContent(i+1);
+        icpAwayErr[2][i]=fHistYieldAwayLow->GetBinError(i+1);
+        
+        icpNearErrSyst[2][i]=TMath::Sqrt(TMath::Power(completeSystErrorNearMult[2][0][i]/yieldNear010[2][i],2)+TMath::Power(completeSystErrorNearMult[2][2][i]/yieldNear50100[2][i],2))*icpNear[2][i];
+        icpAwayErrSyst[2][i]=TMath::Sqrt(TMath::Power(completeSystErrorAwayMult[2][0][i]/yieldAway010[2][i],2)+TMath::Power(completeSystErrorAwayMult[2][2][i]/yieldAway50100[2][i],2))*icpAway[2][i];
+       // Printf("compl error %g, away error Icp %g\n", completeSystErrorAwayMult[0][i]/yieldAway010[i], icpAwayErrSyst[i]);
+        
+        yieldNear010[0][i]=fHistYieldNearKLowLg->GetBinContent(i+1);
+        yieldNear010error[0][i]=fHistYieldNearKLowLg->GetBinError(i+1);
+        completeSystErrorNearMult[0][0][i]=fHistK0NearComplSystClone->GetBinContent(i+1)*yieldNear010[0][i];
+        yieldAway010[0][i]=fHistYieldAwayKLowLg->GetBinContent(i+1);
+        yieldAway010error[0][i]=fHistYieldAwayKLowLg->GetBinError(i+1);
+        completeSystErrorAwayMult[0][0][i]=fHistK0AwayComplSyst->GetBinContent(i+1)*yieldAway010[0][i];
+        
+        yieldNear1050[0][i]=fHistYieldNearKLow2Lg->GetBinContent(i+1);
+        yieldNear1050error[0][i]=fHistYieldNearKLow2Lg->GetBinError(i+1);
+        completeSystErrorNearMult[0][1][i]=fHistK0NearComplSystClone->GetBinContent(i+1)*yieldNear1050[0][i];
+        yieldAway1050[0][i]=fHistYieldAwayKLow2Lg->GetBinContent(i+1);
+        yieldAway1050error[0][i]=fHistYieldAwayKLow2Lg->GetBinError(i+1);
+        completeSystErrorAwayMult[0][1][i]=fHistK0AwayComplSyst->GetBinContent(i+1)*yieldAway1050[0][i];
+        
+        yieldNear50100[0][i]=fHistYieldNearLow3Lg->GetBinContent(i+1);
+        yieldNear50100error[0][i]=fHistYieldNearLow3Lg->GetBinError(i+1);
+        completeSystErrorNearMult[0][2][i]=fHistK0NearComplSystClone->GetBinContent(i+1)*yieldNear50100[0][i];
+        yieldAway50100[0][i]=fHistYieldAwayLow3Lg->GetBinContent(i+1);
+        yieldAway50100error[0][i]=fHistYieldNearLow3Lg->GetBinError(i+1);
+        completeSystErrorAwayMult[0][2][i]=fHistK0AwayComplSyst->GetBinContent(i+1)*yieldAway50100[0][i];
+        
+        icpNear[0][i]=fHistYieldNearKLow->GetBinContent(i+1);
+        icpNearErr[0][i]=fHistYieldNearKLow->GetBinError(i+1);
+        icpAway[0][i]=fHistYieldAwayKLow->GetBinContent(i+1);
+        icpAwayErr[0][i]=fHistYieldAwayKLow->GetBinError(i+1);
+        
+        icpNearErrSyst[0][i]=TMath::Sqrt(TMath::Power(completeSystErrorNearMult[0][0][i]/yieldNear010[0][i],2)+TMath::Power(completeSystErrorNearMult[0][2][i]/yieldNear50100[0][i],2))*icpNear[0][i];
+        icpAwayErrSyst[0][i]=TMath::Sqrt(TMath::Power(completeSystErrorAwayMult[0][0][i]/yieldAway010[0][i],2)+TMath::Power(completeSystErrorAwayMult[0][2][i]/yieldAway50100[0][i],2))*icpAway[0][i];
+        
+        yieldNear010[1][i]=fHistYieldNearLamLowLg->GetBinContent(i+1);
+        yieldNear010error[1][i]=fHistYieldNearLamLowLg->GetBinError(i+1);
+        completeSystErrorNearMult[1][0][i]=fHistLamNearComplSyst->GetBinContent(i+1)*yieldNear010[1][i];
+        yieldAway010[1][i]=fHistYieldAwayLamLowLg->GetBinContent(i+1);
+        yieldAway010error[1][i]=fHistYieldAwayLamLowLg->GetBinError(i+1);
+        completeSystErrorAwayMult[1][0][i]=fHistLamAwayComplSystClone->GetBinContent(i+1)*yieldAway010[1][i];
+        
+        yieldNear1050[1][i]=fHistYieldNearLamLow2Lg->GetBinContent(i+1);
+        yieldNear1050error[1][i]=fHistYieldNearLamLow2Lg->GetBinError(i+1);
+        completeSystErrorNearMult[1][1][i]=fHistLamNearComplSyst->GetBinContent(i+1)*yieldNear1050[1][i];
+        yieldAway1050[1][i]=fHistYieldAwayLamLow2Lg->GetBinContent(i+1);
+        yieldAway1050error[1][i]=fHistYieldAwayLamLow2Lg->GetBinError(i+1);
+        completeSystErrorAwayMult[1][1][i]=fHistLamAwayComplSystClone->GetBinContent(i+1)*yieldAway1050[1][i];
+        
+        yieldNear50100[1][i]=fHistYieldNearLamLow3Lg->GetBinContent(i+1);
+        yieldNear50100error[1][i]=fHistYieldNearLamLow3Lg->GetBinError(i+1);
+        completeSystErrorNearMult[1][2][i]=fHistLamNearComplSyst->GetBinContent(i+1)*yieldNear50100[1][i];
+        yieldAway50100[1][i]=fHistYieldAwayLamLow3Lg->GetBinContent(i+1);
+        yieldAway50100error[1][i]=fHistYieldAwayLamLow3Lg->GetBinError(i+1);
+        completeSystErrorAwayMult[1][2][i]=fHistLamAwayComplSystClone->GetBinContent(i+1)*yieldAway50100[1][i];
+        
+        icpNear[1][i]=fHistYieldNearLamLow->GetBinContent(i+1);
+        icpNearErr[1][i]=fHistYieldNearLamLow->GetBinError(i+1);
+        icpAway[1][i]=fHistYieldAwayLamLow->GetBinContent(i+1);
+        icpAwayErr[1][i]=fHistYieldAwayLamLow->GetBinError(i+1);
+        
+        icpNearErrSyst[1][i]=TMath::Sqrt(TMath::Power(completeSystErrorNearMult[1][0][i]/yieldNear010[1][i],2)+TMath::Power(completeSystErrorNearMult[1][2][i]/yieldNear50100[1][i],2))*icpNear[1][i];
+        icpAwayErrSyst[1][i]=TMath::Sqrt(TMath::Power(completeSystErrorAwayMult[1][0][i]/yieldAway010[1][i],2)+TMath::Power(completeSystErrorAwayMult[1][2][i]/yieldAway50100[1][i],2))*icpAway[1][i];
+    }
+    
+    TGraphErrors *fGraphHHAwayLow = new TGraphErrors(nPtBins,PtGraph,yieldAway50100[2],PtError,yieldAway50100error[2]);
+    fGraphHHAwayLow->SetName("fGraphHHAwayLow");
+    TGraphErrors *fGraphHHAwayLowSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway50100[2],PtError,completeSystErrorAwayMult[2][2]);
+    fGraphHHAwayLowSyst->SetName("fGraphHHAwayLowSyst");
+    
+    TGraphErrors *fGraphK0AwayLow = new TGraphErrors(nPtBins,PtGraph,yieldAway50100[0],PtError,yieldAway50100error[0]);
+    fGraphK0AwayLow->SetName("fGraphK0AwayLow");
+    TGraphErrors *fGraphK0AwayLowSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway50100[0],PtError,completeSystErrorAwayMult[0][2]);
+    fGraphK0AwayLowSyst->SetName("fGraphK0AwayLowSyst");
+    
+    TGraphErrors *fGraphLamAwayLow = new TGraphErrors(nPtBins,PtGraph,yieldAway50100[1],PtError,yieldAway50100error[1]);
+    fGraphLamAwayLow->SetName("fGraphLamAwayLow");
+    TGraphErrors *fGraphLamAwayLowSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway50100[1],PtError,completeSystErrorAwayMult[1][2]);
+    fGraphLamAwayLowSyst->SetName("fGraphLamAwayLowSyst");
+    
+    TGraphErrors *fGraphHHAwayMiddle = new TGraphErrors(nPtBins,PtGraph,yieldAway1050[2],PtError,yieldAway1050error[2]);
+    fGraphHHAwayMiddle->SetName("fGraphHHAwayMiddle");
+    TGraphErrors *fGraphHHAwayMiddleSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway1050[2],PtError,completeSystErrorAwayMult[2][1]);
+    fGraphHHAwayMiddleSyst->SetName("fGraphHHAwayMiddleSyst");
+    
+    TGraphErrors *fGraphLamAwayMiddle = new TGraphErrors(nPtBins,PtGraph,yieldAway1050[1],PtError,yieldAway1050error[1]);
+    fGraphLamAwayMiddle->SetName("fGraphLamAwayMiddle");
+    TGraphErrors *fGraphLamAwayMiddleSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway1050[1],PtError,completeSystErrorAwayMult[1][1]);
+    fGraphLamAwayMiddleSyst->SetName("fGraphLamAwayMiddleSyst");
+    
+    TGraphErrors *fGraphK0AwayMiddle = new TGraphErrors(nPtBins,PtGraph,yieldAway1050[0],PtError,yieldAway1050error[0]);
+    fGraphK0AwayMiddle->SetName("fGraphK0AwayMiddle");
+    TGraphErrors *fGraphK0AwayMiddleSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway1050[0],PtError,completeSystErrorAwayMult[0][1]);
+    fGraphK0AwayMiddleSyst->SetName("fGraphK0AwayMiddleSyst");
+    
+    TGraphErrors *fGraphHHAwayHigh = new TGraphErrors(nPtBins,PtGraph,yieldAway010[2],PtError,yieldAway010error[2]);
+    fGraphHHAwayHigh->SetName("fGraphHHAwayHigh");
+    TGraphErrors *fGraphHHAwayHighSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway010[2],PtError,completeSystErrorAwayMult[2][0]);
+    fGraphHHAwayHighSyst->SetName("fGraphHHAwayHighSyst");
+    
+    TGraphErrors *fGraphK0AwayHigh = new TGraphErrors(nPtBins,PtGraph,yieldAway010[0],PtError,yieldAway010error[0]);
+    fGraphK0AwayHigh->SetName("fGraphK0AwayHigh");
+    TGraphErrors *fGraphK0AwayHighSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway010[0],PtError,completeSystErrorAwayMult[0][0]);
+    fGraphK0AwayHighSyst->SetName("fGraphK0AwayHighSyst");
+    
+    TGraphErrors *fGraphLamAwayHigh = new TGraphErrors(nPtBins,PtGraph,yieldAway010[1],PtError,yieldAway010error[1]);
+    fGraphLamAwayHigh->SetName("fGraphLamAwayHigh");
+    TGraphErrors *fGraphLamAwayHighSyst = new TGraphErrors(nPtBins,PtGraph,yieldAway010[1],PtError,completeSystErrorAwayMult[1][0]);
+    fGraphLamAwayHighSyst->SetName("fGraphLamAwayHighSyst");
+    
+    TGraphErrors *fGraphHHNearLow = new TGraphErrors(nPtBins,PtGraph,yieldNear50100[2],PtError,yieldNear50100error[2]);
+    fGraphHHNearLow->SetName("fGraphHHNearLow");
+    TGraphErrors *fGraphHHNearLowSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear50100[2],PtError,completeSystErrorNearMult[2][2]);
+    fGraphHHNearLowSyst->SetName("fGraphHHNearLowSyst");
+    
+    TGraphErrors *fGraphK0NearLow = new TGraphErrors(nPtBins,PtGraph,yieldNear50100[0],PtError,yieldNear50100error[0]);
+    fGraphK0NearLow->SetName("fGraphK0NearLow");
+    TGraphErrors *fGraphK0NearLowSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear50100[0],PtError,completeSystErrorNearMult[0][2]);
+    fGraphK0NearLowSyst->SetName("fGraphK0NearLowSyst");
+    
+    TGraphErrors *fGraphLamNearLow = new TGraphErrors(nPtBins,PtGraph,yieldNear50100[1],PtError,yieldNear50100error[1]);
+    fGraphLamNearLow->SetName("fGraphLamNearLow");
+    TGraphErrors *fGraphLamNearLowSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear50100[1],PtError,completeSystErrorNearMult[1][2]);
+    fGraphLamNearLowSyst->SetName("fGraphLamNearLowSyst");
+    
+    TGraphErrors *fGraphHHNearMiddle = new TGraphErrors(nPtBins,PtGraph,yieldNear1050[2],PtError,yieldNear1050error[2]);
+    fGraphHHNearMiddle->SetName("fGraphHHNearMiddle");
+    TGraphErrors *fGraphHHNearMiddleSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear1050[2],PtError,completeSystErrorNearMult[2][1]);
+    fGraphHHNearMiddleSyst->SetName("fGraphHHNearMiddleSyst");
+    
+    TGraphErrors *fGraphK0NearMiddle = new TGraphErrors(nPtBins,PtGraph,yieldNear1050[0],PtError,yieldNear1050error[0]);
+    fGraphK0NearMiddle->SetName("fGraphK0NearMiddle");
+    TGraphErrors *fGraphK0NearMiddleSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear1050[0],PtError,completeSystErrorNearMult[0][1]);
+    fGraphK0NearMiddleSyst->SetName("fGraphK0NearMiddleSyst");
+    
+    TGraphErrors *fGraphLamNearMiddle = new TGraphErrors(nPtBins,PtGraph,yieldNear1050[1],PtError,yieldNear1050error[1]);
+    fGraphLamNearMiddle->SetName("fGraphLamNearMiddle");
+    TGraphErrors *fGraphLamNearMiddleSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear1050[1],PtError,completeSystErrorNearMult[1][1]);
+    fGraphLamNearMiddleSyst->SetName("fGraphLamNearMiddleSyst");
+    
+    TGraphErrors *fGraphHHNearHigh = new TGraphErrors(nPtBins,PtGraph,yieldNear010[2],PtError,yieldNear010error[2]);
+    fGraphHHNearHigh->SetName("fGraphHHNearHigh");
+    TGraphErrors *fGraphHHNearHighSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear010[2],PtError,completeSystErrorNearMult[2][0]);
+    fGraphHHNearHighSyst->SetName("fGraphHHNearHighSyst");
+    
+    TGraphErrors *fGraphK0NearHigh = new TGraphErrors(nPtBins,PtGraph,yieldNear010[0],PtError,yieldNear010error[0]);
+    fGraphK0NearHigh->SetName("fGraphK0NearHigh");
+    TGraphErrors *fGraphK0NearHighSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear010[0],PtError,completeSystErrorNearMult[0][0]);
+    fGraphK0NearHighSyst->SetName("fGraphK0NearHighSyst");
+    
+    TGraphErrors *fGraphLamNearHigh = new TGraphErrors(nPtBins,PtGraph,yieldNear010[1],PtError,yieldNear010error[1]);
+    fGraphLamNearHigh->SetName("fGraphLamNearHigh");
+    TGraphErrors *fGraphLamNearHighSyst = new TGraphErrors(nPtBins,PtGraph,yieldNear010[1],PtError,completeSystErrorNearMult[1][0]);
+    fGraphLamNearHighSyst->SetName("fGraphLamNearHighSyst");
+    
+    TGraphErrors* fGraphIcpNear = new TGraphErrors(nPtBins,PtGraph,icpNear[2],PtError,icpNearErr[2]);
+    fGraphIcpNear->SetName("fGraphIcpNear");
+    TGraphErrors* fGraphIcpAway = new TGraphErrors(nPtBins,PtGraph,icpAway[2],PtError,icpAwayErr[2]);
+    fGraphIcpAway->SetName("fGraphIcpAway");
+    
+    TGraphErrors* fGraphIcpNearK0 = new TGraphErrors(nPtBins,PtGraph,icpNear[0],PtError,icpNearErr[0]);
+    fGraphIcpNearK0->SetName("fGraphIcpNearK0");
+    TGraphErrors* fGraphIcpAwayK0 = new TGraphErrors(nPtBins,PtGraph,icpAway[0],PtError,icpAwayErr[0]);
+    fGraphIcpAwayK0->SetName("fGraphIcpAwayK0");
+    
+    TGraphErrors* fGraphIcpNearLam = new TGraphErrors(nPtBins,PtGraph,icpNear[1],PtError,icpNearErr[1]);
+    fGraphIcpNearLam->SetName("fGraphIcpNearLam");
+    TGraphErrors* fGraphIcpAwayLam = new TGraphErrors(nPtBins,PtGraph,icpAway[1],PtError,icpAwayErr[1]);
+    fGraphIcpAwayLam->SetName("fGraphIcpAwayLam");
+    
+    TGraphErrors* fGraphIcpNearSyst = new TGraphErrors(nPtBins,PtGraph,icpNear[2],PtError,icpNearErrSyst[2]);
+    fGraphIcpNearSyst->SetName("fGraphIcpNearSyst");
+    TGraphErrors* fGraphIcpAwaySyst = new TGraphErrors(nPtBins,PtGraph,icpAway[2],PtError,icpAwayErrSyst[2]);
+    fGraphIcpAwaySyst->SetName("fGraphIcpAwaySyst");
+    
+    TGraphErrors* fGraphIcpNearK0Syst = new TGraphErrors(nPtBins,PtGraph,icpNear[0],PtError,icpNearErrSyst[0]);
+    fGraphIcpNearK0Syst->SetName("fGraphIcpNearK0Syst");
+    TGraphErrors* fGraphIcpAwayK0Syst = new TGraphErrors(nPtBins,PtGraph,icpAway[0],PtError,icpAwayErrSyst[0]);
+    fGraphIcpAwayK0Syst->SetName("fGraphIcpAwayK0Syst");
+    
+    TGraphErrors* fGraphIcpNearLamSyst = new TGraphErrors(nPtBins,PtGraph,icpNear[1],PtError,icpNearErrSyst[1]);
+    fGraphIcpNearLamSyst->SetName("fGraphIcpNearLamSyst");
+    TGraphErrors* fGraphIcpAwayLamSyst = new TGraphErrors(nPtBins,PtGraph,icpAway[1],PtError,icpAwayErrSyst[1]);
+    fGraphIcpAwayLamSyst->SetName("fGraphIcpAwayLamSyst");
+    
+    fGraphHHAway->Write();
+    fGraphHHNear->Write();
+    fGraphHHAwaySyst->Write();
+    fGraphHHNearSyst->Write();
+    fGraphHHAwayLow->Write();
+    fGraphHHAwayLowSyst->Write();
+    fGraphHHAwayMiddle->Write();
+    fGraphHHAwayMiddleSyst->Write();
+    fGraphHHAwayHigh->Write();
+    fGraphHHAwayHighSyst->Write();
+    fGraphHHNearLow->Write();
+    fGraphHHNearLowSyst->Write();
+    fGraphHHNearMiddle->Write();
+    fGraphHHNearMiddleSyst->Write();
+    fGraphHHNearHigh->Write();
+    fGraphHHNearHighSyst->Write();
+    fGraphIcpNear->Write();
+    fGraphIcpNearSyst->Write();
+    fGraphIcpAway->Write();
+    fGraphIcpAwaySyst->Write();
+    fGraphK0Away->Write();
+    fGraphK0Near->Write();
+    fGraphK0AwaySyst->Write();
+    fGraphK0NearSyst->Write();
+    fGraphLamAway->Write();
+    fGraphLamNear->Write();
+    fGraphLamAwaySyst->Write();
+    fGraphLamNearSyst->Write();
+    fGraphIcpNearK0Syst->Write();
+    fGraphIcpAwayK0Syst->Write();
+    fGraphIcpNearLamSyst->Write();
+    fGraphIcpAwayLamSyst->Write();
+    fGraphIcpNearK0->Write();
+    fGraphIcpAwayK0->Write();
+    fGraphIcpNearLam->Write();
+    fGraphIcpAwayLam->Write();
+    fGraphK0NearHigh->Write();
+    fGraphK0NearHighSyst->Write();
+    fGraphLamNearHigh->Write();
+    fGraphLamNearHighSyst->Write();
+    fGraphK0NearMiddle->Write();
+    fGraphK0NearMiddleSyst->Write();
+    fGraphLamNearMiddle->Write();
+    fGraphLamNearMiddleSyst->Write();
+    fGraphK0NearLow->Write();
+    fGraphK0NearLowSyst->Write();
+    fGraphLamNearLow->Write();
+    fGraphLamNearLowSyst->Write();
+    fGraphK0AwayLow->Write();
+    fGraphK0AwayLowSyst->Write();
+    fGraphLamAwayLow->Write();
+    fGraphLamAwayLowSyst->Write();
+    fGraphLamAwayMiddle->Write();
+    fGraphLamAwayMiddleSyst->Write();
+    fGraphK0AwayMiddle->Write();
+    fGraphK0AwayMiddleSyst->Write();
+    fGraphK0AwayHigh->Write();
+    fGraphK0AwayHighSyst->Write();
+    fGraphLamAwayHigh->Write();
+    fGraphLamAwayHighSyst->Write();
+
      fHistK0Near->Write();
      fHistLambdaNear->Write();
      fHistHadronNear->Write();
